@@ -136,7 +136,10 @@ export async function getMatchRoles(match = "") {
 }
 
 export async function addPlayer(player) {
-  await set(child(dbRef, `players/${player.name.toLowerCase()}`), player);
+  return await set(
+    child(dbRef, `players/${player.name.toLowerCase()}`),
+    player
+  );
 }
 
 export async function addPlayerPhoto(photo, name) {

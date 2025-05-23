@@ -1,14 +1,10 @@
 import React, { useState } from "react";
 import X5pageContentArea from "../../common-components/X5pageContentArea";
-import { Button, useMediaQuery } from "@mui/material";
+import { Button } from "@mui/material";
 import AddMatchDialog from "./Components/AddMatchDialog";
 import RecalculateStatsDialog from "./Components/RecalculateStatsDialog";
 import AddPlayerDialog from "./Components/AddPlayerDialog";
 import EditPlayerDialog from "./Components/EditPlayerDialog";
-
-const workInProgressAlert = () => {
-  alert("Work in progress");
-};
 
 export default function AdminPage() {
   const [addMatchDialogOpen, setAddMatchDialogOpen] = useState(false);

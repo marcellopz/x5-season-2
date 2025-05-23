@@ -4,11 +4,8 @@ import {
   DialogContent,
   DialogTitle,
   FormControl,
-  FormControlLabel,
   FormLabel,
   MenuItem,
-  Radio,
-  RadioGroup,
   Select,
   TextField,
 } from "@mui/material";
@@ -44,7 +41,22 @@ export default function AddPlayerDialog({ open, onClose }) {
     }
   };
   return (
-    <Dialog onClose={onClose} open={open}>
+    <Dialog
+      onClose={() => {
+        setFields({
+          top: 1,
+          jungle: 1,
+          mid: 1,
+          adc: 1,
+          support: 1,
+          accountId: 0,
+          name: "",
+        });
+        setPhotoB64("");
+        onClose();
+      }}
+      open={open}
+    >
       <DialogTitle>Add player</DialogTitle>
       <DialogContent style={{ margin: "20px", display: "block" }}>
         <form onSubmit={handleSubmit}>

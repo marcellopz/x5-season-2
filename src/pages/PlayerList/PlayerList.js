@@ -112,7 +112,7 @@ export default function PlayerList() {
     })();
     (async () => {
       const players_ = await getPlayerSummaryList();
-      setPlayersSummary(players_);
+      setPlayersSummary(players_ ?? {});
     })();
   }, []);
 
@@ -120,10 +120,11 @@ export default function PlayerList() {
     const ps = Object.keys(players ?? {}).map((p, i) => {
       return {
         ...players[p],
-        winRate: playersSummary[players[p].account_id]?.winRate ?? 0,
-        summonerName: playersSummary[players[p].account_id]?.summonerName ?? "",
+        winRate: playersSummary[players[p]?.account_id]?.winRate ?? 0,
+        summonerName:
+          playersSummary[players[p]?.account_id]?.summonerName ?? "",
         numberOfMatches:
-          playersSummary[players[p].account_id]?.numberOfMatches ?? 0,
+          playersSummary[players[p]?.account_id]?.numberOfMatches ?? 0,
         id: i,
         player_id: p,
       };

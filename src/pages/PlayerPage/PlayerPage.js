@@ -81,6 +81,10 @@ export default function PlayerPage() {
       });
   }, [playerKey]);
 
+  if (playerInfo === null) {
+    return <div>No player data</div>;
+  }
+
   return (
     <X5pageContentArea loading={loading} removeMarginTop>
       <PlayerBanner

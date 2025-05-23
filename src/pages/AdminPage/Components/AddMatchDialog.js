@@ -38,7 +38,14 @@ export default function AddMatchDialog({ open, onClose }) {
   };
 
   return (
-    <Dialog onClose={onClose} open={open}>
+    <Dialog
+      onClose={() => {
+        setFiles([]);
+        setFilesContent([]);
+        onClose();
+      }}
+      open={open}
+    >
       <DialogTitle>Add match to the database</DialogTitle>
       <DialogContent style={{ margin: "20px", display: "flex" }}>
         <Button

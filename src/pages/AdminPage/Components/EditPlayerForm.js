@@ -1,14 +1,8 @@
 import {
   Button,
-  Dialog,
-  DialogContent,
-  DialogTitle,
   FormControl,
-  FormControlLabel,
   FormLabel,
   MenuItem,
-  Radio,
-  RadioGroup,
   Select,
   TextField,
 } from "@mui/material";
@@ -27,14 +21,17 @@ export default function EditPlayerForm({ player }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     // Perform form submission logic here
-    if (fields.accountId) {
-      fields.accountId = +fields.accountId;
+    if (fields.account_id) {
+      fields.account_id = +fields.account_id;
     }
-    await addPlayer(fields);
+    addPlayer(fields).then(() => {
+      alert("Player updated");
+    });
     if (photoB64) {
       await addPlayerPhoto(photoB64, fields.name.toLocaleLowerCase());
     }
   };
+
   return (
     <form onSubmit={handleSubmit}>
       <TextField
@@ -48,8 +45,8 @@ export default function EditPlayerForm({ player }) {
       <TextField
         label="Account ID"
         type="number"
-        value={fields.accountId}
-        onChange={fieldChange("accountId")}
+        value={fields.account_id}
+        onChange={fieldChange("account_id")}
         fullWidth
         margin="normal"
       />

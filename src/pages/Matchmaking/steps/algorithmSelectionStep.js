@@ -44,6 +44,18 @@ const formAlgos = {
       },
     ],
   },
+  claudeV1: {
+    label: "Claude-v1",
+    description:
+      "Balances teams based on players' average ranks, creating teams with similar total strength",
+    fields: [
+      {
+        id: "numberOfMatches",
+        label: "Number of options",
+        type: "number",
+      },
+    ],
+  },
 };
 
 const algos = ["", ...Object.keys(formAlgos)];
@@ -200,14 +212,37 @@ export default function AlgorithmSelectionStep({ setIsOk }) {
         }
         setError(false);
         break;
+      case "claudeV1":
+        if (!(values.numberOfMatches > 0)) {
+          setError("Choose how many matches to generate");
+          break;
+        }
+        if (values.numberOfMatches > MAX_NUMBER_OF_MATCHES) {
+          setError(
+            `Too many matches! The maximum is ${MAX_NUMBER_OF_MATCHES}.`
+          );
+          break;
+        }
+        setError(false);
+        break;
       case "":
         setError("Choose an algorithm for balancing the match");
+        break;
+      default:
+        setError("Unknown algorithm selected");
+        break;
     }
-  }, [selectedAlgo, presetPositions, values]);
+  }, [
+    selectedAlgo,
+    presetPositions,
+    values,
+    setAlgoOptions,
+    MAX_NUMBER_OF_MATCHES,
+  ]);
 
   useEffect(() => {
     setIsOk(!error);
-  }, [error, values]);
+  }, [error, setIsOk]);
 
   return (
     <div style={{ margin: "20px" }}>

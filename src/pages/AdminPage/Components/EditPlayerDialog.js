@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogContent, DialogTitle } from "@mui/material";
+import { Dialog, DialogContent, DialogTitle } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { getPlayer } from "../../../services/firebaseDatabase";
 import { DataGrid } from "@mui/x-data-grid";
@@ -83,7 +83,15 @@ export default function EditPlayerDialog({ open, onClose }) {
   }, []);
 
   return (
-    <Dialog onClose={onClose} open={open} fullWidth maxWidth="lg">
+    <Dialog
+      onClose={() => {
+        setSelected(null);
+        onClose();
+      }}
+      open={open}
+      fullWidth
+      maxWidth="lg"
+    >
       <DialogTitle>Select player to edit</DialogTitle>
       <DialogContent style={{ margin: "20px" }}>
         {selected ? (
