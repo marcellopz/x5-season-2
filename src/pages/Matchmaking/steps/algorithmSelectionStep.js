@@ -245,8 +245,8 @@ export default function AlgorithmSelectionStep({ setIsOk }) {
   }, [error, setIsOk]);
 
   return (
-    <div style={{ margin: "20px" }}>
-      <p>Select the matchmaking algorithm</p>
+    <div style={{ margin: "0 20px" }}>
+      <p style={{ marginBottom: "10px" }}>Select the matchmaking algorithm</p>
       <InputLabel id="algo-select">Algorithm</InputLabel>
       <Select
         labelId="algo-select"

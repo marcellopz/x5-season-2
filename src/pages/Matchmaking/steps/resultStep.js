@@ -328,11 +328,17 @@ const ResultComponent = ({ match }) => {
 };
 
 export default function ResultStep() {
-  const { players, algoOptions, selectedOptions, selectedAlgo } =
-    useContext(MatchMakingContext);
+  const {
+    players,
+    algoOptions,
+    selectedOptions,
+    selectedAlgo,
+    wildcardDetails,
+  } = useContext(MatchMakingContext);
   const [playersToBalance, setPlayersToBalance] = useState(null);
   const [matchups, setMatchups] = useState([]);
   const [copyPastText, setCopyPasteText] = useState("");
+  console.log(playersToBalance);
 
   const balance = useCallback(() => {
     if (!playersToBalance) {
@@ -397,8 +403,8 @@ export default function ResultStep() {
   }, [playersToBalance, algoOptions, selectedAlgo]);
 
   useEffect(() => {
-    setPlayersToBalance(
-      selectedOptions.map((player) => ({
+    setPlayersToBalance([
+      ...selectedOptions.map((player) => ({
         name: players[player].name,
         ranks: [
           players[player].top,
@@ -408,8 +414,19 @@ export default function ResultStep() {
           players[player].support,
         ],
         playerId: player,
-      }))
-    );
+      })),
+      ...wildcardDetails.map((player) => ({
+        name: player.name,
+        ranks: [
+          player.top,
+          player.jungle,
+          player.mid,
+          player.adc,
+          player.support,
+        ],
+        playerId: player.name,
+      })),
+    ]);
   }, [selectedOptions, players]);
 
   useEffect(() => {
