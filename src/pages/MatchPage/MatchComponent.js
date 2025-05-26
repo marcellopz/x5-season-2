@@ -186,7 +186,7 @@ const PlayerRow = ({ player, role, totalKills }) => (
             whiteSpace: "nowrap",
           }}
         >
-          {player.identity.player.summonerName}
+          {player.identity.player.gameName}
         </p>
       </Link>
 
