@@ -171,13 +171,18 @@ export const championIds = {
   555: "Pyke",
   711: "Vex",
   777: "Yone",
+  799: "Ambessa",
+  800: "Mel",
   875: "Sett",
   876: "Lillia",
   887: "Gwen",
   888: "Renata",
+  893: "Aurora",
   895: "Nilah",
   897: "KSante",
+  901: "Smolder",
   902: "Milio",
+  910: "Hwei",
   950: "Naafiri",
 };
 

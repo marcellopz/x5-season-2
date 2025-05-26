@@ -35,7 +35,7 @@ export default function MatchHistory() {
     getMatches()
       .then((ms) => setMatches(ms))
       .then(getMatchRoles)
-      .then((rs) => setMatchRoles(rs))
+      .then((rs) => setMatchRoles(rs ?? {}))
       .then(() => setLoading(false));
 
     getPlayer("").then((ps) => setPlayers(ps));
