@@ -6,8 +6,11 @@ export default function BalanceMatchClaudeV1(players, numberOfMatches = 1) {
 
   // Calculate average rank for each player
   players.forEach((player) => {
-    player.avgRank =
-      player.ranks.reduce((sum, rank) => sum + rank, 0) / player.ranks.length;
+    const top3 = player.ranks
+      .slice()
+      .sort((a, b) => b - a)
+      .slice(0, 3);
+    player.avgRank = top3.reduce((sum, rank) => sum + rank, 0) / top3.length;
   });
 
   // Sort players by average rank (highest to lowest)

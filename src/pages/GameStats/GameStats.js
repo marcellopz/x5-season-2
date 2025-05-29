@@ -13,11 +13,7 @@ export default function GameStats() {
       setStats(stats_);
     })();
   }, []);
-  if (!stats || isObjEmpty(stats)) {
-    return (
-      <div style={{ display: "flex", marginTop: "100px" }}>No data yet</div>
-    );
-  }
+
   return (
     <X5pageContentArea title="Stats" loading={isObjEmpty(stats)}>
       <OverallStats stats={stats} />
