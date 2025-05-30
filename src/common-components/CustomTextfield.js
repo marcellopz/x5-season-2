@@ -98,7 +98,7 @@ export default function CustomTextfield({ onChange, type, width, label, sx }) {
 
 CustomTextfield.defaultProps = {
   onChange: (e) => {
-    console.log(e);
+    console.info(e);
   },
   type: "text",
   width: "300px",

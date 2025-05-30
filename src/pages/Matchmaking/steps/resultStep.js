@@ -338,7 +338,6 @@ export default function ResultStep() {
   const [playersToBalance, setPlayersToBalance] = useState(null);
   const [matchups, setMatchups] = useState([]);
   const [copyPastText, setCopyPasteText] = useState("");
-  console.log(playersToBalance);
 
   const balance = useCallback(() => {
     if (!playersToBalance) {

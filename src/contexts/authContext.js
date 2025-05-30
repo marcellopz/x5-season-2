@@ -82,7 +82,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem("@AuthFirebase:user", JSON.stringify(user_));
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
@@ -98,7 +98,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem("@AuthFirebase:user", JSON.stringify(user_));
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
@@ -109,7 +109,7 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
     return <Navigate to="/" />;
   };
@@ -125,7 +125,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem("@AuthFirebase:user", JSON.stringify(user_));
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
@@ -139,7 +139,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem("@AuthFirebase:user", JSON.stringify(user_));
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
