@@ -72,15 +72,47 @@ export default function BalanceMatchClaudeV1(players, numberOfMatches = 1) {
         blueSum,
         redSum,
       });
-
-      // If we have a perfect match (diff = 0), we'll still collect it but keep looking for others
     }
 
-    // Sort compositions by difference (most balanced first)
+    // Function to shuffle an array (Fisher-Yates algorithm)
+    const shuffleArray = (array) => {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    };
+
+    // Sort all compositions by difference (smallest first)
     teamCompositions.sort((a, b) => a.difference - b.difference);
 
-    // Return the requested number of compositions (or all if fewer are available)
-    return teamCompositions.slice(0, numberOfMatches);
+    // Get the minimum difference value
+    const minDiff =
+      teamCompositions.length > 0 ? teamCompositions[0].difference : 0;
+
+    // Find the small difference threshold - we want to focus on well-balanced teams
+    // This threshold adapts based on the actual data distribution
+    const smallDiffThreshold = minDiff * 2.5; // Adjust multiplier to control "closeness"
+
+    // Get all compositions with small differences (well-balanced teams)
+    let smallDiffCompositions = teamCompositions.filter(
+      (comp) => comp.difference <= smallDiffThreshold
+    );
+
+    // Make sure we have enough compositions to choose from
+    if (smallDiffCompositions.length < numberOfMatches * 2) {
+      // If we don't have enough well-balanced teams, take more compositions
+      smallDiffCompositions = teamCompositions.slice(
+        0,
+        Math.min(teamCompositions.length, numberOfMatches * 3)
+      );
+    }
+
+    // Shuffle the well-balanced compositions for randomness
+    shuffleArray(smallDiffCompositions);
+
+    // Return the requested number of random compositions with small differences
+    return smallDiffCompositions.slice(0, numberOfMatches);
   }
 
   // Get multiple team compositions
