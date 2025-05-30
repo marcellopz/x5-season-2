@@ -23,7 +23,7 @@ const columns = [
     field: "name",
     headerName: "Name",
     type: "string",
-    width: 90,
+    width: 100,
     sortable: true,
   },
   {
@@ -137,7 +137,7 @@ export default function PlayerList() {
       title="Player List"
       loading={playersWithStats.length === 0}
     >
-      <div style={{ maxWidth: "703px", width: "95%", margin: "auto" }}>
+      <div style={{ maxWidth: "713px", width: "95%", margin: "auto" }}>
         <DataGrid
           rows={playersWithStats}
           columns={columns}

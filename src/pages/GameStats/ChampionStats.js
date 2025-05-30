@@ -1,4 +1,3 @@
-import { Paper } from "@mui/material";
 import React from "react";
 import { floatToPercentageString, getKDA, isObjEmpty } from "../../utils/utils";
 import { CHAMPIONICONURL } from "../../common-components/resources";
@@ -132,10 +131,8 @@ export default function ChampionStats({ champions }) {
     >
       <div style={{ width: "95%", maxWidth: "940px", margin: "10px auto" }}>
         <DataGrid
-          // sx={{ background: "rgba(255,255,255, 0.1)" }}
           rows={championsArray}
           columns={columns}
-          hideFooter
           rowSelection={false}
           disableRowSelectionOnClick
           disableColumnSelector

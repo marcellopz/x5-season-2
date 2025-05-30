@@ -36,7 +36,7 @@ export default function Home() {
     getCardbackground();
   }, [getCardbackground]);
 
-  if (stats === null || players === null) {
+  if (!loading && (stats === null || players === null)) {
     return (
       <div style={{ display: "flex", marginTop: "100px" }}>No data yet</div>
     );

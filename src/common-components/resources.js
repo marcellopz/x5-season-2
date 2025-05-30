@@ -1,4 +1,4 @@
-export const patch = "13.10.1";
+export const patch = "15.11.1";
 
 /* eslint-disable max-len */
 export const ITEMICONURL = `http://ddragon.leagueoflegends.com/cdn/${patch}/img/item/`;
@@ -9,7 +9,7 @@ export const CHAMPIONICONURL =
 export const RUNEICONURL =
   "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/";
 export const CHAMPIONSPLASHURL =
-  "https://raw.communitydragon.org/13.10/plugins/rcp-be-lol-game-data/global/default/v1/champion-splashes/";
+  "https://raw.communitydragon.org/14.9/plugins/rcp-be-lol-game-data/global/default/v1/champion-splashes/";
 
 export const getChampionSplash = (champId) =>
   `${CHAMPIONSPLASHURL}${champId}/${champId}000.jpg`;
