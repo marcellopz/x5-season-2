@@ -1,9 +1,11 @@
 import {
   Button,
+  Checkbox,
   Dialog,
   DialogContent,
   DialogTitle,
   FormControl,
+  FormControlLabel,
   FormLabel,
   MenuItem,
   Select,
@@ -11,7 +13,11 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { capitalizeFirstLetter } from "../../../utils/utils";
-import { addPlayer, addPlayerPhoto } from "../../../services/firebaseDatabase";
+import {
+  setPlayer,
+  addPlayerPhoto,
+  setInitialRank,
+} from "../../../services/firebaseDatabase";
 
 export default function AddPlayerDialog({ open, onClose }) {
   const [fields, setFields] = useState({
@@ -22,6 +28,7 @@ export default function AddPlayerDialog({ open, onClose }) {
     support: 1,
     accountId: 0,
     name: "",
+    name_id: "",
   });
   const [photoB64, setPhotoB64] = useState("");
 
@@ -35,7 +42,8 @@ export default function AddPlayerDialog({ open, onClose }) {
     if (fields.accountId) {
       fields.accountId = +fields.accountId;
     }
-    await addPlayer(fields);
+    await setInitialRank(fields);
+    await setPlayer(fields);
     if (photoB64) {
       await addPlayerPhoto(photoB64, fields.name.toLocaleLowerCase());
     }
@@ -69,6 +77,14 @@ export default function AddPlayerDialog({ open, onClose }) {
             required
           />
           <TextField
+            label="name_id"
+            value={fields.name_id}
+            onChange={fieldChange("name_id")}
+            fullWidth
+            margin="normal"
+            required
+          />
+          <TextField
             label="Account ID"
             type="number"
             value={fields.accountId}
@@ -82,6 +98,20 @@ export default function AddPlayerDialog({ open, onClose }) {
             onChange={(e) => setPhotoB64(e.target.value)}
             fullWidth
             margin="normal"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                label="Hide Player"
+                name="hide"
+                checked={fields.hide || false}
+                onChange={(e) => {
+                  setFields((prev) => ({ ...prev, hide: e.target.checked }));
+                }}
+                style={{ margin: "20px" }}
+              />
+            }
+            label="Hide Player"
           />
           {["top", "jungle", "mid", "adc", "support"].map((role) => (
             <FormControl fullWidth margin="normal" key={role}>

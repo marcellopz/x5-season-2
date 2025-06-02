@@ -8,6 +8,7 @@ import X5pageContentArea from "../../common-components/X5pageContentArea";
 import {
   getWinRateClassName,
   floatToPercentageString,
+  getTop3Rank,
 } from "../../utils/utils";
 import {
   botB64,
@@ -59,7 +60,7 @@ const columns = [
     align: "center",
     width: 60,
     sortable: true,
-    renderHeader: () => <img src={topB64} width={50} alt="top" />,
+    renderHeader: () => <img src={topB64} width={40} alt="top" />,
   },
   {
     field: "jungle",
@@ -68,7 +69,7 @@ const columns = [
     align: "center",
     width: 60,
     sortable: true,
-    renderHeader: () => <img src={jngB64} width={50} alt="jungle" />,
+    renderHeader: () => <img src={jngB64} width={40} alt="jungle" />,
   },
   {
     field: "mid",
@@ -77,7 +78,7 @@ const columns = [
     align: "center",
     width: 60,
     sortable: true,
-    renderHeader: () => <img src={midB64} width={50} alt="mid" />,
+    renderHeader: () => <img src={midB64} width={40} alt="mid" />,
   },
   {
     field: "adc",
@@ -86,7 +87,7 @@ const columns = [
     align: "center",
     width: 60,
     sortable: true,
-    renderHeader: () => <img src={botB64} width={50} alt="bot" />,
+    renderHeader: () => <img src={botB64} width={40} alt="bot" />,
   },
   {
     field: "support",
@@ -95,7 +96,16 @@ const columns = [
     align: "center",
     width: 60,
     sortable: true,
-    renderHeader: () => <img src={supB64} width={50} alt="support" />,
+    renderHeader: () => <img src={supB64} width={40} alt="support" />,
+  },
+  {
+    field: "avg",
+    headerName: "Avg Top 3",
+    type: "number",
+    align: "center",
+    width: 85,
+    sortable: true,
+    valueGetter: (params) => getTop3Rank(params.row),
   },
 ];
 
@@ -137,7 +147,7 @@ export default function PlayerList() {
       title="Player List"
       loading={playersWithStats.length === 0}
     >
-      <div style={{ maxWidth: "713px", width: "95%", margin: "auto" }}>
+      <div style={{ maxWidth: "800px", width: "95%", margin: "auto" }}>
         <DataGrid
           rows={playersWithStats}
           columns={columns}

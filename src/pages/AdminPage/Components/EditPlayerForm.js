@@ -1,14 +1,20 @@
 import {
   Button,
   FormControl,
+  FormControlLabel,
   FormLabel,
   MenuItem,
   Select,
   TextField,
+  Checkbox,
 } from "@mui/material";
 import { useState } from "react";
 import { capitalizeFirstLetter } from "../../../utils/utils";
-import { addPlayer, addPlayerPhoto } from "../../../services/firebaseDatabase";
+import {
+  setPlayer,
+  addPlayerPhoto,
+  addRankChangeLog,
+} from "../../../services/firebaseDatabase";
 
 export default function EditPlayerForm({ player }) {
   const [fields, setFields] = useState(player);
@@ -24,9 +30,28 @@ export default function EditPlayerForm({ player }) {
     if (fields.account_id) {
       fields.account_id = +fields.account_id;
     }
-    addPlayer(fields).then(() => {
-      alert("Player updated");
-    });
+    setPlayer(fields)
+      .then(() => {
+        // Create logs for rank changes
+        const roles = ["top", "jungle", "mid", "adc", "support"];
+        const changes = roles
+          .filter((role) => player[role] !== fields[role])
+          .map((role) => ({
+            player: fields.name,
+            name_id: player.name_id,
+            role,
+            oldRank: player[role],
+            newRank: fields[role],
+            timestamp: Date.now(),
+            type: "rank_change",
+          }));
+        return Promise.all(
+          changes.map((change) => addRankChangeLog(player.name_id, change))
+        );
+      })
+      .then(() => {
+        alert("Player updated");
+      });
     if (photoB64) {
       await addPlayerPhoto(photoB64, fields.name.toLocaleLowerCase());
     }
@@ -57,6 +82,21 @@ export default function EditPlayerForm({ player }) {
         fullWidth
         margin="normal"
       />
+      <FormControlLabel
+        control={
+          <Checkbox
+            label="Hide Player"
+            name="hide"
+            checked={fields.hide || false}
+            onChange={(e) => {
+              setFields((prev) => ({ ...prev, hide: e.target.checked }));
+            }}
+            style={{ margin: "20px" }}
+          />
+        }
+        label="Hide Player"
+      />
+
       {["top", "jungle", "mid", "adc", "support"].map((role) => (
         <FormControl fullWidth margin="normal" key={role}>
           <FormLabel component="legend">

@@ -1,5 +1,5 @@
 import { dbRef } from "./firebaseConfig";
-import { get, child, set } from "firebase/database";
+import { get, child, set, push } from "firebase/database";
 // import { getDatabase, ref, set, get, onValue, child } from "firebase/database";
 
 export async function getPlayer(name) {
@@ -135,10 +135,27 @@ export async function getMatchRoles(match = "") {
   return roles;
 }
 
-export async function addPlayer(player) {
+export async function setInitialRank(player) {
   return await set(
-    child(dbRef, `players/${player.name.toLowerCase()}`),
+    child(
+      dbRef,
+      `player-initial-ranks/${player.name_id ?? player.name.toLowerCase()}`
+    ),
     player
+  );
+}
+
+export async function setPlayer(player) {
+  return await set(
+    child(dbRef, `players/${player.name_id ?? player.name.toLowerCase()}`),
+    player
+  );
+}
+
+export async function addRankChangeLog(name_id, log) {
+  return await push(
+    child(dbRef, `player-rank-change-log/${name_id}/${log.role}`),
+    log
   );
 }
 
