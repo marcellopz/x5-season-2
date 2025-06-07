@@ -2,6 +2,7 @@ import React from "react";
 import { floatToPercentageString, getKDA, isObjEmpty } from "../../utils/utils";
 import { CHAMPIONICONURL } from "../../common-components/resources";
 import { DataGrid } from "@mui/x-data-grid";
+import "./ChampionStats.css"; // Import component styles
 
 const columns = [
   {
@@ -15,7 +16,7 @@ const columns = [
       <img
         src={`${CHAMPIONICONURL}${params.row.championId}.png`}
         alt={params.row.championId}
-        width={50}
+        className="champion-icon"
       />
     ),
   },
@@ -120,16 +121,8 @@ export default function ChampionStats({ champions }) {
   }));
 
   return (
-    <div
-      style={{
-        background: "transparent",
-        border: "1px solid rgba(255, 255, 255, 0.3)",
-        borderRadius: "4px",
-        margin: "20px",
-        padding: "10px",
-      }}
-    >
-      <div style={{ width: "95%", maxWidth: "940px", margin: "10px auto" }}>
+    <div className="champion-stats-container">
+      <div className="champion-stats-grid-container">
         <DataGrid
           rows={championsArray}
           columns={columns}
@@ -138,9 +131,16 @@ export default function ChampionStats({ champions }) {
           disableColumnSelector
           disableDensitySelector
           disableColumnMenu
+          className="champion-stats-datagrid"
           sx={{
-            ".MuiDataGrid-columnHeaders": {
-              background: "rgba(255,255,255,0.08)",
+            "& .MuiDataGrid-cell": {
+              borderColor: "var(--border-light)",
+            },
+            "& .MuiDataGrid-footerContainer": {
+              borderTop: "1px solid var(--border-light)",
+            },
+            "& .MuiTablePagination-root": {
+              color: "var(--foreground)",
             },
           }}
         />

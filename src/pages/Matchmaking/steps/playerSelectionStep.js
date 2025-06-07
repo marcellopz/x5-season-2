@@ -9,11 +9,12 @@ import {
   CircularProgress,
   IconButton,
   TextField,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { List } from "@mui/icons-material";
-import { theme } from "../../../theme";
+import { List, Search, Clear } from "@mui/icons-material";
+import "./playerSelectionStep.css";
 
 const columns = [
   {
@@ -92,135 +93,81 @@ const WildcardCard = ({ id, wildcardDetails, setWildcardDetails }) => {
   }
 
   return (
-    <div
-      style={{
-        width: "200px",
-        height: "300px",
-        borderRadius: "10px",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        border: isValid ? "1px solid green" : "1px solid red",
-        padding: "16px",
-        gap: "12px",
-      }}
-    >
-      <Box sx={{ display: "flex", gap: "10px", alignItems: "center" }}>
-        <Typography width={60}>Name:</Typography>
+    <div className={`wildcard-card ${isValid ? "valid" : "invalid"}`}>
+      <Box className="wildcard-input-row">
+        <Typography className="wildcard-label">Name:</Typography>
         <TextField
           required
           name="name"
           size="small"
           type="text"
-          inputProps={{
-            sx: {
-              textAlign: "center",
-              height: "20px",
-            },
-          }}
-          sx={{
-            width: "100px",
-          }}
+          className="wildcard-input"
+          sx={{ width: "100px" }}
           value={wildcardDetails[id]?.name || ""}
           onChange={handleChange}
         />
       </Box>
-      <Box sx={{ display: "flex", gap: "10px", alignItems: "center" }}>
-        <Typography width={60}>Top:</Typography>
+      <Box className="wildcard-input-row">
+        <Typography className="wildcard-label">Top:</Typography>
         <TextField
           required
           name="top"
           size="small"
           type="number"
-          inputProps={{
-            sx: {
-              textAlign: "center",
-              height: "20px",
-            },
-          }}
-          sx={{
-            width: "60px",
-          }}
+          className="wildcard-input"
+          sx={{ width: "60px" }}
           value={wildcardDetails[id]?.top || ""}
           onChange={handleChange}
         />
       </Box>
-      <Box sx={{ display: "flex", gap: "10px", alignItems: "center" }}>
-        <Typography width={60}>Jungle:</Typography>
+      <Box className="wildcard-input-row">
+        <Typography className="wildcard-label">Jungle:</Typography>
         <TextField
           required
           name="jungle"
           size="small"
           type="number"
-          inputProps={{
-            sx: {
-              textAlign: "center",
-              height: "20px",
-            },
-          }}
-          sx={{
-            width: "60px",
-          }}
+          className="wildcard-input"
+          sx={{ width: "60px" }}
           value={wildcardDetails[id]?.jungle || ""}
           onChange={handleChange}
         />
       </Box>
-      <Box sx={{ display: "flex", gap: "10px", alignItems: "center" }}>
-        <Typography width={60}>Mid:</Typography>
+      <Box className="wildcard-input-row">
+        <Typography className="wildcard-label">Mid:</Typography>
         <TextField
           required
           name="mid"
           size="small"
           type="number"
-          inputProps={{
-            sx: {
-              textAlign: "center",
-              height: "20px",
-            },
-          }}
-          sx={{
-            width: "60px",
-          }}
+          className="wildcard-input"
+          sx={{ width: "60px" }}
           value={wildcardDetails[id]?.mid || ""}
           onChange={handleChange}
         />
       </Box>
-      <Box sx={{ display: "flex", gap: "10px", alignItems: "center" }}>
-        <Typography width={60}>Adc:</Typography>
+      <Box className="wildcard-input-row">
+        <Typography className="wildcard-label">Adc:</Typography>
         <TextField
           required
           name="adc"
           size="small"
           type="number"
-          inputProps={{
-            sx: {
-              textAlign: "center",
-              height: "20px",
-            },
-          }}
-          sx={{
-            width: "60px",
-          }}
+          className="wildcard-input"
+          sx={{ width: "60px" }}
           value={wildcardDetails[id]?.adc || ""}
           onChange={handleChange}
         />
       </Box>
-      <Box sx={{ display: "flex", gap: "10px", alignItems: "center" }}>
-        <Typography width={60}>Support:</Typography>
+      <Box className="wildcard-input-row">
+        <Typography className="wildcard-label">Support:</Typography>
         <TextField
           required
           name="support"
           size="small"
           type="number"
-          inputProps={{
-            sx: {
-              textAlign: "center",
-              height: "20px",
-            },
-          }}
-          sx={{
-            width: "60px",
-          }}
+          className="wildcard-input"
+          sx={{ width: "60px" }}
           value={wildcardDetails[id]?.support || ""}
           onChange={handleChange}
         />
@@ -244,6 +191,7 @@ export default function PlayerSelectionStep({ setIsOk }) {
     setWildcardDetails,
   } = useContext(MatchMakingContext);
   const [displayCard, setDisplayCard] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const arrayOfPlayers =
     Object.keys(players ?? {}).map((player, i) => ({
@@ -256,45 +204,110 @@ export default function PlayerSelectionStep({ setIsOk }) {
     setIsOk(!error);
   }, [error, setIsOk]);
 
+  // Handle keyboard shortcut for search field focus
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      // Focus search field when Ctrl+F or Cmd+F is pressed
+      if ((e.ctrlKey || e.metaKey) && e.key === "f") {
+        e.preventDefault();
+        document.getElementById("player-search-field")?.focus();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
+  // Filter players based on search term
+  const filteredCards = cards.filter((card) => {
+    try {
+      if (searchTerm.trim() === "") return true;
+
+      // Convert search term to lowercase for case-insensitive comparison
+      const term = searchTerm.toLowerCase();
+
+      // Get the player data from the card name
+      const playerData = players?.[card.name];
+
+      // Check if the player name contains the search term
+      if (card.name.toLowerCase().includes(term)) return true;
+
+      // If we have player data, also check role ratings (for number searches)
+      if (playerData) {
+        // Check if any role rating matches the search term (if it's a number)
+        const numericSearch = !isNaN(term);
+        if (numericSearch) {
+          // Safely convert to string and compare
+          return (
+            String(playerData.top || "") === term ||
+            String(playerData.jungle || "") === term ||
+            String(playerData.mid || "") === term ||
+            String(playerData.adc || "") === term ||
+            String(playerData.support || "") === term
+          );
+        }
+      }
+
+      return false;
+    } catch (error) {
+      console.error("Error filtering cards:", error);
+      return false;
+    }
+  });
+
+  // Filter array of players for DataGrid with the same logic
+  const filteredPlayers =
+    searchTerm.trim() === ""
+      ? arrayOfPlayers
+      : arrayOfPlayers.filter((player) => {
+          try {
+            const term = searchTerm.toLowerCase();
+
+            // Check player name
+            if (player.name?.toLowerCase().includes(term)) return true;
+
+            // Check if search term is a number and matches any role rating
+            const numericSearch = !isNaN(term);
+            if (numericSearch) {
+              // Safely convert to string and compare
+              return (
+                String(player.top || "") === term ||
+                String(player.jungle || "") === term ||
+                String(player.mid || "") === term ||
+                String(player.adc || "") === term ||
+                String(player.support || "") === term
+              );
+            }
+
+            return false;
+          } catch (error) {
+            console.error("Error filtering players:", error);
+            return false;
+          }
+        });
+
   return (
-    <div>
-      <div
-        style={{
-          marginLeft: "20px",
-          display: "inline-flex",
-          position: "relative",
-          width: "100%",
-        }}
-      >
+    <div className="player-selection-form">
+      <div className="player-selection-header">
         <div>
-          <p style={{ color: theme.palette.text.primary }}>
+          <Typography className="player-selection-title">
             Select the players for the match
-          </p>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: "10px",
-            }}
-          >
-            <p
-              style={{
-                color: error
-                  ? theme.palette.error.light
-                  : theme.palette.success.main,
-              }}
-            >
+          </Typography>
+          <Box className="player-selection-status">
+            <Typography className={error ? "status-error" : "status-valid"}>
               {selectedOptions.length +
                 wildcardDetails?.filter(isWildcardValid).length}{" "}
               valid players selected
-            </p>
+            </Typography>
             {error && (
-              <p style={{ color: theme.palette.error.light }}>- {error}</p>
+              <Typography className="status-error">- {error}</Typography>
             )}
           </Box>
         </div>
         <IconButton
-          style={{ position: "absolute", right: "40px", top: "30px" }}
+          className="view-toggle-button"
           onClick={() => setDisplayCard((prev) => !prev)}
         >
           <List />
@@ -302,49 +315,14 @@ export default function PlayerSelectionStep({ setIsOk }) {
       </div>
 
       <form>
-        <Box sx={{ margin: "10px 20px" }}>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: "10px",
-            }}
-          >
-            <Typography>Number of wildcards:</Typography>
+        <Box className="controls-container">
+          <Box className="wildcard-counter">
+            <Typography className="wildcard-counter-label">
+              Number of wildcards:
+            </Typography>
             <Button
               variant="outlined"
-              sx={{
-                width: "40px",
-                minWidth: "40px",
-              }}
-              onClick={() => {
-                if (numberOfWildcards < 10) {
-                  setNumberOfWildcards((prev) => prev + 1);
-                }
-              }}
-            >
-              +
-            </Button>
-            <TextField
-              size="small"
-              type="number"
-              inputProps={{
-                sx: {
-                  textAlign: "center",
-                  height: "20px",
-                },
-              }}
-              sx={{
-                width: "50px",
-              }}
-              value={numberOfWildcards}
-            />
-            <Button
-              variant="outlined"
-              sx={{
-                width: "40px",
-                minWidth: "40px",
-              }}
+              className="wildcard-counter-button"
               onClick={() => {
                 if (numberOfWildcards > 0) {
                   setNumberOfWildcards((prev) => prev - 1);
@@ -353,68 +331,103 @@ export default function PlayerSelectionStep({ setIsOk }) {
             >
               -
             </Button>
-          </Box>
-          {numberOfWildcards > 0 && (
-            <div
-              style={{
-                display: "flex",
-                gap: "10px",
-                marginTop: "10px",
-                flexWrap: "wrap",
+            <TextField
+              size="small"
+              type="number"
+              className="wildcard-counter-input"
+              value={numberOfWildcards}
+              InputProps={{
+                readOnly: true,
+              }}
+            />
+            <Button
+              variant="outlined"
+              className="wildcard-counter-button"
+              onClick={() => {
+                if (numberOfWildcards < 10) {
+                  setNumberOfWildcards((prev) => prev + 1);
+                }
               }}
             >
-              {Array.from({ length: numberOfWildcards }, (_, i) => (
-                <WildcardCard
-                  key={i}
-                  id={i}
-                  wildcardDetails={wildcardDetails}
-                  setWildcardDetails={setWildcardDetails}
-                />
-              ))}
-            </div>
-          )}
+              +
+            </Button>
+          </Box>
+
+          <Box className="player-search">
+            <Tooltip
+              title="Search by player name or exact role rating"
+              placement="top"
+            >
+              <TextField
+                id="player-search-field"
+                size="small"
+                type="text"
+                className="player-search-input"
+                placeholder="Search players... (Ctrl+F)"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Escape") {
+                    setSearchTerm("");
+                  }
+                }}
+                InputProps={{
+                  startAdornment: (
+                    <Search
+                      style={{ color: "var(--gray-300)", marginRight: "8px" }}
+                    />
+                  ),
+                  endAdornment: searchTerm && (
+                    <IconButton
+                      size="small"
+                      onClick={() => setSearchTerm("")}
+                      style={{ visibility: searchTerm ? "visible" : "hidden" }}
+                    >
+                      <Clear
+                        style={{ color: "var(--gray-300)", fontSize: "18px" }}
+                      />
+                    </IconButton>
+                  ),
+                  sx: { borderRadius: "var(--radius)" },
+                }}
+              />
+            </Tooltip>
+          </Box>
         </Box>
-        {displayCard && (
-          <div
-            style={{
-              margin: "10px",
-              backgroundColor: "black",
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-              gap: "20px",
-              marginBottom: "20px",
-              padding: "20px",
-              borderRadius: "20px",
-              justifyItems: "center",
-              alignItems: "start",
-              minHeight: "800px",
-            }}
-          >
-            {cards.map((card) => (
-              <Box
-                key={card.name}
-                onClick={() => handleOptionChange(card.name)}
-                sx={{
-                  "&:hover": {
-                    border: "1px solid " + theme.palette.primary.main,
-                    cursor: "pointer",
-                  },
-                  border: "1px solid",
-                  borderColor: selectedOptions.includes(card.name)
-                    ? theme.palette.primary.dark
-                    : "black",
-                }}
-                style={{
-                  padding: "5px",
-                  justifyContent: "center",
-                  borderRadius: "5px",
-                  display: cards.length > cardReadyCounter ? "none" : "block",
-                  width: "230px",
-                }}
-              >
-                <div style={{ height: "300px" }}>{card.card}</div>
-              </Box>
+        {numberOfWildcards > 0 && (
+          <div className="wildcards-container">
+            {Array.from({ length: numberOfWildcards }, (_, i) => (
+              <WildcardCard
+                key={i}
+                id={i}
+                wildcardDetails={wildcardDetails}
+                setWildcardDetails={setWildcardDetails}
+              />
             ))}
+          </div>
+        )}
+        {displayCard && (
+          <div className="player-cards-container">
+            {filteredCards.length > 0 ? (
+              filteredCards.map((card) => (
+                <Box
+                  key={card.name}
+                  onClick={() => handleOptionChange(card.name)}
+                  className={`player-card ${
+                    selectedOptions.includes(card.name) ? "selected" : ""
+                  }`}
+                  style={{
+                    display: cards.length > cardReadyCounter ? "none" : "block",
+                  }}
+                >
+                  <div style={{ height: "300px" }}>{card.card}</div>
+                </Box>
+              ))
+            ) : searchTerm && cards.length <= cardReadyCounter ? (
+              <Typography className="no-results-message">
+                No players match your search
+              </Typography>
+            ) : null}
             {cards.length > cardReadyCounter && (
               <CircularProgress
                 sx={{ marginTop: "50px", marginBottom: "900px" }}
@@ -423,41 +436,51 @@ export default function PlayerSelectionStep({ setIsOk }) {
           </div>
         )}
         {!displayCard && (
-          <div
-            style={{
-              maxWidth: "900px",
-              width: "95%",
-              margin: "auto",
-            }}
-          >
+          <div className="player-selection-grid">
             {players && (
-              <DataGrid
-                rows={arrayOfPlayers}
-                columns={columns}
-                density="compact"
-                checkboxSelection
-                hideFooter
-                onRowSelectionModelChange={(a) =>
-                  setSelectedOptions(a.map((b) => arrayOfPlayers[b].player_id))
-                }
-                rowSelectionModel={selectedOptions.map((a) =>
-                  Object.keys(players).indexOf(a)
-                )}
-                sx={{
-                  "& .MuiDataGrid-columnHeaderCheckbox .MuiDataGrid-columnHeaderTitleContainer":
-                    {
-                      display: "none",
-                    },
-                }}
-              />
+              <>
+                {filteredPlayers.length > 0 ? (
+                  <DataGrid
+                    rows={filteredPlayers}
+                    columns={columns}
+                    density="compact"
+                    checkboxSelection
+                    hideFooter
+                    onRowSelectionModelChange={(selectedRows) =>
+                      setSelectedOptions(
+                        selectedRows.map(
+                          (index) => filteredPlayers[index].player_id
+                        )
+                      )
+                    }
+                    rowSelectionModel={selectedOptions
+                      .map((playerId) =>
+                        filteredPlayers.findIndex(
+                          (player) => player.player_id === playerId
+                        )
+                      )
+                      .filter((index) => index !== -1)}
+                    sx={{
+                      "& .MuiDataGrid-columnHeaderCheckbox .MuiDataGrid-columnHeaderTitleContainer":
+                        {
+                          display: "none",
+                        },
+                    }}
+                  />
+                ) : searchTerm ? (
+                  <div className="no-results-container">
+                    <Typography className="no-results-message">
+                      No players match your search
+                    </Typography>
+                  </div>
+                ) : null}
+              </>
             )}
           </div>
         )}
       </form>
       {error && (
-        <p style={{ color: theme.palette.error.light, marginLeft: "20px" }}>
-          {error}
-        </p>
+        <Typography className="status-error error-message">{error}</Typography>
       )}
     </div>
   );

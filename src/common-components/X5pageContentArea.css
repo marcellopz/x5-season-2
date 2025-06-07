@@ -1,0 +1,24 @@
+.x5-page-content-area {
+  width: 100%;
+  max-width: 1600px;
+  border-radius: var(--radius);
+  margin-top: 20px;
+  position: relative;
+  overflow: hidden;
+  padding-bottom: 70px;
+}
+
+.x5-page-content-area.with-background {
+  background: var(--card);
+  margin: 20px 13px 0px 13px;
+  border: 1px solid var(--border-light);
+}
+
+.x5-page-title {
+  margin: 0 0 16px 20px;
+}
+
+.x5-loading-container {
+  margin-top: 100px;
+  color: var(--primary);
+}
