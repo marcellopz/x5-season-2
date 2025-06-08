@@ -19,7 +19,7 @@ const formAlgos = {
     fields: [
       {
         id: "numberOfMatches",
-        label: "Number of matches desired",
+        label: "Number of options",
         type: "number",
       },
     ],

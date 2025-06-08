@@ -16,13 +16,19 @@
   --blue-500: rgb(59 130 246);
   --blue-600: rgb(37 99 235);
   --blue-vivid: rgb(0 112 255); /* New vibrant blue */
-
   /* Reds - reserved for special use */
   --red-300: rgb(252 165 165);
   --red-400: rgb(248 113 113);
   --red-500: rgb(239 68 68);
   --red-600: rgb(220 38 38);
   --red-vivid: rgb(255 0 0); /* New vibrant red */
+
+  /* Greens - reserved for special use */
+  --green-300: rgb(134 239 172);
+  --green-400: rgb(74 222 128);
+  --green-500: rgb(34 197 94);
+  --green-600: rgb(22 163 74);
+  --green-vivid: rgb(85 255 75); /* Vibrant green for victories */
 
   /* Semantic colors */
   --background: var(--gray-900);
@@ -40,11 +46,12 @@
   --ring: var(--gray-400);
   --card: var(--gray-900);
   --popover: var(--gray-800);
-
   /* Special purpose colors */
   --destructive: var(--red-500);
   --destructive-foreground: var(--gray-50);
   --highlight: var(--blue-400);
+  --victory: var(--green-vivid);
+  --defeat: var(--red-vivid);
 
   /* Layout */
   --radius: 0.5rem;

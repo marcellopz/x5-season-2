@@ -7,7 +7,6 @@ import { Button, Typography } from "@mui/material";
 import { MiscContext } from "../../contexts/miscContext";
 import X5pageContentArea from "../../common-components/X5pageContentArea";
 import "./Matchmaking.css"; // Import component styles
-import "./matchmaking-forms.css"; // Import form styles
 
 export default function Matchmaking() {
   const [step, setStep] = useState(0);

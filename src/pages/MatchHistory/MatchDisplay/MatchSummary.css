@@ -1,0 +1,89 @@
+/* Match Summary Styles */
+.match-summary-container {
+  width: 100%;
+  color: var(--foreground);
+  position: relative;
+}
+
+.admin-edit-button {
+  position: absolute;
+  right: 15px;
+  cursor: pointer;
+}
+
+.match-summary-date {
+  color: var(--muted-foreground);
+  text-align: center;
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.team-status-victory {
+  color: var(--victory);
+}
+
+.team-status-defeat {
+  color: var(--defeat);
+}
+
+.team-header {
+  display: flex;
+  padding: 0.25rem;
+  font-size: 1.25rem;
+  justify-content: space-between;
+  padding-right: 1rem;
+}
+
+.team-title {
+  display: flex;
+}
+
+.team-name {
+  margin-right: 0.5rem;
+}
+
+.view-details-button {
+  width: 3%;
+  min-width: 30px;
+  background-color: var(--secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  display: flex;
+}
+
+.view-details-button:hover {
+  cursor: pointer;
+}
+
+/* Reimplementing Tailwind classes that were used */
+.flex {
+  display: flex;
+}
+
+.p-1 {
+  padding: 0.25rem;
+}
+
+.text-xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.pr-4 {
+  padding-right: 1rem;
+}
+
+.mr-2 {
+  margin-right: 0.5rem;
+}
+
+/* Media queries for responsive design */
+@media (max-width: 768px) {
+  .team-header {
+    flex-direction: column;
+  }
+}

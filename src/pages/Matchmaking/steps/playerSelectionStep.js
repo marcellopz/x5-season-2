@@ -479,9 +479,7 @@ export default function PlayerSelectionStep({ setIsOk }) {
           </div>
         )}
       </form>
-      {error && (
-        <Typography className="status-error error-message">{error}</Typography>
-      )}
+      {error && <p className="status-error error-message">{error}</p>}
     </div>
   );
 }
