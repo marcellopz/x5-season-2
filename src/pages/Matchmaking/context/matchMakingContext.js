@@ -54,7 +54,7 @@ export const MatchMakingProvider = ({ children }) => {
               ranks={players[player]}
               label={players[player].name}
               key={player}
-              sx={{ height: "inherit" }}
+              sx={{ height: "100%" }}
               onLoad={handleCardLoad}
               clickable={false}
             />
@@ -62,25 +62,6 @@ export const MatchMakingProvider = ({ children }) => {
         }))
       : [];
   }, [players]);
-
-  // const balance = (event) => {
-  //   event.preventDefault();
-  //   if (error) {
-  //     return;
-  //   }
-  //   setPlayersToBalance(
-  //     selectedOptions.map((player) => ({
-  //       name: players[player].name,
-  //       ranks: [
-  //         players[player].top,
-  //         players[player].jungle,
-  //         players[player].mid,
-  //         players[player].adc,
-  //         players[player].support,
-  //       ],
-  //     }))
-  //   );
-  // };
 
   const handleOptionChange = (value) => {
     if (selectedOptions.includes(value)) {

@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { CircularProgress, Typography } from "@mui/material";
+import "./X5pageContentArea.css"; // Import component-specific CSS
 
 export default function X5pageContentArea({
   children,
@@ -13,29 +14,16 @@ export default function X5pageContentArea({
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
       {loading ? (
-        <div style={{ marginTop: "100px" }}>
-          <CircularProgress />
+        <div className="x5-loading-container">
+          <CircularProgress color="inherit" />
         </div>
       ) : (
         <motion.div
+          className={`x5-page-content-area ${
+            !noBackground ? "with-background" : ""
+          }`}
           style={{
-            width: "100%",
-            maxWidth: "1600px",
-            borderRadius: "15px",
-            marginTop: "20px",
-
-            position: "relative",
-            overflow: "hidden",
-            paddingTop: removeMarginTop ? "" : "20px",
-            paddingBottom: "70px",
-            ...(noBackground
-              ? {}
-              : {
-                  // background: theme.palette.background.bd,
-                  margin: "20px 13px 0px 13px",
-                  border: "1px solid",
-                  borderColor: "rgba(255, 255, 255, 0.3)",
-                }),
+            paddingTop: removeMarginTop ? "0" : "20px",
             ...sx,
           }}
           initial="initial"
@@ -53,7 +41,7 @@ export default function X5pageContentArea({
           }}
         >
           {title && (
-            <div style={{ margin: "0 0 16px 20px" }}>
+            <div className="x5-page-title">
               <Typography fontSize={25}>{title}</Typography>
             </div>
           )}

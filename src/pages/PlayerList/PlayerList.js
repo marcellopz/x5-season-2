@@ -18,6 +18,7 @@ import {
   topB64,
 } from "../../assets/images/lanes";
 import { useNavigate } from "react-router-dom";
+import "./PlayerList.css"; // Import component styles
 
 const columns = [
   {
@@ -60,7 +61,9 @@ const columns = [
     align: "center",
     width: 60,
     sortable: true,
-    renderHeader: () => <img src={topB64} width={40} alt="top" />,
+    renderHeader: () => (
+      <img src={topB64} width={40} alt="top" className="lane-icon" />
+    ),
   },
   {
     field: "jungle",
@@ -69,7 +72,9 @@ const columns = [
     align: "center",
     width: 60,
     sortable: true,
-    renderHeader: () => <img src={jngB64} width={40} alt="jungle" />,
+    renderHeader: () => (
+      <img src={jngB64} width={40} alt="jungle" className="lane-icon" />
+    ),
   },
   {
     field: "mid",
@@ -78,7 +83,9 @@ const columns = [
     align: "center",
     width: 60,
     sortable: true,
-    renderHeader: () => <img src={midB64} width={40} alt="mid" />,
+    renderHeader: () => (
+      <img src={midB64} width={40} alt="mid" className="lane-icon" />
+    ),
   },
   {
     field: "adc",
@@ -87,7 +94,9 @@ const columns = [
     align: "center",
     width: 60,
     sortable: true,
-    renderHeader: () => <img src={botB64} width={40} alt="bot" />,
+    renderHeader: () => (
+      <img src={botB64} width={40} alt="bot" className="lane-icon" />
+    ),
   },
   {
     field: "support",
@@ -96,7 +105,9 @@ const columns = [
     align: "center",
     width: 60,
     sortable: true,
-    renderHeader: () => <img src={supB64} width={40} alt="support" />,
+    renderHeader: () => (
+      <img src={supB64} width={40} alt="support" className="lane-icon" />
+    ),
   },
   {
     field: "avg",
@@ -147,7 +158,7 @@ export default function PlayerList() {
       title="Player List"
       loading={playersWithStats.length === 0}
     >
-      <div style={{ maxWidth: "800px", width: "95%", margin: "auto" }}>
+      <div className="player-list-grid-container">
         <DataGrid
           rows={playersWithStats}
           columns={columns}
@@ -157,14 +168,17 @@ export default function PlayerList() {
           disableColumnSelector
           disableDensitySelector
           disableColumnMenu
+          className="player-list-datagrid"
           sx={{
-            "& .MuiDataGrid-cell:focus": {
-              outline: "none",
-            },
             "& .MuiDataGrid-cell": {
-              cursor: "pointer",
+              borderColor: "var(--border-light)",
             },
-            marginBottom: "20px",
+            "& .MuiDataGrid-footerContainer": {
+              borderTop: "1px solid var(--border-light)",
+            },
+            "& .MuiTablePagination-root": {
+              color: "var(--foreground)",
+            },
           }}
           onRowClick={(a) => Navigate("/player/" + a.row.player_id)}
         />

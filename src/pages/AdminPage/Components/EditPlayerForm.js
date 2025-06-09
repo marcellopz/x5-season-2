@@ -16,7 +16,7 @@ import {
   addRankChangeLog,
 } from "../../../services/firebaseDatabase";
 
-export default function EditPlayerForm({ player }) {
+export default function EditPlayerForm({ player, reloadPlayers, goBack }) {
   const [fields, setFields] = useState(player);
   const [photoB64, setPhotoB64] = useState("");
 
@@ -50,6 +50,7 @@ export default function EditPlayerForm({ player }) {
         );
       })
       .then(() => {
+        reloadPlayers();
         alert("Player updated");
       });
     if (photoB64) {
@@ -112,7 +113,21 @@ export default function EditPlayerForm({ player }) {
         </FormControl>
       ))}
 
-      <Button type="submit" variant="contained" color="primary">
+      <Button
+        type="button"
+        variant="contained"
+        color="primary"
+        onClick={goBack}
+        style={{ margin: "20px 20px 0 0" }}
+      >
+        Back
+      </Button>
+      <Button
+        type="submit"
+        variant="contained"
+        color="primary"
+        sx={{ marginTop: "20px" }}
+      >
         Submit
       </Button>
     </form>

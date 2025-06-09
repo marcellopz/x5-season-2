@@ -7,7 +7,9 @@ import {
   MenuItem,
   Select,
   TextField,
+  Typography,
 } from "@mui/material";
+import "./algorithmSelectionStep.css";
 
 const formAlgos = {
   cheezeV1: {
@@ -17,7 +19,7 @@ const formAlgos = {
     fields: [
       {
         id: "numberOfMatches",
-        label: "Number of matches desired",
+        label: "Number of options",
         type: "number",
       },
     ],
@@ -70,14 +72,18 @@ const getField = (
 ) => {
   if (field.type === "number") {
     return (
-      <div style={{ marginTop: "20px" }}>
-        <InputLabel>{field.label}</InputLabel>
+      <div className="algorithm-field-container">
+        <InputLabel className="algorithm-label">{field.label}</InputLabel>
         <TextField
           type="number"
           value={values[field.id] ?? ""}
           onChange={(e) =>
             setValues((prev) => ({ ...prev, [field.id]: e.target.value }))
           }
+          className="algorithm-text-field"
+          inputProps={{ min: 0 }}
+          size="small"
+          fullWidth
         />
       </div>
     );
@@ -85,25 +91,24 @@ const getField = (
   if (field.type === "preset") {
     let options = ["", ...players];
     return (
-      <>
-        <InputLabel sx={{ marginY: "20px" }}>Pre-set lanes</InputLabel>
+      <div className="preset-field-container">
+        <InputLabel className="algorithm-label preset-label">
+          Pre-set lanes
+        </InputLabel>
         <Grid
-          sx={{ width: "100%", maxWidth: "450px" }}
+          className="preset-lanes-container"
           container
           rowSpacing={1}
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
         >
           {["Top", "Jungle", "Mid", "Adc", "Support"].map((lane) => (
             <React.Fragment key={lane}>
-              <Grid
-                item
-                xs={3}
-                sx={{ display: "flex", margin: "auto", justifyContent: "end" }}
-              >
+              <Grid item xs={3} className="preset-lane-label">
                 <p>{lane}</p>
               </Grid>
               <Grid item xs={4}>
                 <Select
+                  className="preset-select"
                   fullWidth
                   value={presetPositions[lane][0]}
                   onChange={(e) => handlePresetChange(e.target.value, lane, 0)}
@@ -115,11 +120,12 @@ const getField = (
                   ))}
                 </Select>
               </Grid>
-              <Grid item xs={1}>
+              <Grid item xs={1} className="lane-vs-label">
                 <p>vs</p>
               </Grid>
               <Grid item xs={4}>
                 <Select
+                  className="preset-select"
                   fullWidth
                   value={presetPositions[lane][1]}
                   onChange={(e) => handlePresetChange(e.target.value, lane, 1)}
@@ -134,7 +140,7 @@ const getField = (
             </React.Fragment>
           ))}
         </Grid>
-      </>
+      </div>
     );
   }
 };
@@ -245,42 +251,70 @@ export default function AlgorithmSelectionStep({ setIsOk }) {
   }, [error, setIsOk]);
 
   return (
-    <div style={{ margin: "0 20px" }}>
-      <p style={{ marginBottom: "10px" }}>Select the matchmaking algorithm</p>
-      <InputLabel id="algo-select">Algorithm</InputLabel>
+    <div className="algorithm-selection-form">
+      <Typography className="algorithm-selection-title">
+        Select the matchmaking algorithm
+      </Typography>
+      <InputLabel id="algo-select" className="algorithm-label">
+        Algorithm
+      </InputLabel>
       <Select
         labelId="algo-select"
         value={selectedAlgo}
         label="Algorithm"
         onChange={handleAlgoSelect}
         placeholder="Algorithm"
+        className="algorithm-select"
         fullWidth
       >
         {algos.map((algo) => (
           <MenuItem value={algo} key={algo}>
             <ListItemText
-              //   sx={{overflowWrap}}
               primary={formAlgos[algo]?.label ?? "-"}
               secondary={formAlgos[algo]?.description ?? ""}
             />
           </MenuItem>
         ))}
       </Select>
-      {selectedAlgo && <p>{formAlgos[selectedAlgo].description}</p>}
+      {selectedAlgo && (
+        <Typography className="algorithm-selection-description">
+          {formAlgos[selectedAlgo].description}
+        </Typography>
+      )}
+      {selectedAlgo && (
+        <div className="algorithm-fields-wrapper">
+          {formAlgos[selectedAlgo].fields
+            .filter((field) => field.type === "number")
+            .map((selected) => (
+              <React.Fragment key={selected.label ?? selected.id}>
+                {getField(
+                  selected,
+                  selectedOptions,
+                  values,
+                  setValues,
+                  presetPositions,
+                  handlePresetChange
+                )}
+              </React.Fragment>
+            ))}
+        </div>
+      )}
       {selectedAlgo &&
-        formAlgos[selectedAlgo].fields.map((selected) => (
-          <React.Fragment key={selected.label ?? 0}>
-            {getField(
-              selected,
-              selectedOptions,
-              values,
-              setValues,
-              presetPositions,
-              handlePresetChange
-            )}
-          </React.Fragment>
-        ))}
-      {error && <p style={{ color: "red" }}>{error}</p>}
+        formAlgos[selectedAlgo].fields
+          .filter((field) => field.type === "preset")
+          .map((selected) => (
+            <React.Fragment key={selected.label ?? selected.id}>
+              {getField(
+                selected,
+                selectedOptions,
+                values,
+                setValues,
+                presetPositions,
+                handlePresetChange
+              )}
+            </React.Fragment>
+          ))}
+      {error && <Typography className="error-message">{error}</Typography>}
     </div>
   );
 }
