@@ -57,7 +57,8 @@ export default function CardDisplay({ players }) {
         offsetFn={(offsetFromCenter) => {
           const absOffset = Math.abs(offsetFromCenter);
           return {
-            opacity: 1 - offsetFromCenter ** 2 * 0.05,
+            opacity: 1,
+            filter: `brightness(${1 - offsetFromCenter ** 2 * 0.05})`,
             transform: `translateY(-50%) translateX(-50%) translateX(${
               -1 * offsetFromCenter ** 3
             }px) scale(${1 - absOffset * 0.1})`,

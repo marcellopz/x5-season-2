@@ -72,7 +72,7 @@ export default function EditPlayerDialog({ open, onClose }) {
   const [selected, setSelected] = useState(null);
   const [allPlayersArray, setAllPlayersArray] = useState([]);
 
-  useEffect(() => {
+  function loadPlayers() {
     getPlayer("").then((ps) => {
       const a = Object.entries(ps).map(([name, obj]) => ({
         name_id: name,
@@ -80,6 +80,10 @@ export default function EditPlayerDialog({ open, onClose }) {
       }));
       setAllPlayersArray(a);
     });
+  }
+
+  useEffect(() => {
+    loadPlayers();
   }, []);
 
   return (
@@ -95,7 +99,11 @@ export default function EditPlayerDialog({ open, onClose }) {
       <DialogTitle>Select player to edit</DialogTitle>
       <DialogContent style={{ margin: "20px" }}>
         {selected ? (
-          <EditPlayerForm player={selected} />
+          <EditPlayerForm
+            player={selected}
+            reloadPlayers={loadPlayers}
+            goBack={() => setSelected(null)}
+          />
         ) : (
           <div style={{ width: "800px" }}>
             <DataGrid

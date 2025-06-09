@@ -111,6 +111,11 @@
     grid-column: 1 / 2; /* Spans across both columns */
     grid-row: 1 / 3; /* Takes the first row */
   }
+
+  .main-section-container .mainsection-graph-panel {
+    grid-column: 2 / 3; /* Takes the second column */
+    grid-row: 2 / 3; /* Spans both rows */
+  }
 }
 
 /* --- Mobile Layout (Smaller Screens - Wrapping) --- */
