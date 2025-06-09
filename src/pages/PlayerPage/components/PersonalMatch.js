@@ -165,7 +165,7 @@ export default function PersonalMatch({ game, gameId }) {
     <div className={`pm-container ${game.stats.win ? "pm-win" : "pm-lose"}`}>
       <div className="pm-header">
         <div>
-          {`${matchRoles[game.summonerId].toUpperCase()} - ${timeSince(
+          {`${matchRoles[game.summonerId]?.toUpperCase?.() ?? ""} - ${timeSince(
             new Date(game.date)
           )} - ${convertSecondsToMinutesAndSeconds(game.gameDuration)}`}
         </div>
