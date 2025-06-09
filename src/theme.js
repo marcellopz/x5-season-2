@@ -25,6 +25,11 @@ const colors = {
   red400: "#f87171",
   red500: "#ef4444",
   red600: "#dc2626",
+
+  green300: "rgb(134, 239, 172)",
+  green400: "rgb(74, 222, 128)",
+  green500: "rgb(34, 197, 94)",
+  green600: "rgb(22, 163, 74)",
 };
 
 export const themeOptions = {
@@ -93,9 +98,9 @@ export const themeOptions = {
       contrastText: colors.gray900,
     },
     success: {
-      main: colors.gray300, // Using gray instead of green
-      light: colors.gray200,
-      dark: colors.gray400,
+      main: colors.green500, // Using green for success states
+      light: colors.green400,
+      dark: colors.green600,
       contrastText: colors.gray900,
     },
     warning: {

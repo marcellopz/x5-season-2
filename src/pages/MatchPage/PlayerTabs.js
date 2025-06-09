@@ -6,12 +6,10 @@ import "./PlayerTabs.css";
 
 const Tab = ({ setTabState, tabState, n, champId }) => (
   <div
-    className={`player-tab ${
-      tabState === n ? "player-tab-active" : "player-tab-inactive"
-    }`}
+    className={`pt-tab ${tabState === n ? "pt-tab-active" : "pt-tab-inactive"}`}
     onClick={() => setTabState(n)}
   >
-    <div className="tab-content">
+    <div className="pt-tab-content">
       <img
         src={`${CHAMPIONICONURL}${champId}.png`}
         width={40}
@@ -23,9 +21,9 @@ const Tab = ({ setTabState, tabState, n, champId }) => (
 );
 
 const StatBox = ({ number, text }) => (
-  <div className="stat-box">
-    <p className="stat-number">{formatNumber(number)}</p>
-    <p className="stat-text">{text}</p>
+  <div className="pt-stat-box">
+    <p className="pt-stat-number">{formatNumber(number)}</p>
+    <p className="pt-stat-text">{text}</p>
   </div>
 );
 
@@ -34,8 +32,8 @@ export default function PlayerTabs({ matchData }) {
   const curr_p = matchData.participants[tabState];
 
   return (
-    <div className="player-tabs-container">
-      <div className="tabs-row">
+    <div className="pt-container">
+      <div className="pt-tabs-row">
         {matchData.participants.map((p, i) => (
           <Tab
             champId={p.championId}
@@ -48,10 +46,12 @@ export default function PlayerTabs({ matchData }) {
       </div>
       <div>
         <Link to={`/player/${curr_p.identity.player.summonerId}`}>
-          <p className="player-name">{curr_p.identity.player.summonerName}</p>
+          <p className="pt-player-name">
+            {curr_p.identity.player.summonerName}
+          </p>
         </Link>
 
-        <div className="stats-container">
+        <div className="pt-stats-container">
           <StatBox
             number={(
               (curr_p.stats.kills + curr_p.stats.assists) /

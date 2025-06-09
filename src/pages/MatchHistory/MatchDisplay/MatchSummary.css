@@ -5,28 +5,28 @@
   position: relative;
 }
 
-.admin-edit-button {
+.ms-admin-edit-button {
   position: absolute;
   right: 15px;
   cursor: pointer;
 }
 
-.match-summary-date {
+.ms-date {
   color: var(--muted-foreground);
   text-align: center;
   width: 100%;
   margin-bottom: 5px;
 }
 
-.team-status-victory {
+.ms-team-status-victory {
   color: var(--victory);
 }
 
-.team-status-defeat {
+.ms-team-status-defeat {
   color: var(--defeat);
 }
 
-.team-header {
+.ms-team-header {
   display: flex;
   padding: 0.25rem;
   font-size: 1.25rem;
@@ -34,15 +34,15 @@
   padding-right: 1rem;
 }
 
-.team-title {
+.ms-team-title {
   display: flex;
 }
 
-.team-name {
+.ms-team-name {
   margin-right: 0.5rem;
 }
 
-.view-details-button {
+.ms-view-details-button {
   width: 3%;
   min-width: 30px;
   background-color: var(--secondary);
@@ -51,39 +51,39 @@
   display: flex;
 }
 
-.view-details-button:hover {
+.ms-view-details-button:hover {
   cursor: pointer;
 }
 
 /* Reimplementing Tailwind classes that were used */
-.flex {
+.ms-flex {
   display: flex;
 }
 
-.p-1 {
+.ms-p-1 {
   padding: 0.25rem;
 }
 
-.text-xl {
+.ms-text-xl {
   font-size: 1.25rem;
   line-height: 1.75rem;
 }
 
-.justify-between {
+.ms-justify-between {
   justify-content: space-between;
 }
 
-.pr-4 {
+.ms-pr-4 {
   padding-right: 1rem;
 }
 
-.mr-2 {
+.ms-mr-2 {
   margin-right: 0.5rem;
 }
 
 /* Media queries for responsive design */
 @media (max-width: 768px) {
-  .team-header {
+  .ms-team-header {
     flex-direction: column;
   }
 }

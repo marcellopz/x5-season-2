@@ -1,5 +1,5 @@
 /* PlayerLine Styles */
-.player-line-container {
+.pl-container {
   display: flex;
   height: 40px;
   background: var(--secondary);
@@ -11,11 +11,11 @@
   color: var(--foreground);
 }
 
-.player-champion-wrapper {
+.pl-champion-wrapper {
   position: relative;
 }
 
-.player-champion-level {
+.pl-champion-level {
   position: absolute;
   bottom: 5px;
   right: 10px;
@@ -26,21 +26,21 @@
   font-size: 13px;
 }
 
-.player-champion-icon {
+.pl-champion-icon {
   overflow: hidden;
   border-radius: 15px;
   margin: 0 5px;
 }
 
-.player-spells-wrapper {
+.pl-spells-wrapper {
   margin-right: 10px;
 }
 
-.player-spell-icon {
+.pl-spell-icon {
   display: block;
 }
 
-.player-name {
+.pl-name {
   color: var(--foreground);
   overflow: hidden;
   height: 100%;
@@ -49,34 +49,34 @@
   flex-grow: 1;
 }
 
-.player-stat-wrapper {
+.pl-stat-wrapper {
   display: flex;
   justify-content: flex-end;
 }
 
-.player-cs-container {
+.pl-cs-container {
   width: 50px;
   display: flex;
 }
 
-.player-cs-value {
+.pl-cs-value {
   width: 30px;
   text-align: center;
 }
 
-.player-cs-permin {
+.pl-cs-permin {
   margin-left: 5px;
   margin-right: 5px;
 }
 
-.player-cs-icon,
-.player-vision-icon {
+.pl-cs-icon,
+.pl-vision-icon {
   filter: invert(30%);
 }
 
 /* Media queries for responsive design */
 @media (max-width: 768px) {
-  .player-line-container {
+  .pl-container {
     padding-right: 2%;
   }
 }

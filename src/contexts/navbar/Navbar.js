@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import { theme } from "../../theme";
 import { AuthContext } from "../authContext";
 import RequestButton from "./RequestButton";
 import { requestToBeANerd } from "../../services/firebaseDatabase";

@@ -31,13 +31,13 @@ export default function MatchSummary({ match, toggleExpanded, openDialog }) {
     <div className="match-summary-container">
       {isAdmin && (
         <div
-          className="admin-edit-button"
+          className="ms-admin-edit-button"
           onClick={() => openDialog(blueTeam, redTeam, match.gameId)}
         >
           edit
         </div>
       )}
-      <div className="match-summary-date">
+      <div className="ms-date">
         {`Played on ${gameDate} - Duration: ${gameDurationStr}`}
       </div>
       <Box
@@ -59,12 +59,12 @@ export default function MatchSummary({ match, toggleExpanded, openDialog }) {
             maxWidth: "50%",
           }}
         >
-          <div className="team-header">
-            <div className="team-title">
-              <p className="team-name">Team 1:</p>
+          <div className="ms-team-header">
+            <div className="ms-team-title">
+              <p className="ms-team-name">Team 1:</p>
               <p
                 className={
-                  blueWin ? "team-status-victory" : "team-status-defeat"
+                  blueWin ? "ms-team-status-victory" : "ms-team-status-defeat"
                 }
               >
                 {blueWin ? "Victory" : "Defeat"}
@@ -98,12 +98,12 @@ export default function MatchSummary({ match, toggleExpanded, openDialog }) {
             maxWidth: "50%",
           }}
         >
-          <div className="team-header">
-            <div className="team-title">
-              <p className="team-name">Team 2:</p>
+          <div className="ms-team-header">
+            <div className="ms-team-title">
+              <p className="ms-team-name">Team 2:</p>
               <p
                 className={
-                  redWin ? "team-status-victory" : "team-status-defeat"
+                  redWin ? "ms-team-status-victory" : "ms-team-status-defeat"
                 }
               >
                 {redWin ? "Victory" : "Defeat"}
@@ -125,7 +125,7 @@ export default function MatchSummary({ match, toggleExpanded, openDialog }) {
         <Box
           component={Link}
           to={`/match/match${match.gameId}`}
-          className="view-details-button"
+          className="ms-view-details-button"
           onClick={toggleExpanded}
         >
           <KeyboardArrowRight sx={{ margin: "auto" }} />

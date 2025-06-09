@@ -9,7 +9,7 @@ import "./PlayerLine.css";
 
 const PlayerLine = ({ player, totalKills, gameDuration }) => {
   return (
-    <div className="player-line-container">
+    <div className="pl-container">
       <Box
         sx={{
           display: "flex",
@@ -18,9 +18,9 @@ const PlayerLine = ({ player, totalKills, gameDuration }) => {
           maxWidth: "100%",
         }}
       >
-        <div className="player-champion-wrapper">
-          <div className="player-champion-level">{player.stats.champLevel}</div>
-          <div className="player-champion-icon">
+        <div className="pl-champion-wrapper">
+          <div className="pl-champion-level">{player.stats.champLevel}</div>
+          <div className="pl-champion-icon">
             <img
               src={`${CHAMPIONICONURL}${player.championId}.png`}
               width={"35px"}
@@ -29,13 +29,13 @@ const PlayerLine = ({ player, totalKills, gameDuration }) => {
             />
           </div>
         </div>
-        <div className="player-spells-wrapper">
+        <div className="pl-spells-wrapper">
           {player.spellsIds.map((spellId) => (
             <img
               src={summonerSpellsUrl[spellId]}
               alt={summonerSpells[spellId]}
               width={15}
-              className="player-spell-icon"
+              className="pl-spell-icon"
               key={spellId}
             />
           ))}
@@ -43,7 +43,7 @@ const PlayerLine = ({ player, totalKills, gameDuration }) => {
         <Typography
           component={Link}
           to={`/player/${player.summonerId}`}
-          className="player-name"
+          className="pl-name"
           sx={{
             fontSize: { xs: "0.7rem", md: "1rem" },
           }}
@@ -74,17 +74,17 @@ const PlayerLine = ({ player, totalKills, gameDuration }) => {
         }}
       >
         <Tooltip title="Creep Score" placement="top">
-          <div className="player-stat-wrapper">
+          <div className="pl-stat-wrapper">
             <Typography sx={{ width: "30px", textAlign: "center" }}>
               {player.stats.totalCs}
             </Typography>
-            <Typography className="player-cs-permin">
+            <Typography className="pl-cs-permin">
               ({((60 * player.stats.totalCs) / gameDuration).toFixed(1)})
             </Typography>
             <img
               width="20px"
               src="https://static.wikia.nocookie.net/leagueoflegends/images/3/30/Minion_icon.png"
-              className="player-cs-icon"
+              className="pl-cs-icon"
               alt="cs"
             />
           </div>
@@ -93,14 +93,14 @@ const PlayerLine = ({ player, totalKills, gameDuration }) => {
 
       <Box sx={{ display: { xs: "none", xl: "block" } }}>
         <Tooltip title="Vision Score" placement="top">
-          <div className="player-cs-container">
-            <Typography className="player-cs-value">
+          <div className="pl-cs-container">
+            <Typography className="pl-cs-value">
               {player.stats.visionScore}
             </Typography>
             <img
               width="20px"
               src="https://static.wikia.nocookie.net/leagueoflegends/images/f/f1/Ward_icon.png/"
-              className="player-vision-icon"
+              className="pl-vision-icon"
               alt="vision score"
             />
           </div>
