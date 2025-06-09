@@ -38,7 +38,7 @@ export default function CardDisplay({ players }) {
           label={players[player].name}
           key={player}
           sx={{ margin: "4px", height: "300px" }}
-          clickable={false}
+          clickable={true}
         />
       ),
       onClick: () => {
