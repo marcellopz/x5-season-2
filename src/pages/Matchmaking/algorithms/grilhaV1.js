@@ -1,5 +1,40 @@
 const roles = ["Top", "Jungle", "Mid", "Adc", "Support"];
-const maxAttempts = 1000;
+const maxAttempts = 100000;
+
+function formatMatches(matches) {
+  return matches.map((match) => {
+    let score1 = 0;
+    let score2 = 0;
+    const pairingsRoles = {};
+    const pairings = [];
+
+    for (let i = 0; i < roles.length; i++) {
+      const role = roles[i];
+      const [p1, p2] = match[i];
+      const r1 = p1.ranks[i];
+      const r2 = p2.ranks[i];
+
+      score1 += r1;
+      score2 += r2;
+
+      pairingsRoles[role] = [
+        { name: p1.name, rank: r1 },
+        { name: p2.name, rank: r2 },
+      ];
+
+      pairings.push(p1, p2);
+    }
+
+    return {
+      pairingsRoles,
+      matchScore: {
+        blue: score1,
+        red: score2,
+      },
+      pairings,
+    };
+  });
+}
 
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -107,7 +142,7 @@ function generateMatches(
     maxLanePerPlayer++;
   }
 
-  return results;
+  return formatMatches(results);
 }
 
 export default generateMatches;
