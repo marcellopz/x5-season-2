@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState, useCallback } from "react";
 import BalanceMatchCheezeV1 from "../algorithms/cheezeV1";
 import BalanceMatchCheezeV2 from "../algorithms/cheezeV2";
 import BalanceMatchClaudeV1 from "../algorithms/claudeV1";
+import BalanceMatchGrilhaV1 from "../algorithms/grilhaV1";
 import { MatchMakingContext } from "../context/matchMakingContext";
 import { Button, IconButton, TextField } from "@mui/material";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
@@ -385,6 +386,7 @@ export default function ResultStep() {
           break;
         }
       }
+      console.log(matchups_);
       setMatchups(matchups_);
     }
     if (selectedAlgo === "claudeV1") {
@@ -392,6 +394,18 @@ export default function ResultStep() {
       const result = BalanceMatchClaudeV1(
         playersToBalance,
         +algoOptions.options.numberOfMatches
+      );
+      if (result === null) {
+        alert("Error");
+      } else {
+        setMatchups(result);
+      }
+    }
+    if (selectedAlgo === "grilhaV1") {
+      const result = BalanceMatchGrilhaV1(
+        playersToBalance,
+        +algoOptions.options.numberOfMatches,
+        algoOptions.options.tolerance
       );
       if (result === null) {
         alert("Error");

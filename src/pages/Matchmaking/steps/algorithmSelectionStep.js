@@ -21,6 +21,7 @@ const formAlgos = {
         id: "numberOfMatches",
         label: "Number of options",
         type: "number",
+        initialValue: 5,
       },
     ],
   },
@@ -54,6 +55,23 @@ const formAlgos = {
       {
         id: "numberOfMatches",
         label: "Number of options",
+        type: "number",
+      },
+    ],
+  },
+  grilhaV1: {
+    label: "Grilha-v1",
+    description:
+      "Generates match options that assign players to a broader range of roles, promoting diversity in lane assignments while ensuring fair matches within the specified tolerance.",
+    fields: [
+      {
+        id: "numberOfMatches",
+        label: "Number of options",
+        type: "number",
+      },
+      {
+        id: "tolerance",
+        label: "Tolerance",
         type: "number",
       },
     ],
@@ -149,7 +167,7 @@ export default function AlgorithmSelectionStep({ setIsOk }) {
   const [error, setError] = useState(
     "Choose an algorithm for balancing the match"
   );
-  const [values, setValues] = useState({});
+  const [values, setValues] = useState({ numberOfMatches: 5, tolerance: 1 });
   const { selectedOptions, selectedAlgo, setSelectedAlgo, setAlgoOptions } =
     useContext(MatchMakingContext);
   const [presetPositions, setPresetPositions] = useState({
@@ -227,6 +245,23 @@ export default function AlgorithmSelectionStep({ setIsOk }) {
           setError(
             `Too many matches! The maximum is ${MAX_NUMBER_OF_MATCHES}.`
           );
+          break;
+        }
+        setError(false);
+        break;
+      case "grilhaV1":
+        if (!(values.numberOfMatches > 0)) {
+          setError("Choose how many matches to generate");
+          break;
+        }
+        if (values.numberOfMatches > MAX_NUMBER_OF_MATCHES) {
+          setError(
+            `Too many matches! The maximum is ${MAX_NUMBER_OF_MATCHES}.`
+          );
+          break;
+        }
+        if (!(values.tolerance >= 0)) {
+          setError("Choose a value for the tolerance");
           break;
         }
         setError(false);

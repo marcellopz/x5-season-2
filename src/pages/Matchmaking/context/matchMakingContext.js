@@ -42,7 +42,7 @@ export const MatchMakingProvider = ({ children }) => {
         ? ""
         : "You need exactly 10 valid players to balance a game"
     );
-  }, [selectedOptions, numberOfWildcards]);
+  }, [selectedOptions, numberOfWildcards, wildcardDetails]);
 
   const cards = useMemo(() => {
     return players
