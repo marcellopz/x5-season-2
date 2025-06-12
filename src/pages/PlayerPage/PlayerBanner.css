@@ -26,12 +26,15 @@
 
 .pb-player-info {
   margin: 20px;
-  height: 70px;
+  margin-bottom: auto;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 5px;
+  padding: 6px;
 }
 
 .pb-player-name {
-  font-size: 25px;
-  margin-bottom: 10px;
+  font-size: 25px !important;
+  margin-bottom: 10px !important;
 }
 
 .pb-stats-container {
