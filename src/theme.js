@@ -64,7 +64,7 @@ export const themeOptions = {
   palette: {
     mode: "dark",
     primary: {
-      main: colors.gray300,
+      main: colors.gray100,
       light: colors.gray200,
       dark: colors.gray400,
       contrastText: colors.gray900,

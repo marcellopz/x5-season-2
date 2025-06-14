@@ -123,7 +123,7 @@ function Navbar({ children }) {
               <li className="navbar-right-item">
                 {isNull || isAnonymous ? (
                   <Link to="/auth/login">
-                    <Button variant="outlined" color="primary">
+                    <Button variant="contained" color="primary">
                       Log in
                     </Button>
                   </Link>
@@ -148,7 +148,7 @@ function Navbar({ children }) {
               {isAdmin && (
                 <div className="navbar-right-item">
                   <Link to="admin">
-                    <Button variant="outlined" color="primary">
+                    <Button variant="contained" color="primary">
                       Admin page
                     </Button>
                   </Link>
@@ -156,7 +156,7 @@ function Navbar({ children }) {
               )}
               {isNull || isAnonymous ? (
                 <Link to="/auth/login">
-                  <Button variant="outlined" color="primary">
+                  <Button variant="contained" color="primary">
                     Log in
                   </Button>
                 </Link>
