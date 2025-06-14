@@ -3,7 +3,7 @@ import { AuthContext } from "../authContext";
 import RequestButton from "./RequestButton";
 import { requestToBeANerd } from "../../services/firebaseDatabase";
 import Sidebar from "./Sidebar";
-import { Button, IconButton } from "@mui/material";
+import { Button, IconButton, Typography } from "@mui/material";
 import { Menu } from "@mui/icons-material";
 import { NavbarContext } from "../navbarContext";
 import { Link } from "react-router-dom";
@@ -72,7 +72,20 @@ function Navbar({ children }) {
           <ul className="navbar-list">
             <li className="navbar-item">
               <Link to="/home" className="navbar-brand-link">
-                <img src={grilhaIcon} className="navbar-logo" alt="icon" />
+                <div style={{ position: "relative" }}>
+                  <img src={grilhaIcon} className="navbar-logo" alt="icon" />
+                  <Typography
+                    sx={{
+                      position: "absolute",
+                      bottom: 2,
+                      left: -2,
+                      fontSize: "12px",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Season 2
+                  </Typography>
+                </div>
 
                 <div className="navbar-brand-text">
                   <h3 className="navbar-brand-line">x5</h3>
