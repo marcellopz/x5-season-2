@@ -40,28 +40,43 @@
 .pb-stats-container {
   margin: auto 0;
   display: flex;
+  gap: 16px;
 }
 
 .pb-winrate-box {
   background: rgba(0, 0, 0, 0.8);
-  height: fit-content;
   padding: 20px;
-  margin: 20px 10px 20px 0px;
   border-radius: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.role-selected {
+  background: var(--accent) !important;
+  border: 1px solid var(--muted-foreground) !important;
 }
 
 .pb-roles-box {
   background: rgba(0, 0, 0, 0.8);
-  padding: 20px;
-  margin: 20px 0 20px 5px;
+  padding: 10px;
   border-radius: 5px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap: 2px;
 }
 
 .pb-role-stat {
+  padding: 1px 10px 1px 5px;
+  border-radius: 5px;
+  background: var(--background);
+  border: 1px solid var(--border-light);
   display: flex;
+  cursor: pointer;
+}
+
+.pb-role-stat:hover {
+  background: var(--secondary);
 }
 
 .pb-role-icon {
@@ -72,6 +87,19 @@
 .pb-role-winrate {
   align-self: center;
   margin-left: 5px;
+  display: flex;
+  justify-content: space-between;
+  flex-grow: 1;
+  gap: 5px;
+}
+
+.pb-role-winrate > p:first-child {
+  min-width: 33px;
+}
+
+.pb-role-winrate > p:last-child {
+  text-align: right;
+  width: 75px;
 }
 
 .pb-tabs-container {

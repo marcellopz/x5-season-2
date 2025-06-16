@@ -32,6 +32,7 @@ export default function PlayerPage() {
   const [loading, setLoading] = useState(true);
   const [selectedTab, setSelectedTab] = useState(0);
   const [playerSummary, setPlayerSummary] = useState({});
+  const [filteredRole, setFilteredRole] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -100,9 +101,16 @@ export default function PlayerPage() {
           selectedPlayerCardStats={selectedPlayerCardStats}
           setSelectedTab={setSelectedTab}
           selectedTab={selectedTab}
+          filteredRole={filteredRole}
+          setFilteredRole={setFilteredRole}
         />
         <TabPanel index={0} value={selectedTab}>
-          <PlayerSummaryTab champs={champs} playerInfo={playerInfo} />
+          <PlayerSummaryTab
+            champs={champs}
+            playerInfo={playerInfo}
+            filteredRole={filteredRole}
+            setFilteredRole={setFilteredRole}
+          />
         </TabPanel>
 
         <TabPanel index={1} value={selectedTab}>

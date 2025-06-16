@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import CardComponent from "../../common-components/CardDisplay/CardComponent";
-import { Box, Tab, Tabs, Tooltip, Typography } from "@mui/material";
+import { Box, Tab, Tabs, Typography } from "@mui/material";
 import CircularProgressWithLabel from "./components/CircularProgressWithLabel";
 import { getChampionSplash } from "../../common-components/resources";
 import { floatToPercentageString } from "../../utils/utils";
@@ -16,6 +16,8 @@ function PlayerBanner({
   selectedPlayerCardStats,
   setSelectedTab,
   selectedTab,
+  filteredRole,
+  setFilteredRole,
 }) {
   return (
     <div
@@ -61,16 +63,30 @@ function PlayerBanner({
           </Box>
           <Box className="pb-roles-box">
             {roles.map((role, i) => (
-              <div className="pb-role-stat" key={i}>
+              <div
+                className={`pb-role-stat ${
+                  filteredRole === role ? "role-selected" : ""
+                }`}
+                key={i}
+                onClick={() =>
+                  setFilteredRole((prev) => (prev === role ? "" : role))
+                }
+              >
                 <img src={lanes[i]} alt={role} className="pb-role-icon" />
-                <Tooltip title={`${playerInfo.roleMatches[role].games} games`}>
-                  <p className="pb-role-winrate">
+                <span className="pb-role-winrate">
+                  <p>
                     {floatToPercentageString(
                       playerInfo.roleMatches[role].wins /
                         playerInfo.roleMatches[role].games
                     )}
                   </p>
-                </Tooltip>
+                  <p>
+                    {`${playerInfo.roleMatches[role].wins} W ${
+                      playerInfo.roleMatches[role].games -
+                      playerInfo.roleMatches[role].wins
+                    } L`}
+                  </p>
+                </span>
               </div>
             ))}
           </Box>

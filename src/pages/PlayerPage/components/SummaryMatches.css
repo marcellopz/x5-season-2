@@ -1,0 +1,51 @@
+/* SummaryMatches component styles */
+
+.summary-matches-container {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.pm-filtered-role {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin: 15px 0;
+  padding: 10px 16px;
+  background-color: var(--secondary, var(--gray-700));
+  border: 1px solid var(--border, var(--gray-700));
+  border-radius: var(--radius, 0.5rem);
+  box-sizing: border-box;
+}
+
+.pm-filtered-role span {
+  margin-right: 5px;
+}
+
+.pm-filtered-role-name {
+  font-weight: bold;
+  color: var(--highlight, var(--blue-400));
+  text-transform: capitalize;
+}
+
+.pm-filtered-role-clear {
+  margin-left: auto;
+  background-color: transparent;
+  border: 1px solid var(--destructive, var(--red-500));
+  color: var(--destructive, var(--red-500));
+  border-radius: var(--radius, 0.5rem);
+  padding: 4px 12px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pm-filtered-role-clear:hover {
+  background-color: var(--destructive, var(--red-500));
+  color: var(--destructive-foreground, var(--gray-50));
+}
+
+.pm-filtered-role-clear:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(var(--red-500), 0.25);
+}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { memo } from "react";
 import {
   convertSecondsToMinutesAndSeconds,
   timeSince,
@@ -12,7 +12,6 @@ import {
 import Chip from "@mui/material/Chip";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "@mui/icons-material";
-import { getMatchRoles } from "../../../services/firebaseDatabase";
 import "./PersonalMatch.css";
 
 const ItemsSection = ({ game }) => {
@@ -54,7 +53,7 @@ const roles = {
   support: 5,
 };
 
-const TeamSection = ({ players, playerId, matchRoles }) => {
+const TeamSection = memo(({ players, playerId, matchRoles }) => {
   const blueTeam = players
     .filter((p) => p.teamId === 100)
     .sort(
@@ -111,7 +110,7 @@ const TeamSection = ({ players, playerId, matchRoles }) => {
       </div>
     </div>
   );
-};
+});
 
 const MultiKillChips = ({ largestKillingSpree, largestMultiKill }) => {
   let text = "";
@@ -153,19 +152,14 @@ const MultiKillChips = ({ largestKillingSpree, largestMultiKill }) => {
   );
 };
 
-export default function PersonalMatch({ game, gameId }) {
-  const [matchRoles, setMatchRoles] = useState({});
-
-  useEffect(() => {
-    getMatchRoles(gameId).then((r) => setMatchRoles(r));
-    return () => {};
-  }, [gameId]);
-
+export default function PersonalMatch({ game, gameId, matchRoles }) {
   return (
     <div className={`pm-container ${game.stats.win ? "pm-win" : "pm-lose"}`}>
       <div className="pm-header">
         <div>
-          {`${matchRoles[game.summonerId]?.toUpperCase?.() ?? ""} - ${timeSince(
+          {`${
+            matchRoles ? matchRoles[game.summonerId]?.toUpperCase?.() : ""
+          } - ${timeSince(
             new Date(game.date)
           )} - ${convertSecondsToMinutesAndSeconds(game.gameDuration)}`}
         </div>

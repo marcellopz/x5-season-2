@@ -7,6 +7,8 @@ import SummaryMatches from "./components/SummaryMatches";
 function PlayerSummaryTab({
   champs,
   playerInfo,
+  filteredRole,
+  setFilteredRole,
   // playerKey,
   // selectedPlayerCardStats,
 }) {
@@ -75,7 +77,11 @@ function PlayerSummaryTab({
       <Grid item xs={12} lg={8}>
         <div>
           <SummaryLastGames games={last20Matches} />
-          <SummaryMatches games={playerInfo.matches} />
+          <SummaryMatches
+            games={playerInfo.matches}
+            filteredRole={filteredRole}
+            setFilteredRole={setFilteredRole}
+          />
         </div>
       </Grid>
     </Grid>
