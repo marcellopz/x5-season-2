@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useMemo, memo } from "react";
 import {
   isWildcardValid,
   MatchMakingContext,
@@ -176,6 +176,21 @@ const WildcardCard = ({ id, wildcardDetails, setWildcardDetails }) => {
   );
 };
 
+// Create a memoized PlayerCard component
+const PlayerCard = memo(({ card, isSelected, isVisible, onClick }) => {
+  return (
+    <Box
+      onClick={onClick}
+      className={`player-card ${isSelected ? "selected" : ""}`}
+      style={{
+        display: isVisible ? "block" : "none",
+      }}
+    >
+      <div style={{ height: "300px" }}>{card.card}</div>
+    </Box>
+  );
+});
+
 export default function PlayerSelectionStep({ setIsOk }) {
   const {
     players,
@@ -220,42 +235,45 @@ export default function PlayerSelectionStep({ setIsOk }) {
     };
   }, []);
 
-  // Filter players based on search term
-  const filteredCards = cards.filter((card) => {
-    try {
-      if (searchTerm.trim() === "") return true;
+  // Create a memoized function to determine if a card should be visible based on the search term
+  const isCardVisible = useMemo(() => {
+    // Create a lookup map for fast filtering
+    const visibleCardsMap = new Map();
 
-      // Convert search term to lowercase for case-insensitive comparison
-      const term = searchTerm.toLowerCase();
+    cards.forEach((card) => {
+      let isVisible = true;
 
-      // Get the player data from the card name
-      const playerData = players?.[card.name];
+      if (searchTerm.trim() !== "") {
+        isVisible = false;
+        const term = searchTerm.toLowerCase();
+        const playerData = players?.[card.name];
 
-      // Check if the player name contains the search term
-      if (card.name.toLowerCase().includes(term)) return true;
-
-      // If we have player data, also check role ratings (for number searches)
-      if (playerData) {
-        // Check if any role rating matches the search term (if it's a number)
-        const numericSearch = !isNaN(term);
-        if (numericSearch) {
-          // Safely convert to string and compare
-          return (
+        // Check if name contains search term
+        if (card.name.toLowerCase().includes(term)) {
+          isVisible = true;
+        }
+        // Check role ratings if term is a number
+        else if (playerData && !isNaN(term)) {
+          isVisible =
             String(playerData.top || "") === term ||
             String(playerData.jungle || "") === term ||
             String(playerData.mid || "") === term ||
             String(playerData.adc || "") === term ||
-            String(playerData.support || "") === term
-          );
+            String(playerData.support || "") === term;
         }
       }
 
-      return false;
-    } catch (error) {
-      console.error("Error filtering cards:", error);
-      return false;
-    }
-  });
+      visibleCardsMap.set(card.name, isVisible);
+    });
+
+    return (cardName) => visibleCardsMap.get(cardName) || false;
+  }, [cards, players, searchTerm]);
+
+  // Create a memoized array of filtered card names for counting
+  const filteredCardCount = useMemo(
+    () => cards.filter((card) => isCardVisible(card.name)).length,
+    [cards, isCardVisible]
+  );
 
   // Filter array of players for DataGrid with the same logic
   const filteredPlayers =
@@ -287,6 +305,25 @@ export default function PlayerSelectionStep({ setIsOk }) {
             return false;
           }
         });
+
+  // Memoized card components to prevent re-rendering
+  const cardComponents = useMemo(() => {
+    return cards.map((card) => (
+      <PlayerCard
+        key={card.name}
+        card={card}
+        isSelected={selectedOptions.includes(card.name)}
+        isVisible={cards.length <= cardReadyCounter && isCardVisible(card.name)}
+        onClick={() => handleOptionChange(card.name)}
+      />
+    ));
+  }, [
+    cards,
+    selectedOptions,
+    cardReadyCounter,
+    isCardVisible,
+    handleOptionChange,
+  ]);
 
   return (
     <div className="player-selection-form">
@@ -408,21 +445,17 @@ export default function PlayerSelectionStep({ setIsOk }) {
         )}
         {displayCard && (
           <div className="player-cards-container">
-            {filteredCards.length > 0 ? (
-              filteredCards.map((card) => (
-                <Box
-                  key={card.name}
-                  onClick={() => handleOptionChange(card.name)}
-                  className={`player-card ${
-                    selectedOptions.includes(card.name) ? "selected" : ""
-                  }`}
-                  style={{
-                    display: cards.length > cardReadyCounter ? "none" : "block",
-                  }}
-                >
-                  <div style={{ height: "300px" }}>{card.card}</div>
-                </Box>
-              ))
+            {cards.length > 0 ? (
+              <>
+                {cardComponents}
+                {filteredCardCount === 0 &&
+                  searchTerm &&
+                  cards.length <= cardReadyCounter && (
+                    <Typography className="no-results-message">
+                      No players match your search
+                    </Typography>
+                  )}
+              </>
             ) : searchTerm && cards.length <= cardReadyCounter ? (
               <Typography className="no-results-message">
                 No players match your search
