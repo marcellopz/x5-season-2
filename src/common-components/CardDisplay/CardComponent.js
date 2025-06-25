@@ -43,14 +43,14 @@ function CardComponent({ name, ranks, sx, label, onLoad, clickable = true }) {
           setPhotoSrc(
             r2
               ? r2.photo
-              : `https://api.dicebear.com/9.x/croodles-neutral/svg?seed=${name}&backgroundColor=${paletaDestaque.join(
+              : `https://api.dicebear.com/9.x/croodles-neutral/svg?seed=${name}&scale=70&backgroundColor=${paletaDestaque.join(
                   ","
-                )}&scale=70`
+                )}`
           );
         })
         .catch(() => {
           setPhotoSrc(
-            `https://api.dicebear.com/9.x/croodles-neutral/svg?seed=${name}&backgroundColor=${paletaDestaque.join(
+            `https://api.dicebear.com/9.x/croodles-neutral/svg?seed=${name}&scale=70&backgroundColor=${paletaDestaque.join(
               ","
             )}`
           );
