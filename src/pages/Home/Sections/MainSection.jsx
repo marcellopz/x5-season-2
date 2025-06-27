@@ -23,7 +23,7 @@ const MainSection = ({ stats, players }) => {
         )}
         {isAnonymous && (
           <span className="mainsection-anonymous-message">
-            To see the card images, please log in and request permission.
+            To see the card's real photos, please log in and request permission.
           </span>
         )}
       </Box>
