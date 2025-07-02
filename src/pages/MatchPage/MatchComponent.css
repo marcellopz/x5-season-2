@@ -1,7 +1,7 @@
 /* Match Component Styles */
 .match-container {
   margin-top: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--border-light);
 }
 
 .loading-container {
@@ -60,7 +60,7 @@
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 0.5rem;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--accent);
 }
 
 .team-objectives {
@@ -91,7 +91,7 @@
 }
 
 .champion-ban {
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--accent);
   width: 40px;
   height: 40px;
   border-radius: 3px;
@@ -109,7 +109,7 @@
   padding: 0.5rem;
   flex-wrap: wrap;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid var(--border);
 }
 
 .player-champion-container {
@@ -126,7 +126,7 @@
   right: 7px;
   padding: 2px;
   border-radius: 5px;
-  background: rgba(0, 0, 0, 0.6);
+  background: var(--background);
   z-index: 10;
 }
 
@@ -184,7 +184,7 @@
 }
 
 .item-slot {
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--accent);
   width: 35px;
   height: 35px;
   border-radius: 3px;
@@ -225,11 +225,11 @@
 }
 
 .border-left {
-  border-left: 1px solid rgba(255, 255, 255, 0.5);
+  border-left: 1px solid var(--border-light);
 }
 
 .border-top {
-  border-top: 1px solid rgba(255, 255, 255, 0.5);
+  border-top: 1px solid var(--border-light);
 }
 
 @media (min-width: 1200px) {
@@ -238,7 +238,7 @@
   }
 
   .grid-item-right {
-    border-left: 1px solid rgba(255, 255, 255, 0.5);
+    border-left: 1px solid var(--border-light);
     border-top: none;
   }
 }
@@ -246,6 +246,6 @@
 @media (max-width: 1199px) {
   .grid-item-right {
     border-left: none;
-    border-top: 1px solid rgba(255, 255, 255, 0.5);
+    border-top: 1px solid var(--border-light);
   }
 }

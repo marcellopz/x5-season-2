@@ -50,8 +50,8 @@
   --destructive: var(--red-500);
   --destructive-foreground: var(--gray-50);
   --highlight: var(--blue-400);
-  --victory: var(--green-vivid);
-  --defeat: var(--red-vivid);
+  --victory: var(--green-400);
+  --defeat: var(--red-400);
 
   /* Layout */
   --radius: 0.5rem;

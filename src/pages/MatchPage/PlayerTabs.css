@@ -1,7 +1,7 @@
 /* PlayerTabs Component Styles */
 
 .pt-container {
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--border-light);
 }
 
 .pt-tabs-row {
@@ -15,18 +15,22 @@
   height: 3rem;
 }
 
+.pt-tab:first-child {
+  border-left: none !important;
+}
+
 .pt-tab-active {
-  border-top: 1px solid rgba(255, 255, 255, 0.5);
-  border-left: 1px solid rgba(255, 255, 255, 0.5);
-  border-right: 1px solid rgba(255, 255, 255, 0.5);
+  border-top: 1px solid var(--border-light);
+  border-left: 1px solid var(--border-light);
+  border-right: 1px solid var(--border-light);
 }
 
 .pt-tab-inactive {
   background: rgba(255, 255, 255, 0.05);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-  border-top: 1px solid rgba(255, 255, 255, 0.3);
-  border-left: 1px solid rgba(255, 255, 255, 0.3);
-  border-right: 1px solid rgba(255, 255, 255, 0.3);
+  border-bottom: 1px solid var(--border-light);
+  border-top: 1px solid var(--border);
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
 }
 
 .pt-tab-content {
