@@ -51,6 +51,7 @@ export async function sendReducedMatchJson(match) {
     summonerId: p.summonerId,
     summonerName: p.summonerName,
     teamId: p.teamId,
+    tagLine: p.tagLine,
   }));
   match.participants.forEach(async (p) => {
     await set(
@@ -93,6 +94,7 @@ export async function savePlayerStats(player) {
       winRate: player.winRate,
       summonerName: player.summonerName,
       numberOfMatches: player.numberOfMatches,
+      tagLine: player.tagLine,
     }
   );
 }

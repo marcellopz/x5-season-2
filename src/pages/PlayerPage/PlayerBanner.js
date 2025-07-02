@@ -19,6 +19,16 @@ function PlayerBanner({
   filteredRole,
   setFilteredRole,
 }) {
+  console.log(playerInfo);
+
+  const handleOpggRedirect = () => {
+    const region = "br";
+    const summonerName = playerInfo.summonerName;
+    const tagLine = playerInfo.tagLine;
+    const opggUrl = `https://www.op.gg/summoners/${region}/${summonerName}-${tagLine}`;
+    window.open(opggUrl, "_blank");
+  };
+
   return (
     <div
       className="pb-banner"
@@ -43,9 +53,22 @@ function PlayerBanner({
             />
           )}
           <div className="pb-player-info">
-            <Typography className="pb-player-name">
-              {playerInfo.summonerName}
-            </Typography>
+            <div className="pb-player-name-container">
+              <Typography className="pb-player-name">
+                {playerInfo.summonerName}
+              </Typography>
+              {playerInfo.tagLine && (
+                <Typography className="pb-player-tagline">
+                  #{playerInfo.tagLine}
+                </Typography>
+              )}
+              <img
+                src="/opgg.png"
+                alt="OP.GG"
+                className="pb-opgg-icon"
+                onClick={handleOpggRedirect}
+              />
+            </div>
             <Typography>
               {`Number of matches: ${playerInfo.numberOfMatches}`}
             </Typography>

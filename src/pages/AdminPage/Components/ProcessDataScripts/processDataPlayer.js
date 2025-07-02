@@ -99,6 +99,7 @@ export default function processDataPlayer(playerMatches, matchRoles) {
     playerMatches[playerMatchesIds[numberOfMatches - 1]].summonerName;
   let summonerId =
     playerMatches[playerMatchesIds[numberOfMatches - 1]].summonerId;
+  let tagLine = playerMatches[playerMatchesIds[numberOfMatches - 1]].tagLine;
 
   playerMatchesIds.forEach((matchId) => {
     let matchRole = matchRoles[matchId]?.[summonerId];
@@ -207,5 +208,6 @@ export default function processDataPlayer(playerMatches, matchRoles) {
     winsArray,
     firstBloods,
     records: getRecords(playerMatches),
+    tagLine,
   };
 }

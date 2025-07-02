@@ -386,7 +386,6 @@ export default function ResultStep() {
           break;
         }
       }
-      console.log(matchups_);
       setMatchups(matchups_);
     }
     if (selectedAlgo === "claudeV1") {

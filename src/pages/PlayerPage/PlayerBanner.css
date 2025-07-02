@@ -32,9 +32,38 @@
   padding: 6px;
 }
 
+.pb-player-name-container {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 4px;
+  gap: 4px;
+}
+
 .pb-player-name {
-  font-size: 25px !important;
-  margin-bottom: 10px !important;
+  font-size: 20px !important;
+  margin-bottom: 0px !important;
+}
+
+.pb-player-tagline {
+  font-size: 16px !important;
+  margin-bottom: 0px !important;
+  opacity: 0.3;
+}
+
+.pb-opgg-icon {
+  margin-left: 4px;
+  width: 22px;
+  height: 22px;
+  position: relative;
+  top: 2px;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.pb-opgg-icon:hover {
+  opacity: 1 !important;
+  transform: scale(1.1);
 }
 
 .pb-stats-container {

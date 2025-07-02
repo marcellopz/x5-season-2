@@ -1,6 +1,6 @@
 .player-list-grid-container {
   width: 95%;
-  max-width: 800px;
+  max-width: 880px;
   margin: 20px auto;
 }
 
@@ -33,6 +33,40 @@
 .lane-icon {
   width: 40px;
   height: 40px;
+}
+
+/* Summoner name cell styles */
+.pl-summoner-name-container {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  width: 100%;
+}
+
+.pl-summoner-name {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.pl-summoner-tagline {
+  font-size: 12px;
+  opacity: 0.3;
+}
+
+.pl-opgg-icon {
+  width: 16px;
+  height: 16px;
+  margin-left: 4px;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  position: relative;
+  top: 1px;
+}
+
+.pl-opgg-icon:hover {
+  opacity: 1;
+  transform: scale(1.1);
 }
 
 /* Win rate color classes - already defined in utils.js */

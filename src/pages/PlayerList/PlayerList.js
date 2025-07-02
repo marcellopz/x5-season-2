@@ -20,6 +20,29 @@ import {
 import { useNavigate } from "react-router-dom";
 import "./PlayerList.css"; // Import component styles
 
+// Component for rendering summoner name with tagline and opgg icon
+const SummonerNameCell = ({ summonerName, tagLine }) => {
+  const handleOpggRedirect = (event) => {
+    event.stopPropagation(); // Prevent row click navigation
+    const region = "br";
+    const opggUrl = `https://www.op.gg/summoners/${region}/${summonerName}-${tagLine}`;
+    window.open(opggUrl, "_blank");
+  };
+
+  return (
+    <div className="pl-summoner-name-container">
+      <span className="pl-summoner-name">{summonerName}</span>
+      {tagLine && <span className="pl-summoner-tagline">#{tagLine}</span>}
+      <img
+        src="/opgg.png"
+        alt="OP.GG"
+        className="pl-opgg-icon"
+        onClick={handleOpggRedirect}
+      />
+    </div>
+  );
+};
+
 const columns = [
   {
     field: "name",
@@ -42,9 +65,14 @@ const columns = [
     field: "summonerName",
     headerName: "Summoner Name",
     type: "string",
-    // align: "center",
-    width: 140,
+    width: 220,
     sortable: true,
+    renderCell: (params) => (
+      <SummonerNameCell
+        summonerName={params.row.summonerName}
+        tagLine={params.row.tagLine}
+      />
+    ),
   },
   {
     field: "numberOfMatches",
@@ -144,6 +172,7 @@ export default function PlayerList() {
         winRate: playersSummary[players[p]?.account_id]?.winRate ?? 0,
         summonerName:
           playersSummary[players[p]?.account_id]?.summonerName ?? "",
+        tagLine: playersSummary[players[p]?.account_id]?.tagLine ?? "",
         numberOfMatches:
           playersSummary[players[p]?.account_id]?.numberOfMatches ?? 0,
         id: i,
