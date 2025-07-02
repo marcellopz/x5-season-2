@@ -19,8 +19,6 @@ function PlayerBanner({
   filteredRole,
   setFilteredRole,
 }) {
-  console.log(playerInfo);
-
   const handleOpggRedirect = () => {
     const region = "br";
     const summonerName = playerInfo.summonerName;
