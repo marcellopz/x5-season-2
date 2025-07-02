@@ -38,7 +38,7 @@ const TeamSection = ({
     </div>
     <ul className="team-chart-content">
       {team.sort(sortFunctions(tabState)).map((p, i) => (
-        <li className="chart-item" key={i}>
+        <li className="match-chart-item" key={i}>
           <div className="chart-item-content">
             <img
               src={`${CHAMPIONICONURL}${p.championId}.png`}
