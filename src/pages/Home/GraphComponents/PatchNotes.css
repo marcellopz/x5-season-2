@@ -1,0 +1,111 @@
+.patch-notes-title {
+  margin-bottom: 8px !important;
+  color: var(--foreground);
+}
+
+.patch-notes-scroll-container {
+  flex-grow: 1;
+  width: 100%;
+  max-height: 250px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.patch-notes-scroll-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.patch-notes-scroll-container::-webkit-scrollbar-track {
+  background-color: var(--gray-800);
+  border-radius: var(--radius);
+}
+
+.patch-notes-scroll-container::-webkit-scrollbar-thumb {
+  background-color: var(--gray-600);
+  border-radius: var(--radius);
+  border: 1px solid var(--gray-700);
+}
+
+.patch-notes-scroll-container::-webkit-scrollbar-thumb:hover {
+  background-color: var(--gray-500);
+}
+
+.patch-notes-day-card {
+  background-color: transparent;
+  border: 1px solid var(--border);
+  overflow: unset !important;
+  margin-right: 4px;
+}
+
+.patch-notes-day-card .MuiCardContent-root {
+  padding: 12px;
+}
+
+.patch-notes-date-title {
+  margin-bottom: 8px;
+  color: var(--foreground);
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.patch-notes-changes-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.patch-notes-change-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  border-radius: var(--radius);
+  background-color: var(--gray-800);
+  border: 1px solid var(--border);
+}
+
+.patch-notes-role-chip {
+  min-width: 50px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.patch-notes-player-name {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--foreground);
+}
+
+.patch-notes-rank-chip {
+  margin-left: auto;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* Specific styling for rank change chips */
+.patch-notes-rank-chip.MuiChip-colorSuccess {
+  background-color: var(--victory);
+  color: var(--gray-900);
+}
+
+.patch-notes-rank-chip.MuiChip-colorError {
+  background-color: var(--defeat);
+  color: var(--gray-900);
+}
+
+.patch-notes-empty-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--muted-foreground);
+  padding: 40px;
+}
+
+.patch-notes-empty-state .MuiTypography-root {
+  font-style: italic;
+  font-size: 0.9rem;
+}

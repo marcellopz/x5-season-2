@@ -1,0 +1,46 @@
+.charts-section-container {
+  margin: 1rem;
+}
+
+.charts-grid-container {
+  display: grid;
+  gap: 1rem;
+}
+
+.chart-item {
+  min-height: 300px;
+}
+
+.chart-item .content-box {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Wide Desktop Layout (large screens) - 4x1 grid */
+@media (min-width: 1280px) {
+  .charts-grid-container {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 1fr;
+  }
+}
+
+/* Medium Desktop Layout (medium screens) - 2x2 grid */
+@media (min-width: 768px) and (max-width: 1279px) {
+  .charts-grid-container {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+  }
+}
+
+/* Mobile Layout (small screens) - 1x4 grid */
+@media (max-width: 767px) {
+  .charts-grid-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(4, 1fr);
+  }
+
+  .chart-item {
+    min-height: 250px;
+  }
+}

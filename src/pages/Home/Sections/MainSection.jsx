@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Box, Typography } from "@mui/material";
 import CardDisplay from "../../../common-components/CardDisplay/CardDisplay";
 import GeneralStatsBox from "../GraphComponents/GeneralStatsBox";
-import GamesGraph from "../GraphComponents/GamesGraph";
+import PatchNotes from "../GraphComponents/PatchNotes";
 import { AuthContext } from "../../../contexts/authContext";
 import "./MainSection.css";
 
@@ -28,7 +28,7 @@ const MainSection = ({ stats, players }) => {
         )}
       </Box>
       <GeneralStatsBox stats={stats} players={players} />
-      <GamesGraph stats={stats} />
+      <PatchNotes />
     </Box>
   );
 };

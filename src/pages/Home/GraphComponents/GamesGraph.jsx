@@ -53,7 +53,7 @@ const GamesGraph = ({ stats }) => {
     },
   };
   return (
-    <Box className="mainsection-panel mainsection-graph-panel">
+    <Box className="content-box">
       <Typography variant="h6" fontWeight={500}>
         Games played per month
       </Typography>

@@ -121,6 +121,12 @@ export async function getOverallStats() {
   return stats;
 }
 
+export async function getRankChangeLog() {
+  const re = await get(child(dbRef, `player-rank-change-log`));
+  const logs = await re.val();
+  return logs;
+}
+
 export async function setRoles(roles, matchId) {
   if (matchId === null) {
     return;

@@ -37,6 +37,7 @@ const WeekDayDistribution = ({ stats }) => {
       data: days,
       axisLabel: {
         interval: 0,
+        rotate: 45,
       },
     },
     yAxis: {
@@ -57,7 +58,7 @@ const WeekDayDistribution = ({ stats }) => {
       containLabel: true,
       top: 20,
       right: 5,
-      bottom: 10,
+      bottom: -10,
       left: 5,
     },
   };
