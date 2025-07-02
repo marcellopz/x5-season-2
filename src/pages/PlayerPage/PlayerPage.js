@@ -44,7 +44,7 @@ export default function PlayerPage() {
         // "player" is a number
         for (const [key, value] of Object.entries(ps)) {
           if (value.account_id === +player) {
-            navigate("/player/" + key);
+            navigate("/player/" + key, { replace: true });
             return;
           }
         }

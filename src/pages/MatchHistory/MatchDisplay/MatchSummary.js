@@ -124,7 +124,7 @@ export default function MatchSummary({ match, toggleExpanded, openDialog }) {
         </Paper>
         <Box
           component={Link}
-          to={`/match/match${match.gameId}`}
+          to={`/match/${match.gameId}`}
           className="ms-view-details-button"
           onClick={toggleExpanded}
         >

@@ -106,6 +106,7 @@ const reduceFile = (matchObj) => {
     participantId: p.participantId,
     summonerId: p.player.summonerId,
     summonerName: p.player.gameName,
+    tagLine: p.player.tagLine,
   }));
 
   const participants = matchObj.participants.map((p) => ({

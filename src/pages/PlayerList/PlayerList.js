@@ -150,7 +150,7 @@ export default function PlayerList() {
         player_id: p,
       };
     });
-    setPlayersWithStats(ps.filter((p) => !p.hide));
+    setPlayersWithStats(ps.filter((p) => !p.hide && p.numberOfMatches > 0));
   }, [players, playersSummary]);
 
   return (

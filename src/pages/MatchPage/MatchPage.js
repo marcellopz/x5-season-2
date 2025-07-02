@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import X5pageContentArea from "../../common-components/X5pageContentArea";
 import {
   getMatchRoles,
@@ -46,16 +46,31 @@ const ExtraInfo = ({ matchData }) => (
 
 export default function MatchPage() {
   const { matchid } = useParams();
+  const navigate = useNavigate();
   const [matchData, setMatchData] = useState();
   const [matchRoles, setMatchRoles] = useState();
+
+  // Handle URL format conversion
+  useEffect(() => {
+    if (!matchid) return;
+
+    // If the matchid starts with "match", it's the old format - redirect to new format
+    if (matchid.startsWith("match")) {
+      const numericId = matchid.replace("match", "");
+      navigate(`/match/${numericId}`, { replace: true });
+      return;
+    }
+
+    // For new format, add "match" prefix when calling backend
+    const fullMatchId = `match${matchid}`;
+    getMatchesFullMatch(fullMatchId).then((match) => setMatchData(match));
+    getMatchRoles(fullMatchId).then((roles) => setMatchRoles(roles));
+  }, [matchid, navigate]);
+
   const date = matchData ? new Date(matchData.gameCreationDate) : null;
 
-  useEffect(() => {
-    getMatchesFullMatch(matchid).then((match) => setMatchData(match));
-    getMatchRoles(matchid).then((roles) => setMatchRoles(roles));
-  }, []);
-
-  if (!matchid || !matchData) {
+  // Don't render if we're redirecting or if no matchid
+  if (!matchid || matchid.startsWith("match") || !matchData) {
     return null;
   }
 
