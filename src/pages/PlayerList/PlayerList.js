@@ -20,8 +20,21 @@ import {
 import { useNavigate } from "react-router-dom";
 import "./PlayerList.css"; // Import component styles
 
-// Component for rendering summoner name with tagline and opgg icon
+// Component for rendering summoner name with tagline
 const SummonerNameCell = ({ summonerName, tagLine }) => {
+  return (
+    <div
+      className="pl-summoner-name-container"
+      title={`${summonerName}#${tagLine}`}
+    >
+      <span className="pl-summoner-name">{summonerName}</span>
+      {tagLine && <span className="pl-summoner-tagline">#{tagLine}</span>}
+    </div>
+  );
+};
+
+// Component for OP.GG icon
+const OpggIconCell = ({ summonerName, tagLine }) => {
   const handleOpggRedirect = (event) => {
     event.stopPropagation(); // Prevent row click navigation
     const region = "br";
@@ -30,9 +43,7 @@ const SummonerNameCell = ({ summonerName, tagLine }) => {
   };
 
   return (
-    <div className="pl-summoner-name-container">
-      <span className="pl-summoner-name">{summonerName}</span>
-      {tagLine && <span className="pl-summoner-tagline">#{tagLine}</span>}
+    <div className="pl-opgg-cell">
       <img
         src="/opgg.png"
         alt="OP.GG"
@@ -55,17 +66,32 @@ const columns = [
     field: "winRate",
     headerName: "Win rate",
     type: "string",
-    width: 90,
+    width: 80,
     sortable: true,
     align: "center",
+    headerAlign: "center",
     valueGetter: (params) => floatToPercentageString(params.row.winRate),
     cellClassName: (params) => getWinRateClassName(params.row.winRate),
+  },
+  {
+    field: "opgg",
+    headerName: "",
+    type: "string",
+    width: 50,
+    sortable: false,
+    align: "center",
+    renderCell: (params) => (
+      <OpggIconCell
+        summonerName={params.row.summonerName}
+        tagLine={params.row.tagLine}
+      />
+    ),
   },
   {
     field: "summonerName",
     headerName: "Summoner Name",
     type: "string",
-    width: 220,
+    width: 170,
     sortable: true,
     renderCell: (params) => (
       <SummonerNameCell
