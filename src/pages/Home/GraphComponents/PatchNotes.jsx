@@ -119,8 +119,6 @@ const PatchNotes = () => {
   const [groupedChanges, setGroupedChanges] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  console.log("Grouped changes by date:", groupedChanges);
-
   useEffect(() => {
     (async () => {
       const logs_ = await getRankChangeLog();
