@@ -28,16 +28,21 @@ export default function RequestButton({ open, setOpen, requestToBeNerd }) {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Request to be a nerd
+      <Button
+        variant="contained"
+        onClick={handleClickOpen}
+        className="navbar-request-button"
+      >
+        Request permission
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Request to be a nerd</DialogTitle>
+        <DialogTitle>Request permission to see photos</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To get the full experience of this website, request to be a nerd.
-            Inform a name for us to identify you and if you're accepted in
-            you'll be granted access to all the website functionalities.
+            To get the full experience of this website, request permission to
+            see photos. Inform a name for us to identify you and if you're
+            accepted in you'll be granted access to all the website
+            functionalities.
           </DialogContentText>
           <TextField
             autoFocus

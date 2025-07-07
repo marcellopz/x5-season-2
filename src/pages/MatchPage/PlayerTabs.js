@@ -27,6 +27,19 @@ const StatBox = ({ number, text }) => (
   </div>
 );
 
+// Component for rendering summoner name with tagline
+const SummonerNameCell = ({ summonerName, tagLine }) => {
+  return (
+    <div
+      className="pt-summoner-name-container"
+      title={`${summonerName}#${tagLine}`}
+    >
+      <span className="pt-summoner-name">{summonerName}</span>
+      {tagLine && <span className="pt-summoner-tagline">#{tagLine}</span>}
+    </div>
+  );
+};
+
 export default function PlayerTabs({ matchData }) {
   const [tabState, setTabState] = useState(0);
   const curr_p = matchData.participants[tabState];
@@ -46,9 +59,10 @@ export default function PlayerTabs({ matchData }) {
       </div>
       <div>
         <Link to={`/player/${curr_p.identity.player.summonerId}`}>
-          <p className="pt-player-name">
-            {curr_p.identity.player.summonerName}
-          </p>
+          <SummonerNameCell
+            summonerName={curr_p.identity.player.gameName}
+            tagLine={curr_p.identity.player.tagLine}
+          />
         </Link>
 
         <div className="pt-stats-container">

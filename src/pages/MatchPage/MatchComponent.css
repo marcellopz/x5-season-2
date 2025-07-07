@@ -164,6 +164,26 @@
   white-space: nowrap;
 }
 
+/* Summoner name with tagline styles */
+.mc-summoner-name-container {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  width: 100%;
+  justify-content: center;
+}
+
+.mc-summoner-name {
+  font-size: 16px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.mc-summoner-tagline {
+  font-size: 14px;
+  opacity: 0.3;
+}
+
 .player-role {
   opacity: 0.5;
   font-size: 14px;

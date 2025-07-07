@@ -158,6 +158,13 @@ function Navbar({ children }) {
             </ul>
           ) : (
             <div className="navbar-mobile-controls">
+              {!isNerd && !isAnonymous && (
+                <RequestButton
+                  open={requestDialogOpen}
+                  setOpen={setRequestDialogOpen}
+                  requestToBeNerd={requestToBeNerd}
+                />
+              )}
               {isAdmin && (
                 <div className="navbar-right-item">
                   <Link to="admin">

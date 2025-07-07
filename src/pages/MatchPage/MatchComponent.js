@@ -31,6 +31,19 @@ export const KDA = ({ kills, deaths, assists }) => (
   </div>
 );
 
+// Component for rendering summoner name with tagline
+const SummonerNameCell = ({ summonerName, tagLine }) => {
+  return (
+    <div
+      className="mc-summoner-name-container"
+      title={`${summonerName}#${tagLine}`}
+    >
+      <span className="mc-summoner-name">{summonerName}</span>
+      {tagLine && <span className="mc-summoner-tagline">#{tagLine}</span>}
+    </div>
+  );
+};
+
 const BaronDragonTurretBans = ({ win, baron, dragon, turret }) => {
   const baronIcon = win ? baronWinUrl : baronLoseUrl;
   const dragonIcon = win ? dragonWinUrl : dragonLoseUrl;
@@ -141,7 +154,10 @@ const PlayerRow = ({ player, role, totalKills }) => (
     {/* Name, KDA, Position */}
     <div className="player-info">
       <Link to={`/player/${player.identity.player.summonerId}`}>
-        <p className="player-name">{player.identity.player.gameName}</p>
+        <SummonerNameCell
+          summonerName={player.identity.player.gameName}
+          tagLine={player.identity.player.tagLine}
+        />
       </Link>
 
       <KDA
