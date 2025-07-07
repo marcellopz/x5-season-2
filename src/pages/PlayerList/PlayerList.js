@@ -70,8 +70,9 @@ const columns = [
     sortable: true,
     align: "center",
     headerAlign: "center",
-    valueGetter: (params) => floatToPercentageString(params.row.winRate),
+    valueGetter: (params) => params.row.winRate,
     cellClassName: (params) => getWinRateClassName(params.row.winRate),
+    renderCell: (params) => floatToPercentageString(params.row.winRate),
   },
   {
     field: "opgg",
