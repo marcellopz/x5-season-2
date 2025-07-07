@@ -80,6 +80,7 @@
 }
 
 .patch-notes-rank-chip {
+  cursor: pointer;
   margin-left: auto;
   font-size: 0.8rem;
   font-weight: 600;

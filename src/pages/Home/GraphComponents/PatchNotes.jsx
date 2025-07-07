@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Box, Typography, Card, CardContent, Chip } from "@mui/material";
-import { getRankChangeLog } from "../../../services/firebaseDatabase";
+import {
+  getRankChangeLog,
+  getInitialRanks,
+} from "../../../services/firebaseDatabase";
 import "./PatchNotes.css";
+import { Link } from "react-router-dom";
 
 // Function to group changes by date (4 AM to 4 AM in Brazil timezone)
-const groupChangesByDate = (logs) => {
+const groupChangesByDate = (logs, newPlayers = []) => {
   if (!logs) return {};
 
   // Flatten all rank changes into a single array
@@ -16,8 +20,19 @@ const groupChangesByDate = (logs) => {
         allChanges.push({
           ...change,
           changeId,
+          type: "rank_change",
         });
       });
+    });
+  });
+
+  // Add new players to the changes array
+  newPlayers.forEach((player) => {
+    allChanges.push({
+      ...player,
+      changeId: `new_player_${player.name_id}`,
+      type: "new_player",
+      timestamp: player.timestamp,
     });
   });
 
@@ -51,10 +66,18 @@ const groupChangesByDate = (logs) => {
   sortedDates.forEach((date) => {
     const changesForDate = groupedByDate[date];
 
-    // Group changes by player+role combination
+    // Separate new players from rank changes
+    const newPlayerChanges = changesForDate.filter(
+      (change) => change.type === "new_player"
+    );
+    const rankChanges = changesForDate.filter(
+      (change) => change.type === "rank_change"
+    );
+
+    // Group rank changes by player+role combination
     const playerRoleGroups = {};
 
-    changesForDate.forEach((change) => {
+    rankChanges.forEach((change) => {
       const key = `${change.name_id}_${change.role}`;
       if (!playerRoleGroups[key]) {
         playerRoleGroups[key] = [];
@@ -62,8 +85,8 @@ const groupChangesByDate = (logs) => {
       playerRoleGroups[key].push(change);
     });
 
-    // Consolidate changes for each player+role combination
-    const consolidatedChanges = [];
+    // Consolidate rank changes for each player+role combination
+    const consolidatedRankChanges = [];
 
     Object.values(playerRoleGroups).forEach((changes) => {
       // Sort changes by timestamp
@@ -78,7 +101,7 @@ const groupChangesByDate = (logs) => {
       }
 
       // Create consolidated change
-      consolidatedChanges.push({
+      consolidatedRankChanges.push({
         ...firstChange,
         newRank: lastChange.newRank,
         changeId: `${firstChange.changeId}_consolidated`,
@@ -86,8 +109,11 @@ const groupChangesByDate = (logs) => {
       });
     });
 
-    // Sort consolidated changes by timestamp
-    sortedGroupedByDate[date] = consolidatedChanges.sort(
+    // Combine consolidated rank changes with new players
+    const allChangesForDate = [...consolidatedRankChanges, ...newPlayerChanges];
+
+    // Sort all changes by timestamp
+    sortedGroupedByDate[date] = allChangesForDate.sort(
       (a, b) => a.timestamp - b.timestamp
     );
   });
@@ -122,7 +148,11 @@ const PatchNotes = () => {
   useEffect(() => {
     (async () => {
       const logs_ = await getRankChangeLog();
-      const parsed = groupChangesByDate(logs_);
+      const initialRanks_ = await getInitialRanks();
+      const newPlayersData = Object.values(initialRanks_).filter(
+        (p) => !!p.timestamp
+      );
+      const parsed = groupChangesByDate(logs_, newPlayersData);
       setGroupedChanges(parsed);
       setLoading(false);
     })();
@@ -166,36 +196,72 @@ const PatchNotes = () => {
                   </Typography>
                   <Box className="patch-notes-changes-container">
                     {changes.map((change) => {
-                      const rankInfo = getRankChangeInfo(
-                        change.oldRank,
-                        change.newRank
-                      );
-                      return (
-                        <Box
-                          key={change.changeId}
-                          className="patch-notes-change-item"
-                        >
-                          <Chip
-                            label={change.role.toUpperCase()}
-                            size="small"
-                            color="primary"
-                            variant="outlined"
-                            className="patch-notes-role-chip"
-                          />
-                          <Typography
-                            variant="body2"
-                            className="patch-notes-player-name"
+                      if (change.type === "new_player") {
+                        return (
+                          <Box
+                            key={change.changeId}
+                            className="patch-notes-change-item"
                           >
-                            {change.player}
-                          </Typography>
-                          <Chip
-                            label={`${rankInfo.direction} ${change.oldRank} → ${change.newRank}`}
-                            size="small"
-                            color={rankInfo.color}
-                            className="patch-notes-rank-chip"
-                          />
-                        </Box>
-                      );
+                            <Chip
+                              label="NEW"
+                              size="small"
+                              color="success"
+                              variant="filled"
+                              className="patch-notes-role-chip"
+                            />
+                            <Typography
+                              component={Link}
+                              to={`/player/${change.name_id}`}
+                              variant="body2"
+                              className="patch-notes-player-name"
+                            >
+                              {change.name || change.player || change.name_id}
+                            </Typography>
+                            <Chip
+                              component={Link}
+                              to={`/player/${change.name_id}`}
+                              label="Player joined"
+                              size="small"
+                              color="info"
+                              variant="outlined"
+                              className="patch-notes-rank-chip"
+                            />
+                          </Box>
+                        );
+                      } else {
+                        const rankInfo = getRankChangeInfo(
+                          change.oldRank,
+                          change.newRank
+                        );
+                        return (
+                          <Box
+                            key={change.changeId}
+                            className="patch-notes-change-item"
+                          >
+                            <Chip
+                              label={change.role.toUpperCase()}
+                              size="small"
+                              color="primary"
+                              variant="outlined"
+                              className="patch-notes-role-chip"
+                            />
+                            <Typography
+                              component={Link}
+                              to={`/player/${change.name_id}`}
+                              variant="body2"
+                              className="patch-notes-player-name"
+                            >
+                              {change.player}
+                            </Typography>
+                            <Chip
+                              label={`${rankInfo.direction} ${change.oldRank} → ${change.newRank}`}
+                              size="small"
+                              color={rankInfo.color}
+                              className="patch-notes-rank-chip"
+                            />
+                          </Box>
+                        );
+                      }
                     })}
                   </Box>
                 </CardContent>
