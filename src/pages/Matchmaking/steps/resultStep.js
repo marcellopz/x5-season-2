@@ -66,6 +66,69 @@ const getCopyPasteText = (matchups) => {
   return string;
 };
 
+// Function to generate side-flipped version of matches for preset lanes
+const generateSideFlippedMatch = (originalMatch, presetPositions) => {
+  const roles = ["Top", "Jungle", "Mid", "Adc", "Support"];
+  const flippedPairingsRoles = {};
+  const flippedMatchScore = { blue: 0, red: 0 };
+  const flippedPairings = [...originalMatch.pairings];
+
+  // Track which lanes have preset matchups that should be flipped
+  const presetsToFlip = [];
+  roles.forEach((role, roleIndex) => {
+    const preset = presetPositions[role];
+    if (preset && preset[0] !== "" && preset[1] !== "") {
+      presetsToFlip.push(roleIndex);
+    }
+  });
+
+  // If no preset lanes to flip, return null
+  if (presetsToFlip.length === 0) {
+    return null;
+  }
+
+  // Randomly select some preset lanes to flip sides
+  const lanesToFlip = presetsToFlip.filter(() => Math.random() < 0.5);
+
+  // If no lanes are selected for flipping, force at least one to be flipped
+  if (lanesToFlip.length === 0 && presetsToFlip.length > 0) {
+    lanesToFlip.push(
+      presetsToFlip[Math.floor(Math.random() * presetsToFlip.length)]
+    );
+  }
+
+  // Generate the flipped version
+  for (let i = 0; i < 5; i++) {
+    const roleIndex = i;
+    const p0Index = i * 2;
+    const p1Index = i * 2 + 1;
+
+    let p0 = originalMatch.pairings[p0Index];
+    let p1 = originalMatch.pairings[p1Index];
+
+    // If this lane should be flipped, swap the players
+    if (lanesToFlip.includes(roleIndex)) {
+      [p0, p1] = [p1, p0];
+      flippedPairings[p0Index] = p0;
+      flippedPairings[p1Index] = p1;
+    }
+
+    flippedPairingsRoles[roles[i]] = [
+      { name: p0.name, rank: p0.ranks[i] },
+      { name: p1.name, rank: p1.ranks[i] },
+    ];
+
+    flippedMatchScore.blue += p0.ranks[i];
+    flippedMatchScore.red += p1.ranks[i];
+  }
+
+  return {
+    pairingsRoles: flippedPairingsRoles,
+    matchScore: flippedMatchScore,
+    pairings: flippedPairings,
+  };
+};
+
 const ResultComponent = ({ match }) => {
   // Check if the match is using claudeV1 algorithm (has teams property)
   const isClaudeV1 = match.teams !== undefined;
@@ -339,78 +402,151 @@ export default function ResultStep() {
   const [playersToBalance, setPlayersToBalance] = useState(null);
   const [matchups, setMatchups] = useState([]);
   const [copyPastText, setCopyPasteText] = useState("");
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const balance = useCallback(() => {
     if (!playersToBalance) {
       return;
     }
+
+    setIsLoading(true);
+    setError(null);
+    setMatchups([]);
+
     const MAX_TRIES = +algoOptions?.options?.numberOfMatches * 10;
     let matchupsString = [];
     let matchups_ = [];
     let i = 0;
     let a;
     let stringA;
-    if (selectedAlgo === "cheezeV1") {
-      while (i++ < MAX_TRIES) {
-        a = BalanceMatchCheezeV1(playersToBalance);
-        stringA = JSON.stringify(a.pairings);
-        if (matchupsString.includes(stringA)) {
-          continue;
+
+    try {
+      if (selectedAlgo === "cheezeV1") {
+        while (i++ < MAX_TRIES) {
+          a = BalanceMatchCheezeV1(playersToBalance);
+          if (!a || !a.pairings) {
+            continue;
+          }
+          stringA = JSON.stringify(a.pairings);
+          if (matchupsString.includes(stringA)) {
+            continue;
+          }
+          matchupsString.push(stringA);
+          matchups_.push(a);
+          if (matchups_.length === +algoOptions.options.numberOfMatches) {
+            break;
+          }
         }
-        matchupsString.push(stringA);
-        matchups_.push(a);
-        if (matchups_.length === +algoOptions.options.numberOfMatches) {
-          break;
+
+        if (matchups_.length === 0) {
+          setError(
+            "No valid matches could be generated with the current players and settings. Try adjusting your tolerance or player selection."
+          );
+        } else {
+          setMatchups(matchups_);
         }
       }
-      setMatchups(matchups_);
-    }
-    if (selectedAlgo === "cheezeV2") {
-      while (i++ < MAX_TRIES) {
-        a = BalanceMatchCheezeV2(
+
+      if (selectedAlgo === "cheezeV2") {
+        const targetMatches = +algoOptions.options.numberOfMatches;
+        const hasPresetLanes = Object.values(
+          algoOptions.presetPositions || {}
+        ).some((lane) => lane[0] !== "" || lane[1] !== "");
+        const shouldRandomizeSides =
+          algoOptions.randomizeSides && hasPresetLanes;
+
+        while (i++ < MAX_TRIES) {
+          a = BalanceMatchCheezeV2(
+            playersToBalance,
+            algoOptions.options.tolerance,
+            algoOptions.presetPositions
+          );
+          if (a === null) {
+            continue;
+          }
+
+          // If randomizing sides and we have preset lanes, generate side variations
+          if (shouldRandomizeSides) {
+            // Generate original match
+            stringA = JSON.stringify(a.pairings);
+            if (!matchupsString.includes(stringA)) {
+              matchupsString.push(stringA);
+              matchups_.push(a);
+            }
+
+            // Generate side-flipped version
+            const flippedMatch = generateSideFlippedMatch(
+              a,
+              algoOptions.presetPositions
+            );
+            if (flippedMatch) {
+              const flippedStringA = JSON.stringify(flippedMatch.pairings);
+              if (!matchupsString.includes(flippedStringA)) {
+                matchupsString.push(flippedStringA);
+                matchups_.push(flippedMatch);
+              }
+            }
+          } else {
+            // Original behavior - no side randomization
+            stringA = JSON.stringify(a.pairings);
+            if (matchupsString.includes(stringA)) {
+              continue;
+            }
+            matchupsString.push(stringA);
+            matchups_.push(a);
+          }
+
+          if (matchups_.length >= targetMatches) {
+            break;
+          }
+        }
+
+        if (matchups_.length === 0) {
+          setError(
+            "No valid matches could be generated with the current tolerance and preset positions. Try increasing the tolerance or adjusting your preset lane assignments."
+          );
+        } else {
+          setMatchups(matchups_);
+        }
+      }
+
+      if (selectedAlgo === "claudeV1") {
+        // The claudeV1 algorithm now directly returns multiple team compositions
+        const result = BalanceMatchClaudeV1(
           playersToBalance,
-          algoOptions.options.tolerance,
-          algoOptions.presetPositions
+          +algoOptions.options.numberOfMatches
         );
-        if (a === null) {
-          alert("Error");
-          break;
-        }
-        stringA = JSON.stringify(a.pairings);
-        if (matchupsString.includes(stringA)) {
-          continue;
-        }
-        matchupsString.push(stringA);
-        matchups_.push(a);
-        if (matchups_.length === +algoOptions.options.numberOfMatches) {
-          break;
+        if (result === null || !result || result.length === 0) {
+          setError(
+            "No valid team compositions could be generated. Make sure you have an even number of players (minimum 10) and try again."
+          );
+        } else {
+          setMatchups(result);
         }
       }
-      setMatchups(matchups_);
-    }
-    if (selectedAlgo === "claudeV1") {
-      // The claudeV1 algorithm now directly returns multiple team compositions
-      const result = BalanceMatchClaudeV1(
-        playersToBalance,
-        +algoOptions.options.numberOfMatches
+
+      if (selectedAlgo === "grilhaV1") {
+        const result = BalanceMatchGrilhaV1(
+          playersToBalance,
+          +algoOptions.options.numberOfMatches,
+          algoOptions.options.tolerance
+        );
+        if (result === null || !result || result.length === 0) {
+          setError(
+            "No valid matches could be generated with the current tolerance setting. Try increasing the tolerance or adjusting your player selection."
+          );
+        } else {
+          setMatchups(result);
+        }
+      }
+    } catch (err) {
+      console.error("Error generating matches:", err);
+      setError(
+        "An unexpected error occurred while generating matches. Please try again with different settings."
       );
-      if (result === null) {
-        alert("Error");
-      } else {
-        setMatchups(result);
-      }
-    }
-    if (selectedAlgo === "grilhaV1") {
-      const result = BalanceMatchGrilhaV1(
-        playersToBalance,
-        +algoOptions.options.numberOfMatches,
-        algoOptions.options.tolerance
-      );
-      if (result === null) {
-        alert("Error");
-      } else {
-        setMatchups(result);
-      }
+    } finally {
+      setIsLoading(false);
     }
   }, [playersToBalance, algoOptions, selectedAlgo]);
 
@@ -448,7 +584,9 @@ export default function ResultStep() {
   }, [playersToBalance, balance]);
 
   useEffect(() => {
-    setCopyPasteText(getCopyPasteText(matchups));
+    if (matchups && matchups.length > 0) {
+      setCopyPasteText(getCopyPasteText(matchups));
+    }
   }, [matchups]);
 
   return (
@@ -459,20 +597,52 @@ export default function ResultStep() {
             variant="outlined"
             onClick={() => balance(playersToBalance)}
             sx={{ margin: "20px" }}
+            disabled={isLoading}
           >
-            Reroll (rebola)
+            {isLoading ? "Generating..." : "Reroll (rebola)"}
           </Button>
-          <IconButton
-            onClick={() => {
-              navigator.clipboard.writeText(copyPastText);
-            }}
-          >
-            <ContentCopyIcon />
-          </IconButton>
+          {matchups && matchups.length > 0 && (
+            <IconButton
+              onClick={() => {
+                navigator.clipboard.writeText(copyPastText);
+              }}
+            >
+              <ContentCopyIcon />
+            </IconButton>
+          )}
         </div>
       </div>
 
-      {matchups && (
+      {error && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            margin: "20px",
+            padding: "20px",
+            backgroundColor: "rgba(255, 0, 0, 0.1)",
+            border: "1px solid rgba(255, 0, 0, 0.3)",
+            borderRadius: "8px",
+          }}
+        >
+          <div style={{ textAlign: "center", color: "#ff6b6b" }}>
+            <h3>No Matches Found</h3>
+            <p>{error}</p>
+            <p style={{ fontSize: "0.9em", marginTop: "10px" }}>
+              Suggestions:
+              <br />
+              • Try increasing the tolerance value
+              <br />
+              • Remove or adjust preset lane assignments
+              <br />
+              • Select different players
+              <br />• Try a different algorithm
+            </p>
+          </div>
+        </div>
+      )}
+
+      {matchups && matchups.length > 0 && (
         <div
           style={{
             display: "flex",

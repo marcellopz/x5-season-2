@@ -5,10 +5,29 @@
   color: var(--foreground);
 }
 
+/* Title Container with Gear Icon */
+.title-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* margin-bottom: 20px; */
+}
+
 .algorithm-selection-title {
-  margin-bottom: 20px;
   font-size: 1.1rem;
   color: var(--foreground);
+  margin: 0;
+}
+
+.advanced-settings-icon {
+  color: var(--muted-foreground) !important;
+  padding: 4px !important;
+  transition: color 0.2s ease !important;
+}
+
+.advanced-settings-icon:hover {
+  color: var(--primary) !important;
+  background-color: var(--accent) !important;
 }
 
 .algorithm-selection-description {
@@ -18,12 +37,40 @@
   font-size: 0.9rem;
 }
 
+/* Simplified and Advanced Options Containers */
+.simplified-options,
+.advanced-options {
+  margin-top: 0;
+}
+
+.simplified-options {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Algorithm Checkbox Styles */
+.algorithm-checkbox {
+  margin-top: 10px;
+  color: var(--foreground) !important;
+  align-items: center !important;
+}
+
+.algorithm-checkbox .MuiCheckbox-root {
+  color: var(--muted-foreground) !important;
+}
+
+.algorithm-checkbox .MuiCheckbox-root.Mui-checked {
+  color: var(--primary) !important;
+}
+
+.algorithm-checkbox .MuiFormControlLabel-label {
+  white-space: nowrap !important;
+}
+
 .algorithm-fields-wrapper {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  margin-top: 20px;
-  margin-bottom: 20px;
 }
 
 .algorithm-field-container {
@@ -52,6 +99,7 @@
   margin: auto;
   justify-content: flex-end;
   color: var(--foreground);
+  align-items: center;
 }
 
 .lane-vs-label {

@@ -8,7 +8,13 @@ import {
   Select,
   TextField,
   Typography,
+  Checkbox,
+  FormControlLabel,
+  Collapse,
+  IconButton,
+  Box,
 } from "@mui/material";
+import { Settings as SettingsIcon } from "@mui/icons-material";
 import "./algorithmSelectionStep.css";
 
 const formAlgos = {
@@ -82,6 +88,7 @@ const algos = ["", ...Object.keys(formAlgos)];
 
 const getField = (
   field,
+  selectedOptions,
   players,
   values,
   setValues,
@@ -107,7 +114,6 @@ const getField = (
     );
   }
   if (field.type === "preset") {
-    let options = ["", ...players];
     return (
       <div className="preset-field-container">
         <InputLabel className="algorithm-label preset-label">
@@ -119,44 +125,57 @@ const getField = (
           rowSpacing={1}
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
         >
-          {["Top", "Jungle", "Mid", "Adc", "Support"].map((lane) => (
-            <React.Fragment key={lane}>
-              <Grid item xs={3} className="preset-lane-label">
-                <p>{lane}</p>
-              </Grid>
-              <Grid item xs={4}>
-                <Select
-                  className="preset-select"
-                  fullWidth
-                  value={presetPositions[lane][0]}
-                  onChange={(e) => handlePresetChange(e.target.value, lane, 0)}
-                >
-                  {options.map((player) => (
-                    <MenuItem value={player} key={player}>
-                      {player === "" ? "-" : player}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </Grid>
-              <Grid item xs={1} className="lane-vs-label">
-                <p>vs</p>
-              </Grid>
-              <Grid item xs={4}>
-                <Select
-                  className="preset-select"
-                  fullWidth
-                  value={presetPositions[lane][1]}
-                  onChange={(e) => handlePresetChange(e.target.value, lane, 1)}
-                >
-                  {options.map((player) => (
-                    <MenuItem value={player} key={player}>
-                      {player === "" ? "-" : player}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </Grid>
-            </React.Fragment>
-          ))}
+          {["Top", "Jungle", "Mid", "Adc", "Support"].map((lane, laneIndex) => {
+            const laneProps = ["top", "jungle", "mid", "adc", "support"];
+            const laneProp = laneProps[laneIndex];
+
+            return (
+              <React.Fragment key={lane}>
+                <Grid item xs={3} className="preset-lane-label">
+                  <p>{lane}</p>
+                </Grid>
+                <Grid item xs={4}>
+                  <Select
+                    className="preset-select"
+                    fullWidth
+                    value={presetPositions[lane][0]}
+                    onChange={(e) =>
+                      handlePresetChange(e.target.value, lane, 0)
+                    }
+                  >
+                    {["", ...selectedOptions].map((player) => (
+                      <MenuItem value={player} key={player}>
+                        {player === ""
+                          ? "-"
+                          : `${players[player]?.name} (${players[player]?.[laneProp]})`}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </Grid>
+                <Grid item xs={1} className="lane-vs-label">
+                  <p>vs</p>
+                </Grid>
+                <Grid item xs={4}>
+                  <Select
+                    className="preset-select"
+                    fullWidth
+                    value={presetPositions[lane][1]}
+                    onChange={(e) =>
+                      handlePresetChange(e.target.value, lane, 1)
+                    }
+                  >
+                    {["", ...selectedOptions].map((player) => (
+                      <MenuItem value={player} key={player}>
+                        {player === ""
+                          ? "-"
+                          : `${players[player]?.name} (${players[player]?.[laneProp]})`}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </Grid>
+              </React.Fragment>
+            );
+          })}
         </Grid>
       </div>
     );
@@ -164,12 +183,15 @@ const getField = (
 };
 
 export default function AlgorithmSelectionStep({ setIsOk }) {
-  const [error, setError] = useState(
-    "Choose an algorithm for balancing the match"
-  );
+  const [error, setError] = useState("");
   const [values, setValues] = useState({ numberOfMatches: 5, tolerance: 1 });
-  const { selectedOptions, selectedAlgo, setSelectedAlgo, setAlgoOptions } =
-    useContext(MatchMakingContext);
+  const {
+    selectedOptions,
+    selectedAlgo,
+    setSelectedAlgo,
+    setAlgoOptions,
+    players,
+  } = useContext(MatchMakingContext);
   const [presetPositions, setPresetPositions] = useState({
     Top: ["", ""],
     Jungle: ["", ""],
@@ -177,6 +199,12 @@ export default function AlgorithmSelectionStep({ setIsOk }) {
     Adc: ["", ""],
     Support: ["", ""],
   });
+
+  // New state for simplified interface
+  const [showAdvanced, setShowAdvanced] = useState(false);
+  const [useRoleBalancing, setUseRoleBalancing] = useState(true);
+  const [usePresetLanes, setUsePresetLanes] = useState(false);
+  const [randomizeSides, setRandomizeSides] = useState(true);
 
   const MAX_NUMBER_OF_MATCHES = 15;
 
@@ -192,8 +220,23 @@ export default function AlgorithmSelectionStep({ setIsOk }) {
     }));
   };
 
+  // Auto-select algorithm based on simplified settings
   useEffect(() => {
-    setAlgoOptions({ options: values, presetPositions });
+    if (!showAdvanced) {
+      if (useRoleBalancing) {
+        if (usePresetLanes) {
+          setSelectedAlgo("cheezeV2");
+        } else {
+          setSelectedAlgo("grilhaV1");
+        }
+      } else {
+        setSelectedAlgo("claudeV1");
+      }
+    }
+  }, [showAdvanced, useRoleBalancing, usePresetLanes, setSelectedAlgo]);
+
+  useEffect(() => {
+    setAlgoOptions({ options: values, presetPositions, randomizeSides });
     switch (selectedAlgo) {
       case "cheezeV1":
         if (!(+values.numberOfMatches > 0)) {
@@ -279,76 +322,345 @@ export default function AlgorithmSelectionStep({ setIsOk }) {
     values,
     setAlgoOptions,
     MAX_NUMBER_OF_MATCHES,
+    randomizeSides,
   ]);
 
   useEffect(() => {
     setIsOk(!error);
   }, [error, setIsOk]);
 
+  // Reset preset positions when usePresetLanes is turned off
+  useEffect(() => {
+    if (!usePresetLanes) {
+      setPresetPositions({
+        Top: ["", ""],
+        Jungle: ["", ""],
+        Mid: ["", ""],
+        Adc: ["", ""],
+        Support: ["", ""],
+      });
+    }
+  }, [usePresetLanes]);
+
   return (
     <div className="algorithm-selection-form">
-      <Typography className="algorithm-selection-title">
-        Select the matchmaking algorithm
-      </Typography>
-      <InputLabel id="algo-select" className="algorithm-label">
-        Algorithm
-      </InputLabel>
-      <Select
-        labelId="algo-select"
-        value={selectedAlgo}
-        label="Algorithm"
-        onChange={handleAlgoSelect}
-        placeholder="Algorithm"
-        className="algorithm-select"
-        fullWidth
-      >
-        {algos.map((algo) => (
-          <MenuItem value={algo} key={algo}>
-            <ListItemText
-              primary={formAlgos[algo]?.label ?? "-"}
-              secondary={formAlgos[algo]?.description ?? ""}
-            />
-          </MenuItem>
-        ))}
-      </Select>
-      {selectedAlgo && (
-        <Typography className="algorithm-selection-description">
-          {formAlgos[selectedAlgo].description}
+      <Box className="title-container">
+        <Typography className="algorithm-selection-title">
+          Matchmaking Options
         </Typography>
-      )}
-      {selectedAlgo && (
-        <div className="algorithm-fields-wrapper">
-          {formAlgos[selectedAlgo].fields
-            .filter((field) => field.type === "number")
-            .map((selected) => (
-              <React.Fragment key={selected.label ?? selected.id}>
-                {getField(
-                  selected,
-                  selectedOptions,
-                  values,
-                  setValues,
-                  presetPositions,
-                  handlePresetChange
-                )}
-              </React.Fragment>
+        <IconButton
+          onClick={() => setShowAdvanced(!showAdvanced)}
+          className="advanced-settings-icon"
+          size="small"
+        >
+          <SettingsIcon />
+        </IconButton>
+      </Box>
+
+      <Collapse in={showAdvanced}>
+        <div className="advanced-options">
+          <Typography className="algorithm-selection-title">
+            Select the matchmaking algorithm
+          </Typography>
+          <InputLabel id="algo-select" className="algorithm-label">
+            Algorithm
+          </InputLabel>
+          <Select
+            labelId="algo-select"
+            value={selectedAlgo}
+            label="Algorithm"
+            onChange={handleAlgoSelect}
+            placeholder="Algorithm"
+            className="algorithm-select"
+            fullWidth
+          >
+            {algos.map((algo) => (
+              <MenuItem value={algo} key={algo}>
+                <ListItemText
+                  primary={formAlgos[algo]?.label ?? "-"}
+                  secondary={formAlgos[algo]?.description ?? ""}
+                />
+              </MenuItem>
             ))}
+          </Select>
+          {selectedAlgo && (
+            <Typography className="algorithm-selection-description">
+              {formAlgos[selectedAlgo].description}
+            </Typography>
+          )}
+          {selectedAlgo && (
+            <div className="algorithm-fields-wrapper">
+              {formAlgos[selectedAlgo].fields
+                .filter((field) => field.type === "number")
+                .map((selected) => (
+                  <React.Fragment key={selected.label ?? selected.id}>
+                    {getField(
+                      selected,
+                      selectedOptions,
+                      players,
+                      values,
+                      setValues,
+                      presetPositions,
+                      handlePresetChange
+                    )}
+                  </React.Fragment>
+                ))}
+            </div>
+          )}
+          {selectedAlgo &&
+            formAlgos[selectedAlgo].fields
+              .filter((field) => field.type === "preset")
+              .map((selected) => (
+                <React.Fragment key={selected.label ?? selected.id}>
+                  {getField(
+                    selected,
+                    selectedOptions,
+                    players,
+                    values,
+                    setValues,
+                    presetPositions,
+                    handlePresetChange
+                  )}
+                </React.Fragment>
+              ))}
+
+          {/* Randomize sides checkbox for advanced options - only shown when preset lanes are configured */}
+          {selectedAlgo &&
+            formAlgos[selectedAlgo].fields.some(
+              (field) => field.type === "preset"
+            ) && (
+              <div
+                className="algorithm-field-container"
+                style={{ marginTop: "20px" }}
+              >
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={randomizeSides}
+                      onChange={(e) => setRandomizeSides(e.target.checked)}
+                    />
+                  }
+                  label="Randomize sides"
+                  className="algorithm-checkbox"
+                  sx={{
+                    "& .MuiFormControlLabel-label": {
+                      color: "primary.dark",
+                    },
+                  }}
+                />
+              </div>
+            )}
         </div>
-      )}
-      {selectedAlgo &&
-        formAlgos[selectedAlgo].fields
-          .filter((field) => field.type === "preset")
-          .map((selected) => (
-            <React.Fragment key={selected.label ?? selected.id}>
-              {getField(
-                selected,
-                selectedOptions,
-                values,
-                setValues,
-                presetPositions,
-                handlePresetChange
+      </Collapse>
+
+      <Collapse in={!showAdvanced}>
+        <div className="simplified-options">
+          {/* Use role balancing checkbox */}
+          <div className="algorithm-field-container">
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={useRoleBalancing}
+                  onChange={(e) => setUseRoleBalancing(e.target.checked)}
+                />
+              }
+              label="Use role balancing"
+              className="algorithm-checkbox"
+              sx={{
+                "& .MuiFormControlLabel-label": {
+                  color: "primary.dark",
+                },
+              }}
+            />
+          </div>
+
+          {/* Options only shown when role balancing is on */}
+          {useRoleBalancing && (
+            <>
+              {/* Tolerance and Number of options side by side */}
+              <div className="algorithm-fields-wrapper">
+                <div className="algorithm-field-container">
+                  <InputLabel className="algorithm-label">
+                    Number of options
+                  </InputLabel>
+                  <TextField
+                    type="number"
+                    value={values.numberOfMatches ?? ""}
+                    onChange={(e) =>
+                      setValues((prev) => ({
+                        ...prev,
+                        numberOfMatches: e.target.value,
+                      }))
+                    }
+                    className="algorithm-text-field"
+                    inputProps={{ min: 0 }}
+                    size="small"
+                    fullWidth
+                  />
+                </div>
+
+                <div className="algorithm-field-container">
+                  <InputLabel className="algorithm-label">Tolerance</InputLabel>
+                  <TextField
+                    type="number"
+                    value={values.tolerance ?? ""}
+                    onChange={(e) =>
+                      setValues((prev) => ({
+                        ...prev,
+                        tolerance: e.target.value,
+                      }))
+                    }
+                    className="algorithm-text-field"
+                    inputProps={{ min: 0 }}
+                    size="small"
+                    fullWidth
+                  />
+                </div>
+              </div>
+
+              {/* Pre-set lanes checkbox */}
+              <div className="algorithm-field-container">
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={usePresetLanes}
+                      onChange={(e) => setUsePresetLanes(e.target.checked)}
+                    />
+                  }
+                  label="Use pre-set lanes"
+                  className="algorithm-checkbox"
+                  sx={{
+                    "& .MuiFormControlLabel-label": {
+                      color: "primary.dark",
+                    },
+                  }}
+                />
+              </div>
+
+              {/* Pre-set lanes configuration */}
+              {usePresetLanes && (
+                <div className="preset-field-container">
+                  <InputLabel className="algorithm-label preset-label">
+                    Pre-set lanes
+                  </InputLabel>
+                  <Grid
+                    className="preset-lanes-container"
+                    container
+                    rowSpacing={1}
+                    columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+                  >
+                    {["Top", "Jungle", "Mid", "Adc", "Support"].map(
+                      (lane, laneIndex) => {
+                        const laneProps = [
+                          "top",
+                          "jungle",
+                          "mid",
+                          "adc",
+                          "support",
+                        ];
+                        const laneProp = laneProps[laneIndex];
+
+                        return (
+                          <React.Fragment key={lane}>
+                            <Grid item xs={3} className="preset-lane-label">
+                              <p>{lane}</p>
+                            </Grid>
+                            <Grid item xs={4}>
+                              <Select
+                                className="preset-select"
+                                fullWidth
+                                value={presetPositions[lane][0]}
+                                onChange={(e) =>
+                                  handlePresetChange(e.target.value, lane, 0)
+                                }
+                              >
+                                {["", ...selectedOptions].map((player) => (
+                                  <MenuItem value={player} key={player}>
+                                    {player === ""
+                                      ? "-"
+                                      : `${players[player]?.name} (${players[player]?.[laneProp]})`}
+                                  </MenuItem>
+                                ))}
+                              </Select>
+                            </Grid>
+                            <Grid item xs={1} className="lane-vs-label">
+                              <p>vs</p>
+                            </Grid>
+                            <Grid item xs={4}>
+                              <Select
+                                className="preset-select"
+                                fullWidth
+                                value={presetPositions[lane][1]}
+                                onChange={(e) =>
+                                  handlePresetChange(e.target.value, lane, 1)
+                                }
+                              >
+                                {["", ...selectedOptions].map((player) => (
+                                  <MenuItem value={player} key={player}>
+                                    {player === ""
+                                      ? "-"
+                                      : `${players[player]?.name} (${players[player]?.[laneProp]})`}
+                                  </MenuItem>
+                                ))}
+                              </Select>
+                            </Grid>
+                          </React.Fragment>
+                        );
+                      }
+                    )}
+                  </Grid>
+
+                  {/* Randomize sides checkbox - positioned after preset lanes configuration */}
+                  <div
+                    className="algorithm-field-container"
+                    style={{ marginTop: "20px" }}
+                  >
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={randomizeSides}
+                          onChange={(e) => setRandomizeSides(e.target.checked)}
+                        />
+                      }
+                      label="Randomize sides"
+                      className="algorithm-checkbox"
+                      sx={{
+                        "& .MuiFormControlLabel-label": {
+                          color: "primary.dark",
+                        },
+                      }}
+                    />
+                  </div>
+                </div>
               )}
-            </React.Fragment>
-          ))}
+            </>
+          )}
+
+          {/* Number of options - shown when role balancing is off */}
+          {!useRoleBalancing && (
+            <div className="algorithm-field-container">
+              <InputLabel className="algorithm-label">
+                Number of options
+              </InputLabel>
+              <TextField
+                type="number"
+                value={values.numberOfMatches ?? ""}
+                onChange={(e) =>
+                  setValues((prev) => ({
+                    ...prev,
+                    numberOfMatches: e.target.value,
+                  }))
+                }
+                className="algorithm-text-field"
+                inputProps={{ min: 0 }}
+                size="small"
+                fullWidth
+              />
+            </div>
+          )}
+        </div>
+      </Collapse>
+
       {error && <Typography className="error-message">{error}</Typography>}
     </div>
   );
