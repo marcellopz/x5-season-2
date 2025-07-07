@@ -48,6 +48,7 @@ export default function AddPlayerDialog({ open, onClose }) {
       await addPlayerPhoto(photoB64, fields.name.toLocaleLowerCase());
     }
   };
+
   return (
     <Dialog
       onClose={() => {

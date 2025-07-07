@@ -149,7 +149,7 @@ export async function setInitialRank(player) {
       dbRef,
       `player-initial-ranks/${player.name_id ?? player.name.toLowerCase()}`
     ),
-    player
+    { ...player, timestamp: Date.now() }
   );
 }
 
