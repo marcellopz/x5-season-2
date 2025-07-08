@@ -205,7 +205,6 @@ const PatchNotes = () => {
                             <Chip
                               label="NEW"
                               size="small"
-                              color="success"
                               variant="filled"
                               className="patch-notes-role-chip"
                             />
@@ -222,9 +221,11 @@ const PatchNotes = () => {
                               to={`/player/${change.name_id}`}
                               label="Player joined"
                               size="small"
-                              color="info"
-                              variant="outlined"
+                              variant="filled"
                               className="patch-notes-rank-chip"
+                              sx={{
+                                cursor: "pointer",
+                              }}
                             />
                           </Box>
                         );
@@ -241,8 +242,7 @@ const PatchNotes = () => {
                             <Chip
                               label={change.role.toUpperCase()}
                               size="small"
-                              color="primary"
-                              variant="outlined"
+                              variant="filled"
                               className="patch-notes-role-chip"
                             />
                             <Typography
