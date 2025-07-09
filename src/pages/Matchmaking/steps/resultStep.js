@@ -77,7 +77,7 @@ const generateSideFlippedMatch = (originalMatch, presetPositions) => {
   const presetsToFlip = [];
   roles.forEach((role, roleIndex) => {
     const preset = presetPositions[role];
-    if (preset && preset[0] !== "" && preset[1] !== "") {
+    if (preset && (preset[0] !== "" || preset[1] !== "")) {
       presetsToFlip.push(roleIndex);
     }
   });
