@@ -142,6 +142,7 @@ export const championIds = {
   221: "Zeri",
   222: "Jinx",
   223: "TahmKench",
+  233: "Briar",
   234: "Viego",
   235: "Senna",
   236: "Lucian",

@@ -131,7 +131,10 @@ export default function processDataAll(matches) {
     gameDurationHistogram[intervalLabel] =
       (gameDurationHistogram[intervalLabel] || 0) + 1;
 
+    // console.log(champions);
+
     match.participants.forEach((p) => {
+      console.log(p);
       champions[p.championId].picks += 1;
       champions[p.championId].wins += p.stats.win;
       champions[p.championId].kills += p.stats.kills;
