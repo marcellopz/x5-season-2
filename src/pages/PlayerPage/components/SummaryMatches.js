@@ -1,7 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import PersonalMatch from "./PersonalMatch";
-import { getMatchRoles } from "../../../services/firebaseDatabase";
+import {
+  getMatchRoles,
+  getRankChangeLog,
+} from "../../../services/firebaseDatabase";
 import "./SummaryMatches.css";
+import { useParams } from "react-router-dom";
 
 export default function SummaryMatches({
   games,
@@ -9,9 +13,60 @@ export default function SummaryMatches({
   setFilteredRole,
 }) {
   const [allMatchRoles, setAllMatchRoles] = useState({});
+  const [allRankChangeLog, setAllRankChangeLog] = useState({});
+  const { player } = useParams();
+  console.log({
+    games,
+    filteredRole,
+    allMatchRoles,
+    allRankChangeLog,
+    player,
+  });
+
+  const filteredEntries = useMemo(() => {
+    const changeLog = Object.values(
+      allRankChangeLog[player]?.[filteredRole] ?? {}
+    );
+    console.log(changeLog);
+
+    // Filter games based on role
+    const filteredGames = Object.entries(games)
+      .filter(([gameId, game]) => {
+        if (filteredRole) {
+          return (
+            allMatchRoles[gameId]?.[game.summonerId]?.toLowerCase() ===
+            filteredRole.toLowerCase()
+          );
+        }
+        return true;
+      })
+      .map(([gameId, game]) => ({
+        type: "game",
+        gameId,
+        game,
+        timestamp: new Date(game.date).getTime(),
+      }));
+
+    // Add rank changes if filtering by role
+    const rankChanges = filteredRole
+      ? changeLog.map((change) => ({
+          type: "rank_change",
+          change,
+          timestamp: change.timestamp,
+        }))
+      : [];
+
+    // Combine and sort by timestamp (newest first)
+    const combinedEntries = [...filteredGames, ...rankChanges].sort(
+      (a, b) => b.timestamp - a.timestamp
+    );
+
+    return combinedEntries;
+  }, [games, allMatchRoles, filteredRole, allRankChangeLog, player]);
 
   useEffect(() => {
-    getMatchRoles().then((r) => setAllMatchRoles(r));
+    getRankChangeLog().then(setAllRankChangeLog);
+    getMatchRoles().then(setAllMatchRoles);
     return () => {};
   }, []);
 
@@ -29,26 +84,37 @@ export default function SummaryMatches({
           </button>
         </div>
       )}
-      {Object.entries(games)
-        .reverse()
-        .filter(([gameId, game]) => {
-          if (filteredRole) {
-            return (
-              allMatchRoles[gameId]?.[game.summonerId]?.toLowerCase() ===
-              filteredRole.toLowerCase()
-            );
-          }
-          return true;
-        })
-        .map(([gameId, game], i) => (
-          <div key={i} style={{ marginTop: "15px" }}>
+      {filteredEntries.map((entry, index) => {
+        if (entry.type === "game") {
+          return (
             <PersonalMatch
-              game={game}
-              gameId={gameId}
-              matchRoles={allMatchRoles[gameId] ?? {}}
+              key={entry.gameId}
+              game={entry.game}
+              gameId={entry.gameId}
+              matchRoles={allMatchRoles[entry.gameId] ?? {}}
             />
-          </div>
-        ))}
+          );
+        } else if (entry.type === "rank_change") {
+          return (
+            <div
+              key={`rank-change-${entry.change.timestamp}`}
+              className="pm-filtered-role"
+            >
+              <div>
+                <span>Rank Change: </span>
+                <span className="pm-filtered-role-name">
+                  {entry.change.role} {entry.change.oldRank} →{" "}
+                  {entry.change.newRank}
+                </span>
+              </div>
+              <span style={{ fontSize: "0.8em", opacity: 0.7 }}>
+                {new Date(entry.change.timestamp).toLocaleString()}
+              </span>
+            </div>
+          );
+        }
+        return null;
+      })}
     </div>
   );
 }

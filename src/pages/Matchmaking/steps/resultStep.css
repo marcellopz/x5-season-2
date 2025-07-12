@@ -154,14 +154,12 @@
 }
 
 .mm-rs-textfield {
-  margin: 10px;
-  min-width: 400px;
+  margin: 10px !important;
+  min-width: 400px !important;
   color: gray;
   height: inherit;
 }
 
 .mm-rs-textfield-input {
-  font-family: "Lucida Console", "Courier New", monospace;
-  height: -webkit-fill-available;
-  justify-content: start;
+  font-family: "Lucida Console", "Courier New", monospace !important;
 }
