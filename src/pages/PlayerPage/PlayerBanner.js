@@ -117,7 +117,11 @@ function PlayerBanner({
         <Tabs
           onChange={(e, v) => setSelectedTab(v)}
           value={selectedTab}
-          textColor="primary.light"
+          sx={{
+            "& button": {
+              color: "primary.light",
+            },
+          }}
         >
           <Tab label="Summary" value={0} />
           <Tab label="Champions" value={1} />

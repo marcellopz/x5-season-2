@@ -13,8 +13,9 @@ import {
   Collapse,
   IconButton,
   Box,
+  InputAdornment,
 } from "@mui/material";
-import { Settings as SettingsIcon } from "@mui/icons-material";
+import { Settings as SettingsIcon, Add, Remove } from "@mui/icons-material";
 import "./algorithmSelectionStep.css";
 
 const formAlgos = {
@@ -93,9 +94,17 @@ const getField = (
   values,
   setValues,
   presetPositions,
-  handlePresetChange
+  handlePresetChange,
+  handleToleranceIncrement,
+  handleToleranceDecrement,
+  handleNumberOfMatchesIncrement,
+  handleNumberOfMatchesDecrement
 ) => {
   if (field.type === "number") {
+    const isToleranceField = field.id === "tolerance";
+    const isNumberOfMatchesField = field.id === "numberOfMatches";
+    const hasButtons = isToleranceField || isNumberOfMatchesField;
+
     return (
       <div className="algorithm-field-container">
         <InputLabel className="algorithm-label">{field.label}</InputLabel>
@@ -106,9 +115,45 @@ const getField = (
             setValues((prev) => ({ ...prev, [field.id]: e.target.value }))
           }
           className="algorithm-text-field"
-          inputProps={{ min: 0 }}
+          inputProps={{ min: isNumberOfMatchesField ? 1 : 0, step: 1 }}
           size="small"
           fullWidth
+          InputProps={
+            hasButtons
+              ? {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <IconButton
+                        onClick={
+                          isToleranceField
+                            ? handleToleranceDecrement
+                            : handleNumberOfMatchesDecrement
+                        }
+                        size="small"
+                        edge="start"
+                      >
+                        <Remove />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={
+                          isToleranceField
+                            ? handleToleranceIncrement
+                            : handleNumberOfMatchesIncrement
+                        }
+                        size="small"
+                        edge="end"
+                      >
+                        <Add />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }
+              : undefined
+          }
         />
       </div>
     );
@@ -217,6 +262,34 @@ export default function AlgorithmSelectionStep({ setIsOk }) {
       ...prev,
       [position]:
         side === 0 ? [value, prev[position][1]] : [prev[position][0], value],
+    }));
+  };
+
+  const handleToleranceIncrement = () => {
+    setValues((prev) => ({
+      ...prev,
+      tolerance: Math.max(0, (parseFloat(prev.tolerance) || 0) + 1),
+    }));
+  };
+
+  const handleToleranceDecrement = () => {
+    setValues((prev) => ({
+      ...prev,
+      tolerance: Math.max(0, (parseFloat(prev.tolerance) || 0) - 1),
+    }));
+  };
+
+  const handleNumberOfMatchesIncrement = () => {
+    setValues((prev) => ({
+      ...prev,
+      numberOfMatches: Math.max(1, (parseFloat(prev.numberOfMatches) || 0) + 1),
+    }));
+  };
+
+  const handleNumberOfMatchesDecrement = () => {
+    setValues((prev) => ({
+      ...prev,
+      numberOfMatches: Math.max(1, (parseFloat(prev.numberOfMatches) || 0) - 1),
     }));
   };
 
@@ -401,7 +474,11 @@ export default function AlgorithmSelectionStep({ setIsOk }) {
                       values,
                       setValues,
                       presetPositions,
-                      handlePresetChange
+                      handlePresetChange,
+                      handleToleranceIncrement,
+                      handleToleranceDecrement,
+                      handleNumberOfMatchesIncrement,
+                      handleNumberOfMatchesDecrement
                     )}
                   </React.Fragment>
                 ))}
@@ -419,7 +496,11 @@ export default function AlgorithmSelectionStep({ setIsOk }) {
                     values,
                     setValues,
                     presetPositions,
-                    handlePresetChange
+                    handlePresetChange,
+                    handleToleranceIncrement,
+                    handleToleranceDecrement,
+                    handleNumberOfMatchesIncrement,
+                    handleNumberOfMatchesDecrement
                   )}
                 </React.Fragment>
               ))}
@@ -493,9 +574,33 @@ export default function AlgorithmSelectionStep({ setIsOk }) {
                       }))
                     }
                     className="algorithm-text-field"
-                    inputProps={{ min: 0 }}
+                    inputProps={{ min: 1, step: 1 }}
                     size="small"
                     fullWidth
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <IconButton
+                            onClick={handleNumberOfMatchesDecrement}
+                            size="small"
+                            edge="start"
+                          >
+                            <Remove />
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            onClick={handleNumberOfMatchesIncrement}
+                            size="small"
+                            edge="end"
+                          >
+                            <Add />
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
                   />
                 </div>
 
@@ -511,9 +616,33 @@ export default function AlgorithmSelectionStep({ setIsOk }) {
                       }))
                     }
                     className="algorithm-text-field"
-                    inputProps={{ min: 0 }}
+                    inputProps={{ min: 0, step: 1 }}
                     size="small"
                     fullWidth
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <IconButton
+                            onClick={handleToleranceDecrement}
+                            size="small"
+                            edge="start"
+                          >
+                            <Remove />
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            onClick={handleToleranceIncrement}
+                            size="small"
+                            edge="end"
+                          >
+                            <Add />
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
                   />
                 </div>
               </div>
@@ -652,9 +781,33 @@ export default function AlgorithmSelectionStep({ setIsOk }) {
                   }))
                 }
                 className="algorithm-text-field"
-                inputProps={{ min: 0 }}
+                inputProps={{ min: 1, step: 1 }}
                 size="small"
                 fullWidth
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <IconButton
+                        onClick={handleNumberOfMatchesDecrement}
+                        size="small"
+                        edge="start"
+                      >
+                        <Remove />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={handleNumberOfMatchesIncrement}
+                        size="small"
+                        edge="end"
+                      >
+                        <Add />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
             </div>
           )}

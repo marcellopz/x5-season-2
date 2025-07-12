@@ -1,0 +1,167 @@
+/* Result Step Component Styles */
+.mm-rs-container {
+  height: fit-content;
+}
+
+.mm-rs-list {
+  margin: 10px;
+  list-style: none;
+  padding: 0;
+}
+
+.mm-rs-list-item {
+  display: flex;
+  padding: 5px;
+}
+
+.mm-rs-list-item-even {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.mm-rs-list-item-odd {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.mm-rs-role-label {
+  width: 50px;
+  text-align: end;
+  margin-right: 10px;
+}
+
+.mm-rs-player-name {
+  width: 100px;
+  text-align: end;
+  margin-right: 5px;
+}
+
+.mm-rs-player-rank {
+  margin-right: 10px;
+  width: 20px;
+}
+
+.mm-rs-player-rank-claude {
+  margin-right: 10px;
+  width: 32px;
+}
+
+.mm-rs-vs-divider {
+  margin-left: 10px;
+}
+
+.mm-rs-opponent-name {
+  width: 100px;
+  margin-left: 5px;
+}
+
+.mm-rs-scores-item {
+  display: flex;
+  padding: 5px 10px;
+  margin-top: 10px;
+}
+
+.mm-rs-scores-label {
+  width: 50px;
+  text-align: end;
+  margin-right: 10px;
+}
+
+.mm-rs-blue-score {
+  width: 130px;
+  text-align: end;
+  margin-right: 10px;
+}
+
+.mm-rs-red-score {
+  width: 130px;
+  margin-left: 10px;
+}
+
+.mm-rs-total-item {
+  display: flex;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.mm-rs-total-label {
+  width: 50px;
+  text-align: end;
+  margin-right: 10px;
+}
+
+.mm-rs-total-value {
+  width: 290px;
+  text-align: center;
+}
+
+.mm-rs-diff-item {
+  display: flex;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.mm-rs-diff-label {
+  width: 50px;
+  text-align: end;
+  margin-right: 10px;
+}
+
+.mm-rs-diff-value {
+  width: 290px;
+  text-align: center;
+}
+
+.mm-rs-main-controls {
+  display: flex;
+}
+
+.mm-rs-controls-container {
+  margin: 20px auto;
+}
+
+.mm-rs-reroll-button {
+  margin: 20px;
+}
+
+.mm-rs-error-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+  padding: 20px;
+  background-color: rgba(255, 0, 0, 0.1);
+  border: 1px solid rgba(255, 0, 0, 0.3);
+  border-radius: 8px;
+}
+
+.mm-rs-error-content {
+  text-align: center;
+  color: #ff6b6b;
+}
+
+.mm-rs-error-suggestions {
+  font-size: 0.9em;
+  margin-top: 10px;
+}
+
+.mm-rs-results-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.mm-rs-results-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.mm-rs-textfield {
+  margin: 10px;
+  min-width: 400px;
+  color: gray;
+  height: inherit;
+}
+
+.mm-rs-textfield-input {
+  font-family: "Lucida Console", "Courier New", monospace;
+  height: -webkit-fill-available;
+  justify-content: start;
+}
