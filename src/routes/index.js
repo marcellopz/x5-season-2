@@ -1,13 +1,13 @@
 import React, { useContext } from "react";
 import { AuthContext } from "../contexts/authContext";
 import { Navigate, Outlet } from "react-router-dom";
-import { NavbarProvider } from "../contexts/navbarContext";
+import Navbar from "../contexts/navbar/Navbar";
 
 export default function PrivateRoutes() {
   const { signed, loading } = useContext(AuthContext);
 
   if (loading) {
-    return <div>loading123</div>;
+    return <div>loading</div>;
   }
 
   return signed ? <Outlet /> : <Navigate to="auth/login" />;
@@ -15,8 +15,8 @@ export default function PrivateRoutes() {
 
 export function NavbarRoutes() {
   return (
-    <NavbarProvider>
+    <Navbar>
       <Outlet />
-    </NavbarProvider>
+    </Navbar>
   );
 }

@@ -78,7 +78,7 @@
 }
 
 .navbar-mobile-controls {
-  display: flex;
+  display: none;
   align-items: center;
   height: 100%;
   padding-right: 5px;
@@ -87,6 +87,29 @@
 
 .navbar-mobile-button {
   margin-left: 10px;
+}
+
+.navbar-desktop-controls {
+  display: flex;
+}
+
+.navbar-desktop-item {
+  display: flex;
+}
+
+/* Responsive styles */
+@media (max-width: 1200px) {
+  .navbar-desktop-item {
+    display: none;
+  }
+
+  .navbar-desktop-controls {
+    display: none;
+  }
+
+  .navbar-mobile-controls {
+    display: flex;
+  }
 }
 
 @media (max-width: 768px) {

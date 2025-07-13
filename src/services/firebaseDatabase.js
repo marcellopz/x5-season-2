@@ -173,12 +173,6 @@ export async function addRankChangeLog(name_id, log) {
   );
 }
 
-export async function getPlayerRankChangeLog(name_id) {
-  const re = await get(child(dbRef, `player-rank-change-log/${name_id}`));
-  const logs = await re.val();
-  return logs;
-}
-
 export async function addPlayerPhoto(photo, name) {
   await set(child(dbRef, `player-data/${name}/photo`), photo);
 }
