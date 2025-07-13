@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { memo, useContext, useEffect, useState } from "react";
 import { AuthContext } from "../authContext";
 import RequestButton from "./RequestButton";
 import { requestToBeANerd } from "../../services/firebaseDatabase";
@@ -17,7 +17,7 @@ const navbarItems = [
   { label: "game stats", url: "/gamestats" },
 ];
 
-function Navbar({ children }) {
+function Navbar() {
   const {
     userObj,
     signOut,
@@ -189,9 +189,8 @@ function Navbar({ children }) {
           </div>
         </div>
       </nav>
-      {children}
     </>
   );
 }
 
-export default Navbar;
+export default memo(Navbar);

@@ -15,8 +15,9 @@ export default function PrivateRoutes() {
 
 export function NavbarRoutes() {
   return (
-    <Navbar>
+    <>
+      <Navbar />
       <Outlet />
-    </Navbar>
+    </>
   );
 }
