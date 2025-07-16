@@ -17,19 +17,12 @@ export default function SummaryMatches({
   const [allMatchRoles, setAllMatchRoles] = useState({});
   const [allRankChangeLog, setAllRankChangeLog] = useState({});
   const { player } = useParams();
-  console.log({
-    games,
-    filteredRole,
-    allMatchRoles,
-    allRankChangeLog,
-    player,
-  });
+  const { t } = useTranslation();
 
   const filteredEntries = useMemo(() => {
     const changeLog = Object.values(
       allRankChangeLog[player]?.[filteredRole] ?? {}
     );
-    console.log(changeLog);
 
     // Filter games based on role
     const filteredGames = Object.entries(games)

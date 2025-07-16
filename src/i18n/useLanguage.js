@@ -4,13 +4,7 @@ export const useLanguage = () => {
   const { i18n } = useTranslation();
 
   const changeLanguage = (lng) => {
-    console.log(`Changing language to: ${lng}`);
-    i18n.changeLanguage(lng).then(() => {
-      console.log(
-        `Language changed successfully. Current language: ${i18n.language}`
-      );
-      console.log(`localStorage value: ${localStorage.getItem("i18nextLng")}`);
-    });
+    i18n.changeLanguage(lng);
   };
 
   const getCurrentLanguage = () => {
