@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import PersonalMatch from "./PersonalMatch";
 import {
   getMatchRoles,
@@ -12,6 +13,7 @@ export default function SummaryMatches({
   filteredRole,
   setFilteredRole,
 }) {
+  const { t } = useTranslation();
   const [allMatchRoles, setAllMatchRoles] = useState({});
   const [allRankChangeLog, setAllRankChangeLog] = useState({});
   const { player } = useParams();
@@ -74,13 +76,13 @@ export default function SummaryMatches({
     <div className="summary-matches-container">
       {filteredRole && (
         <div className="pm-filtered-role">
-          <span>Filtered by role: </span>
+          <span>{t("playerPage.summary.filteredByRole")} </span>
           <span className="pm-filtered-role-name">{filteredRole}</span>
           <button
             className="pm-filtered-role-clear"
             onClick={() => setFilteredRole("")}
           >
-            Clear
+            {t("playerPage.summary.clear")}
           </button>
         </div>
       )}
@@ -101,7 +103,7 @@ export default function SummaryMatches({
               className="pm-filtered-role"
             >
               <div>
-                <span>Rank Change: </span>
+                <span>{t("playerPage.summary.rankChange")}: </span>
                 <span className="pm-filtered-role-name">
                   {entry.change.role} {entry.change.oldRank} →{" "}
                   {entry.change.newRank}

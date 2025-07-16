@@ -66,30 +66,40 @@ export function isObjEmpty(obj) {
   return Object.keys(obj).length === 0;
 }
 
-export function timeSince(date) {
+export function timeSince(date, t = null) {
   let seconds = Math.floor((new Date() - date) / 1000);
 
   let interval = seconds / 2592000;
   if (interval > 1) {
-    return Math.floor(interval) + " months ago";
+    const months = Math.floor(interval);
+    if (t) {
+      return t("utils.timeAgo.months", { count: months });
+    }
+    return months + " months ago";
   }
   interval = seconds / 86400;
   if (interval > 1) {
-    return (
-      Math.floor(interval) +
-      (Math.floor(interval) === 1 ? " day ago" : " days ago")
-    );
+    const days = Math.floor(interval);
+    if (t) {
+      return t("utils.timeAgo.days", { count: days });
+    }
+    return days + (days === 1 ? " day ago" : " days ago");
   }
   interval = seconds / 3600;
   if (interval > 1) {
-    return (
-      Math.floor(interval) +
-      (Math.floor(interval) === 1 ? " hour ago" : " hours ago")
-    );
+    const hours = Math.floor(interval);
+    if (t) {
+      return t("utils.timeAgo.hours", { count: hours });
+    }
+    return hours + (hours === 1 ? " hour ago" : " hours ago");
   }
   interval = seconds / 60;
   if (interval > 1) {
-    return Math.floor(interval) + " minutes ago";
+    const minutes = Math.floor(interval);
+    if (t) {
+      return t("utils.timeAgo.minutes", { count: minutes });
+    }
+    return minutes + " minutes ago";
   }
   return "";
 }

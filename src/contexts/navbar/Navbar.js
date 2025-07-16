@@ -7,17 +7,13 @@ import { Button, IconButton, Typography } from "@mui/material";
 import { Menu } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import grilhaIcon from "./grilhaIcon";
+import LanguageSwitcher from "./LanguageSwitcher";
 import "./Navbar.css";
 
-const navbarItems = [
-  { label: "match history", url: "/history" },
-  { label: "matchmaking", url: "/matchmaking" },
-  { label: "player list", url: "/players" },
-  { label: "game stats", url: "/gamestats" },
-];
-
 function Navbar() {
+  const { t } = useTranslation();
   const {
     userObj,
     signOut,
@@ -27,6 +23,13 @@ function Navbar() {
     isNull,
     loadStoreAuth,
   } = useContext(AuthContext);
+
+  const navbarItems = [
+    { label: t("navbar.matchHistory"), url: "/history" },
+    { label: t("navbar.matchmaking"), url: "/matchmaking" },
+    { label: t("navbar.playerList"), url: "/players" },
+    { label: t("navbar.gameStatsNav"), url: "/gamestats" },
+  ];
   const [requestDialogOpen, setRequestDialogOpen] = useState(false);
   const [hover, setHover] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -55,7 +58,7 @@ function Navbar() {
       return;
     }
     requestToBeANerd(userObj.uid, name);
-    alert("Request sent!");
+    alert(t("auth.requestPermissionDialog.requestSent"));
   };
 
   return (
@@ -81,7 +84,7 @@ function Navbar() {
                       fontWeight: "bold",
                     }}
                   >
-                    Season 2
+                    {t("common.season")}
                   </Typography>
                 </div>
 
@@ -120,7 +123,7 @@ function Navbar() {
               <li className="navbar-right-item">
                 <Link to="admin">
                   <Button variant="outlined" color="primary">
-                    Admin page
+                    {t("navbar.adminPage")}
                   </Button>
                 </Link>
               </li>
@@ -132,14 +135,17 @@ function Navbar() {
               {isNull || isAnonymous ? (
                 <Link to="/auth/login">
                   <Button variant="contained" color="primary">
-                    Log in
+                    {t("common.login")}
                   </Button>
                 </Link>
               ) : (
                 <Button onClick={signOut} variant="outlined" color="primary">
-                  Log out
+                  {t("common.logout")}
                 </Button>
               )}
+            </li>
+            <li className="navbar-right-item">
+              <LanguageSwitcher />
             </li>
             {!isNerd && !isAnonymous && (
               <li className="navbar-right-item">
@@ -163,7 +169,7 @@ function Navbar() {
               <div className="navbar-right-item">
                 <Link to="admin">
                   <Button variant="contained" color="primary">
-                    Admin page
+                    {t("navbar.adminPage")}
                   </Button>
                 </Link>
               </div>
@@ -171,14 +177,15 @@ function Navbar() {
             {isNull || isAnonymous ? (
               <Link to="/auth/login">
                 <Button variant="contained" color="primary">
-                  Log in
+                  {t("common.login")}
                 </Button>
               </Link>
             ) : (
               <Button onClick={signOut} variant="outlined" color="primary">
-                Log out
+                {t("common.logout")}
               </Button>
             )}
+            <LanguageSwitcher />
 
             <IconButton
               onClick={() => setSidebarOpen(true)}

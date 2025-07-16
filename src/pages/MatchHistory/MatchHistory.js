@@ -5,6 +5,7 @@ import {
   getPlayer,
 } from "../../services/firebaseDatabase";
 import { Typography } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import MatchDisplay from "./MatchDisplay/MatchDisplay";
 import X5pageContentArea from "../../common-components/X5pageContentArea";
 import EditMatchDialog from "./EditMatchDialog";
@@ -21,6 +22,7 @@ const matchHasPlayer = (match, playerIds) => {
 };
 
 export default function MatchHistory() {
+  const { t } = useTranslation();
   const [matches, setMatches] = useState({});
   const [matchRoles, setMatchRoles] = useState({});
   const [numberOfMatches, setNumberOfMatches] = useState(7);
@@ -94,7 +96,7 @@ export default function MatchHistory() {
   };
 
   if (!matches || !players) {
-    return <div className="no-data-message">no data yet</div>;
+    return <div className="no-data-message">{t("common.noDataYet")}</div>;
   }
 
   return (
@@ -107,7 +109,7 @@ export default function MatchHistory() {
       <X5pageContentArea loading={loading}>
         <div className="match-history-header">
           <Typography className="match-history-title" variant="h4">
-            Match history
+            {t("matchHistory.title")}
           </Typography>
           <Filters
             championFilter={championFilter}

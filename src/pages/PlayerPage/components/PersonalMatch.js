@@ -1,4 +1,5 @@
 import React, { memo } from "react";
+import { useTranslation } from "react-i18next";
 import {
   convertSecondsToMinutesAndSeconds,
   timeSince,
@@ -112,20 +113,20 @@ const TeamSection = memo(({ players, playerId, matchRoles }) => {
   );
 });
 
-const MultiKillChips = ({ largestKillingSpree, largestMultiKill }) => {
+const MultiKillChips = ({ largestKillingSpree, largestMultiKill, t }) => {
   let text = "";
   switch (largestMultiKill) {
     case 2:
-      text = "Double kill";
+      text = t("playerPage.match.doubleKill");
       break;
     case 3:
-      text = "Triple kill";
+      text = t("playerPage.match.tripleKill");
       break;
     case 4:
-      text = "Quadra kill";
+      text = t("playerPage.match.quadraKill");
       break;
     case 5:
-      text = "Penta kill";
+      text = t("playerPage.match.pentaKill");
       break;
     default:
       text = "";
@@ -142,7 +143,9 @@ const MultiKillChips = ({ largestKillingSpree, largestMultiKill }) => {
       )}
       {largestKillingSpree > 0 && (
         <Chip
-          label={`Killing spree: ${largestKillingSpree}`}
+          label={t("playerPage.match.killingSpree", {
+            count: largestKillingSpree,
+          })}
           size="small"
           variant="filled"
           sx={{ margin: "auto" }}
@@ -153,6 +156,8 @@ const MultiKillChips = ({ largestKillingSpree, largestMultiKill }) => {
 };
 
 export default function PersonalMatch({ game, gameId, matchRoles }) {
+  const { t } = useTranslation();
+
   return (
     <div className={`pm-container ${game.stats.win ? "pm-win" : "pm-lose"}`}>
       <div className="pm-header">
@@ -160,10 +165,15 @@ export default function PersonalMatch({ game, gameId, matchRoles }) {
           {`${
             matchRoles ? matchRoles[game.summonerId]?.toUpperCase?.() : ""
           } - ${timeSince(
-            new Date(game.date)
+            new Date(game.date),
+            t
           )} - ${convertSecondsToMinutesAndSeconds(game.gameDuration)}`}
         </div>
-        <div>{game.stats.win ? "Victory" : "Defeat"}</div>
+        <div>
+          {game.stats.win
+            ? t("playerPage.match.victory")
+            : t("playerPage.match.defeat")}
+        </div>
       </div>
       <div className="pm-content">
         <div className="pm-champion-section">
@@ -195,10 +205,11 @@ export default function PersonalMatch({ game, gameId, matchRoles }) {
           <div className="pm-kda-ratio">{`${(
             (game.stats.kills + game.stats.assists) /
             game.stats.deaths
-          ).toFixed(2)} KDA`}</div>
+          ).toFixed(2)} ${t("playerPage.match.kdaLabel")}`}</div>
           <MultiKillChips
             largestKillingSpree={game.stats.largestKillingSpree}
             largestMultiKill={game.stats.largestMultiKill}
+            t={t}
           />
         </div>
 
@@ -211,7 +222,7 @@ export default function PersonalMatch({ game, gameId, matchRoles }) {
         <Link
           to={`/match/${gameId}`}
           className="pm-details-link"
-          title="View match details"
+          title={t("playerPage.match.viewMatchDetails")}
         >
           <ArrowRight fontSize="small" />
         </Link>

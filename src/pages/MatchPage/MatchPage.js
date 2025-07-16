@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import X5pageContentArea from "../../common-components/X5pageContentArea";
 import {
   getMatchRoles,
@@ -15,23 +16,27 @@ import DamageChart from "./DamageChart";
 import PlayerTabs from "./PlayerTabs";
 import "./MatchPage.css";
 
-const MatchDetails = ({ date, matchData }) => (
-  <div className="match-details-container">
-    <p>{`Match played on ${date.toLocaleDateString(undefined, {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "numeric",
-      minute: "numeric",
-      second: "numeric",
-      hour12: false,
-    })} (${timeSince(date)})`}</p>
-    <p>{`Game Duration: ${convertSecondsToMinutesAndSeconds2(
-      matchData.gameDuration
-    )}`}</p>
-    <p>{`Match ID: ${matchData.gameId}`}</p>
-  </div>
-);
+const MatchDetails = ({ date, matchData }) => {
+  const { t } = useTranslation();
+
+  return (
+    <div className="match-details-container">
+      <p>{`${t("matchPage.matchPlayed")} ${date.toLocaleDateString(undefined, {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+        hour12: false,
+      })} (${timeSince(date, t)})`}</p>
+      <p>{`${t("matchPage.gameDuration")}: ${convertSecondsToMinutesAndSeconds2(
+        matchData.gameDuration
+      )}`}</p>
+      <p>{`${t("matchPage.matchId")}: ${matchData.gameId}`}</p>
+    </div>
+  );
+};
 
 const ExtraInfo = ({ matchData }) => (
   <Grid container sx={{ marginTop: "1px" }} spacing={3}>
@@ -45,6 +50,7 @@ const ExtraInfo = ({ matchData }) => (
 );
 
 export default function MatchPage() {
+  const { t } = useTranslation();
   const { matchid } = useParams();
   const navigate = useNavigate();
   const [matchData, setMatchData] = useState();
@@ -75,7 +81,7 @@ export default function MatchPage() {
   }
 
   return (
-    <X5pageContentArea title="Match details">
+    <X5pageContentArea title={t("matchPage.title")}>
       <div className="match-page-container">
         <MatchDetails date={date} matchData={matchData} />
         <MatchComponent matchData={matchData} matchRoles={matchRoles} />

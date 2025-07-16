@@ -1,4 +1,5 @@
 import React, { memo, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { CHAMPIONICONURL } from "../../common-components/resources";
 import { floatToPercentageString, formatNumber } from "../../utils/utils";
 import { DataGrid } from "@mui/x-data-grid";
@@ -65,7 +66,7 @@ const ProgressBar = ({ winRate, numberOfMatches }) => {
   );
 };
 
-const columns = [
+const getColumns = (t) => [
   {
     field: "championId",
     type: "string",
@@ -81,11 +82,16 @@ const columns = [
       />
     ),
   },
-  { field: "championName", type: "string", headerName: "Champion", width: 120 },
+  {
+    field: "championName",
+    type: "string",
+    headerName: t("playerPage.champions.columns.champion"),
+    width: 120,
+  },
   {
     field: "numberOfMatches",
     type: "number",
-    headerName: "Picked",
+    headerName: t("playerPage.champions.columns.picked"),
     align: "center",
     headerAlign: "center",
     width: 170,
@@ -106,7 +112,7 @@ const columns = [
   {
     field: "kda",
     type: "string",
-    headerName: "KDA",
+    headerName: t("playerPage.champions.columns.kda"),
     align: "center",
     headerAlign: "center",
     width: 150,
@@ -126,7 +132,7 @@ const columns = [
   {
     field: "gold",
     type: "number",
-    headerName: "Gold",
+    headerName: t("playerPage.champions.columns.gold"),
     align: "center",
     headerAlign: "center",
     width: 100,
@@ -136,7 +142,7 @@ const columns = [
   {
     field: "cs",
     type: "number",
-    headerName: "CS",
+    headerName: t("playerPage.champions.columns.cs"),
     align: "center",
     headerAlign: "center",
     width: 70,
@@ -145,7 +151,7 @@ const columns = [
   {
     field: "damage",
     type: "number",
-    headerName: "Damage dealt",
+    headerName: t("playerPage.champions.columns.damageDealt"),
     align: "center",
     headerAlign: "center",
     width: 100,
@@ -155,7 +161,7 @@ const columns = [
   {
     field: "tanked",
     type: "number",
-    headerName: "Damage taken",
+    headerName: t("playerPage.champions.columns.damageTaken"),
     align: "center",
     headerAlign: "center",
     width: 100,
@@ -165,7 +171,7 @@ const columns = [
   {
     field: "selfMitigated",
     type: "number",
-    headerName: "Damage self mitigated",
+    headerName: t("playerPage.champions.columns.damageSelfMitigated"),
     align: "center",
     headerAlign: "center",
     width: 120,
@@ -175,7 +181,7 @@ const columns = [
   {
     field: "visionScore",
     type: "number",
-    headerName: "Vision score",
+    headerName: t("playerPage.champions.columns.visionScore"),
     align: "center",
     headerAlign: "center",
     width: 70,
@@ -184,7 +190,7 @@ const columns = [
   {
     field: "wardsBought",
     type: "number",
-    headerName: "Wards bought",
+    headerName: t("playerPage.champions.columns.wardsBought"),
     align: "center",
     headerAlign: "center",
     width: 70,
@@ -194,6 +200,7 @@ const columns = [
 ];
 
 function PlayerChampionsTab({ champs }) {
+  const { t } = useTranslation();
   const championsArray = useMemo(
     () =>
       Object.values(champs).map((c) => ({
@@ -212,7 +219,7 @@ function PlayerChampionsTab({ champs }) {
     >
       <DataGrid
         rows={championsArray}
-        columns={columns}
+        columns={getColumns(t)}
         hideFooter
         rowSelection={false}
         disableRowSelectionOnClick

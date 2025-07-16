@@ -1,5 +1,6 @@
 import { CircularProgress, Tooltip } from "@mui/material";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import useSingleMatchData from "./useSingleMatchData";
 import {
   CHAMPIONICONURL,
@@ -45,12 +46,13 @@ const SummonerNameCell = ({ summonerName, tagLine }) => {
 };
 
 const BaronDragonTurretBans = ({ win, baron, dragon, turret }) => {
+  const { t } = useTranslation();
   const baronIcon = win ? baronWinUrl : baronLoseUrl;
   const dragonIcon = win ? dragonWinUrl : dragonLoseUrl;
   const turretIcon = win ? turretWinUrl : turretLoseUrl;
   return (
     <div className="team-objectives">
-      <Tooltip title="Baron kills">
+      <Tooltip title={t("matchPage.tooltips.baronKills")}>
         <div className="objective-item">
           <img
             src={baronIcon}
@@ -61,7 +63,7 @@ const BaronDragonTurretBans = ({ win, baron, dragon, turret }) => {
           <p>{baron}</p>
         </div>
       </Tooltip>
-      <Tooltip title="Dragon kills">
+      <Tooltip title={t("matchPage.tooltips.dragonKills")}>
         <div className="objective-item">
           <img
             src={dragonIcon}
@@ -72,7 +74,7 @@ const BaronDragonTurretBans = ({ win, baron, dragon, turret }) => {
           <p>{dragon}</p>
         </div>
       </Tooltip>
-      <Tooltip title="Turrets destroyed">
+      <Tooltip title={t("matchPage.tooltips.turretsDestroyed")}>
         <div className="objective-item">
           <img
             src={turretIcon}
@@ -118,77 +120,81 @@ const ItemsSection = ({ game }) => {
   );
 };
 
-const PlayerRow = ({ player, role, totalKills }) => (
-  <span className="player-row">
-    {/* Champion + spells icons */}
-    <div className="player-champion-container">
-      <div className="champion-wrapper">
-        <div className="champion-level">
-          <p className="champion-level-text">{player.stats.champLevel}</p>
+const PlayerRow = ({ player, role, totalKills }) => {
+  const { t } = useTranslation();
+
+  return (
+    <span className="player-row">
+      {/* Champion + spells icons */}
+      <div className="player-champion-container">
+        <div className="champion-wrapper">
+          <div className="champion-level">
+            <p className="champion-level-text">{player.stats.champLevel}</p>
+          </div>
+          <div className="champion-icon-wrapper">
+            <img
+              src={`${CHAMPIONICONURL}${player.championId}.png`}
+              width={70}
+              height={70}
+              alt={player.championName}
+            />
+          </div>
         </div>
-        <div className="champion-icon-wrapper">
+        <div className="spells-container">
           <img
-            src={`${CHAMPIONICONURL}${player.championId}.png`}
-            width={70}
-            height={70}
-            alt={player.championName}
+            src={summonerSpellsUrl[player.spell1Id]}
+            alt={summonerSpells[player.spell1Id]}
+            width={30}
+            className="spell-icon"
+          />
+          <img
+            src={summonerSpellsUrl[player.spell2Id]}
+            alt={summonerSpells[player.spell2Id]}
+            width={30}
+            className="spell-icon-bottom"
           />
         </div>
       </div>
-      <div className="spells-container">
-        <img
-          src={summonerSpellsUrl[player.spell1Id]}
-          alt={summonerSpells[player.spell1Id]}
-          width={30}
-          className="spell-icon"
+
+      {/* Name, KDA, Position */}
+      <div className="player-info">
+        <Link to={`/player/${player.identity.player.summonerId}`}>
+          <SummonerNameCell
+            summonerName={player.identity.player.gameName}
+            tagLine={player.identity.player.tagLine}
+          />
+        </Link>
+
+        <KDA
+          kills={player.stats.kills}
+          deaths={player.stats.deaths}
+          assists={player.stats.assists}
         />
-        <img
-          src={summonerSpellsUrl[player.spell2Id]}
-          alt={summonerSpells[player.spell2Id]}
-          width={30}
-          className="spell-icon-bottom"
-        />
+        <p className="player-role">{capitalizeFirstLetter(role)}</p>
       </div>
-    </div>
 
-    {/* Name, KDA, Position */}
-    <div className="player-info">
-      <Link to={`/player/${player.identity.player.summonerId}`}>
-        <SummonerNameCell
-          summonerName={player.identity.player.gameName}
-          tagLine={player.identity.player.tagLine}
-        />
-      </Link>
+      {/* General information */}
+      <div className="player-stats">
+        <p>{`Lv ${player.stats.champLevel} | ${formatNumber(
+          player.stats.goldEarned
+        )} G`}</p>
+        <p>
+          {`${
+            player.stats.totalMinionsKilled + player.stats.neutralMinionsKilled
+          } CS | ${player.stats.visionScore} VS`}
+        </p>
+        <p>{`${t("matchPage.killParticipation")}: ${floatToPercentageString(
+          (player.stats.kills + player.stats.assists) / totalKills
+        )}`}</p>
+      </div>
 
-      <KDA
-        kills={player.stats.kills}
-        deaths={player.stats.deaths}
-        assists={player.stats.assists}
-      />
-      <p className="player-role">{capitalizeFirstLetter(role)}</p>
-    </div>
-
-    {/* General information */}
-    <div className="player-stats">
-      <p>{`Lv ${player.stats.champLevel} | ${formatNumber(
-        player.stats.goldEarned
-      )} G`}</p>
-      <p>
-        {`${
-          player.stats.totalMinionsKilled + player.stats.neutralMinionsKilled
-        } CS | ${player.stats.visionScore} VS`}
-      </p>
-      <p>{`Kill participation: ${floatToPercentageString(
-        (player.stats.kills + player.stats.assists) / totalKills
-      )}`}</p>
-    </div>
-
-    {/* Itens */}
-    <div>
-      <ItemsSection game={player} />
-    </div>
-  </span>
-);
+      {/* Itens */}
+      <div>
+        <ItemsSection game={player} />
+      </div>
+    </span>
+  );
+};
 
 const roles = {
   top: 1,
@@ -198,67 +204,73 @@ const roles = {
   support: 5,
 };
 
-const TeamMatch = ({ team, matchRoles }) => (
-  <div className="team-match-container">
-    {/* primeira linha, Team 1: Victory ... KDA */}
-    <div className="team-header">
-      <div className="team-status-container">
-        <div className="team-id">{`Team ${team.teamId / 100}: `}</div>
-        {team.win ? (
-          <div className="team-status-victory">Victory</div>
-        ) : (
-          <div className="team-status-defeat">Defeat</div>
-        )}
-      </div>
-      <KDA
-        kills={team.stats.kills}
-        deaths={team.stats.deaths}
-        assists={team.stats.assists}
-      />
-    </div>
+const TeamMatch = ({ team, matchRoles }) => {
+  const { t } = useTranslation();
 
-    {/* segunda linha, dragões e bans */}
-    <div className="team-stats-row">
-      <BaronDragonTurretBans
-        baron={team.teamStats.baronKills}
-        dragon={team.teamStats.dragonKills}
-        turret={team.teamStats.towerKills}
-        win={team.teamId === 100}
-      />
-      <div className="bans-container">
-        <p className="bans-label">bans: </p>
-        {team.teamStats.bans
-          .sort((a, b) => a.pickTurn - b.pickTurn)
-          .map((champ, i) => (
-            <div className="champion-ban" key={i}>
-              <img
-                src={`${CHAMPIONICONURL}${champ.championId}.png`}
-                alt={champ.championId}
-                className="champion-ban-img"
-              />
-            </div>
+  return (
+    <div className="team-match-container">
+      {/* primeira linha, Team 1: Victory ... KDA */}
+      <div className="team-header">
+        <div className="team-status-container">
+          <div className="team-id">{`${t("matchPage.team")} ${
+            team.teamId / 100
+          }: `}</div>
+          {team.win ? (
+            <div className="team-status-victory">{t("matchPage.victory")}</div>
+          ) : (
+            <div className="team-status-defeat">{t("matchPage.defeat")}</div>
+          )}
+        </div>
+        <KDA
+          kills={team.stats.kills}
+          deaths={team.stats.deaths}
+          assists={team.stats.assists}
+        />
+      </div>
+
+      {/* segunda linha, dragões e bans */}
+      <div className="team-stats-row">
+        <BaronDragonTurretBans
+          baron={team.teamStats.baronKills}
+          dragon={team.teamStats.dragonKills}
+          turret={team.teamStats.towerKills}
+          win={team.teamId === 100}
+        />
+        <div className="bans-container">
+          <p className="bans-label">{t("matchPage.bans")}: </p>
+          {team.teamStats.bans
+            .sort((a, b) => a.pickTurn - b.pickTurn)
+            .map((champ, i) => (
+              <div className="champion-ban" key={i}>
+                <img
+                  src={`${CHAMPIONICONURL}${champ.championId}.png`}
+                  alt={champ.championId}
+                  className="champion-ban-img"
+                />
+              </div>
+            ))}
+        </div>
+      </div>
+
+      <div>
+        {team.players
+          .sort(
+            (a, b) =>
+              roles[matchRoles[a.identity.player.summonerId]] -
+              roles[matchRoles[b.identity.player.summonerId]]
+          )
+          .map((p) => (
+            <PlayerRow
+              player={p}
+              role={matchRoles[p.identity.player.summonerId]}
+              totalKills={team.stats.kills}
+              key={p.championId}
+            />
           ))}
       </div>
     </div>
-
-    <div>
-      {team.players
-        .sort(
-          (a, b) =>
-            roles[matchRoles[a.identity.player.summonerId]] -
-            roles[matchRoles[b.identity.player.summonerId]]
-        )
-        .map((p) => (
-          <PlayerRow
-            player={p}
-            role={matchRoles[p.identity.player.summonerId]}
-            totalKills={team.stats.kills}
-            key={p.championId}
-          />
-        ))}
-    </div>
-  </div>
-);
+  );
+};
 
 export default function MatchComponent({ matchData, matchRoles }) {
   const { blueTeam, redTeam } = useSingleMatchData(matchData);

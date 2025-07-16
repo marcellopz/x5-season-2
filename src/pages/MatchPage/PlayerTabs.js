@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { CHAMPIONICONURL } from "../../common-components/resources";
 import { formatNumber } from "../../utils/utils";
 import { Link } from "react-router-dom";
@@ -41,6 +42,7 @@ const SummonerNameCell = ({ summonerName, tagLine }) => {
 };
 
 export default function PlayerTabs({ matchData }) {
+  const { t } = useTranslation();
   const [tabState, setTabState] = useState(0);
   const curr_p = matchData.participants[tabState];
 
@@ -71,42 +73,69 @@ export default function PlayerTabs({ matchData }) {
               (curr_p.stats.kills + curr_p.stats.assists) /
               curr_p.stats.deaths
             ).toFixed(2)}
-            text="KDA"
+            text={t("matchPage.playerStats.kda")}
           />
-          <StatBox number={curr_p.stats.doubleKills} text="Double Kills" />
-          <StatBox number={curr_p.stats.tripleKills} text="Triple Kills" />
-          <StatBox number={curr_p.stats.quadraKills} text="Quadra Kills" />
-          <StatBox number={curr_p.stats.pentaKills} text="Penta Kills" />
+          <StatBox
+            number={curr_p.stats.doubleKills}
+            text={t("matchPage.playerStats.doubleKills")}
+          />
+          <StatBox
+            number={curr_p.stats.tripleKills}
+            text={t("matchPage.playerStats.tripleKills")}
+          />
+          <StatBox
+            number={curr_p.stats.quadraKills}
+            text={t("matchPage.playerStats.quadraKills")}
+          />
+          <StatBox
+            number={curr_p.stats.pentaKills}
+            text={t("matchPage.playerStats.pentaKills")}
+          />
           <StatBox
             number={(
               curr_p.stats.totalDamageDealtToChampions / curr_p.stats.kills
             ).toFixed(2)}
-            text="Damage per kill"
+            text={t("matchPage.playerStats.damagePerKill")}
           />
           <StatBox
             number={curr_p.stats.totalDamageDealtToChampions}
-            text="Damage to champions"
+            text={t("matchPage.playerStats.damageToChampions")}
           />
           <StatBox
             number={curr_p.stats.damageDealtToTurrets}
-            text="Damage to turrets"
+            text={t("matchPage.playerStats.damageToTurrets")}
           />
           <StatBox
             number={curr_p.stats.largestKillingSpree}
-            text="Largest Killing Spree"
+            text={t("matchPage.playerStats.largestKillingSpree")}
           />
-          <StatBox number={curr_p.stats.goldEarned} text="Gold earned" />
-          <StatBox number={curr_p.stats.wardsKilled} text="Wards destroyed" />
-          <StatBox number={curr_p.stats.wardsPlaced} text="Wards Placed" />
-          <StatBox number={curr_p.stats.visionScore} text="Vision Score" />
+          <StatBox
+            number={curr_p.stats.goldEarned}
+            text={t("matchPage.playerStats.goldEarned")}
+          />
+          <StatBox
+            number={curr_p.stats.wardsKilled}
+            text={t("matchPage.playerStats.wardsDestroyed")}
+          />
+          <StatBox
+            number={curr_p.stats.wardsPlaced}
+            text={t("matchPage.playerStats.wardsPlaced")}
+          />
+          <StatBox
+            number={curr_p.stats.visionScore}
+            text={t("matchPage.playerStats.visionScore")}
+          />
           <StatBox
             number={curr_p.stats.visionWardsBoughtInGame}
-            text="Vision Wards Bought"
+            text={t("matchPage.playerStats.visionWardsBought")}
           />
-          <StatBox number={curr_p.stats.totalHeal} text="Total Healing" />
+          <StatBox
+            number={curr_p.stats.totalHeal}
+            text={t("matchPage.playerStats.totalHealing")}
+          />
           <StatBox
             number={curr_p.stats.totalDamageTaken}
-            text="Total Damage Taken"
+            text={t("matchPage.playerStats.totalDamageTaken")}
           />
         </div>
       </div>

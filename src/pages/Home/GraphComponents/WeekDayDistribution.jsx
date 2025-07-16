@@ -2,20 +2,22 @@
 import { useTheme } from "@emotion/react";
 import { Box, Typography } from "@mui/material";
 import ReactEcharts from "echarts-for-react";
+import { useTranslation } from "react-i18next";
 
 const WeekDayDistribution = ({ stats }) => {
+  const { t } = useTranslation();
   const theme = useTheme();
   const { weekDayDistribution } = stats;
 
   // Map numeric day to name and ensure they're in order (Sunday to Saturday)
   const dayNames = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
+    t("home.weekdays.sunday"),
+    t("home.weekdays.monday"),
+    t("home.weekdays.tuesday"),
+    t("home.weekdays.wednesday"),
+    t("home.weekdays.thursday"),
+    t("home.weekdays.friday"),
+    t("home.weekdays.saturday"),
   ];
 
   // Convert data to arrays for the chart
@@ -45,7 +47,7 @@ const WeekDayDistribution = ({ stats }) => {
     },
     series: [
       {
-        name: "Games played",
+        name: t("home.charts.gamesPlayed"),
         type: "bar",
         data: numbers,
         itemStyle: {
@@ -66,7 +68,7 @@ const WeekDayDistribution = ({ stats }) => {
   return (
     <Box className="content-box">
       <Typography variant="h6" fontWeight={500}>
-        Games played by day of week
+        {t("home.charts.gamesPlayedByWeekday")}
       </Typography>
       <ReactEcharts
         option={option}

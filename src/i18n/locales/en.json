@@ -1,0 +1,398 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "cancel": "Cancel",
+    "save": "Save",
+    "close": "Close",
+    "edit": "Edit",
+    "delete": "Delete",
+    "back": "Back",
+    "next": "Next",
+    "send": "Send",
+    "login": "Log In",
+    "logout": "Log out",
+    "register": "Register",
+    "email": "Email",
+    "password": "Password",
+    "name": "Name",
+    "victory": "Victory",
+    "defeat": "Defeat",
+    "season": "Season 2",
+    "total": "Total",
+    "scores": "Scores",
+    "vs": "vs",
+    "noDataYet": "no data yet"
+  },
+  "utils": {
+    "timeAgo": {
+      "months_one": "{{count}} month ago",
+      "months_other": "{{count}} months ago",
+      "days_one": "{{count}} day ago",
+      "days_other": "{{count}} days ago",
+      "hours_one": "{{count}} hour ago",
+      "hours_other": "{{count}} hours ago",
+      "minutes_one": "{{count}} minute ago",
+      "minutes_other": "{{count}} minutes ago"
+    }
+  },
+  "navbar": {
+    "matchHistory": "match history",
+    "matchmaking": "matchmaking",
+    "playerList": "player list",
+    "gameStatsNav": "game stats",
+    "adminPage": "Admin page",
+    "requestPermission": "Request permission",
+    "brandText": {
+      "x5": "x5",
+      "dos": "dos",
+      "nerds": "nerds"
+    }
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "loginWithGoogle": "Log in with Google",
+    "signInAsGuest": "Sign in as guest",
+    "repeatPassword": "Repeat Password",
+    "iHaveAccount": "I have an account",
+    "requestPermissionDialog": {
+      "title": "Request permission to see photos",
+      "description": "To get the full experience of this website, request permission to see photos. Inform a name for us to identify you and if you're accepted in you'll be granted access to all the website functionalities.",
+      "requestSent": "Request sent!"
+    }
+  },
+  "home": {
+    "legendCards": "Legend Cards",
+    "loadingPlayerCards": "Loading player cards...",
+    "anonymousMessage": "To see the card's real photos, please log in and request permission.",
+    "stats": {
+      "numberOfGames": "Number of Games",
+      "numberOfLegends": "Number of Legends"
+    },
+    "charts": {
+      "gamesPlayedByHour": "Games played by hour of day",
+      "gamesPlayedPerMonth": "Games played per month",
+      "gamesPlayedByWeekday": "Games played by day of week",
+      "gamesPlayed": "Games played",
+      "gameDurationDistribution": "Game Duration Distribution",
+      "gameDurationMinutes": "Game Duration (minutes)",
+      "numberOfGamesAxis": "Number of Games",
+      "gameCount": "Game Count"
+    },
+    "weekdays": {
+      "sunday": "Sunday",
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday"
+    },
+    "patchNotes": {
+      "title": "Patch Notes",
+      "loading": "Loading Patch Notes...",
+      "playerJoined": "Player joined",
+      "new": "NEW"
+    },
+    "overallStats": {
+      "objectivesTaken": "Objectives Taken Side Comparison",
+      "firstObjectivesWins": "First Objectives & Wins Side Comparison",
+      "baronsKilled": "Barons killed",
+      "dragonsKilled": "Dragons killed",
+      "riftHeraldsKilled": "Rift Heralds killed",
+      "turretsDestroyed": "Turrets destroyed",
+      "firstBloods": "First bloods",
+      "killedFirstBaron": "Killed the first Baron",
+      "killedFirstDragon": "Killed the first Dragon",
+      "destroyedFirstTower": "Destroyed the first tower",
+      "destroyedFirstInhibitor": "Destroyed the first inhibitor",
+      "wins": "Wins"
+    },
+    "gameDurationSection": {
+      "incompleteSection": "This section is incomplete. Future features could include:",
+      "averageDurationByChampion": "Average game duration by champion",
+      "durationTrends": "Game duration trends over time",
+      "winRateAnalysis": "Win rate analysis by game duration",
+      "correlationAnalysis": "Correlation between game duration and other factors",
+      "comingSoon": "Coming Soon"
+    }
+  },
+  "matchHistory": {
+    "title": "Match history",
+    "playedOn": "Played on",
+    "duration": "Duration",
+    "team1": "Team 1",
+    "team2": "Team 2",
+    "playerFilter": "Player Filter",
+    "championFilter": "Champion Filter",
+    "filters": "Filters"
+  },
+  "matchmaking": {
+    "title": "Matchmaking",
+    "steps": {
+      "selectPlayers": "Select Players",
+      "configureAlgorithm": "Configure Algorithm",
+      "results": "Results"
+    },
+    "playerSelection": {
+      "title": "Select the players for the match",
+      "validPlayersSelected": "valid players selected",
+      "needExactly10Players": "You need exactly 10 valid players to balance a game",
+      "numberOfWildcards": "Number of wildcards",
+      "searchTooltip": "Search by player name or exact role rating",
+      "searchPlaceholder": "Search players... (Ctrl+F)",
+      "noPlayersMatch": "No players match your search",
+      "wildcardLabels": {
+        "name": "Name",
+        "top": "Top",
+        "jungle": "Jungle",
+        "mid": "Mid",
+        "adc": "Adc",
+        "support": "Support"
+      },
+      "columns": {
+        "name": "Name",
+        "top": "Top",
+        "jungle": "Jungle",
+        "mid": "Mid",
+        "adc": "Adc",
+        "support": "Support"
+      }
+    },
+    "algorithmSelection": {
+      "title": "Matchmaking Options",
+      "selectAlgorithm": "Select the matchmaking algorithm",
+      "algorithm": "Algorithm",
+      "algorithms": {
+        "cheezeV1": {
+          "label": "Cheeze-v1",
+          "description": "First matchmaking algorithm, tries to make a fair match with same ranks accross all lanes"
+        },
+        "cheezeV2": {
+          "label": "Cheeze-v2",
+          "description": "Matchmaking algorithm with tolerance, tries to make a fair match with allowed rank gaps within the tolerance"
+        },
+        "claudeV1": {
+          "label": "Claude-v1",
+          "description": "Balances teams based on players' average ranks, creating teams with similar total strength"
+        },
+        "grilhaV1": {
+          "label": "Grilha-v1",
+          "description": "Generates match options that assign players to a broader range of roles, promoting diversity in lane assignments while ensuring fair matches within the specified tolerance."
+        }
+      },
+      "numberOfOptions": "Number of options",
+      "tolerance": "Tolerance",
+      "presetRoles": "Preset roles",
+      "presetLanes": "Pre-set lanes",
+      "useRoleBalancing": "Use role balancing",
+      "usePresetLanes": "Use pre-set lanes",
+      "randomizeSides": "Randomize sides",
+      "errors": {
+        "chooseMatches": "Choose how many matches to generate",
+        "tooManyMatches": "Too many matches! The maximum is {{max}}.",
+        "chooseTolerance": "Choose a value for the tolerance",
+        "duplicatePlayer": "You've chosen one player for multiple roles",
+        "chooseAlgorithm": "Choose an algorithm for balancing the match",
+        "unknownAlgorithm": "Unknown algorithm selected"
+      }
+    },
+    "results": {
+      "reroll": "Reroll (rebola)",
+      "generating": "Generating...",
+      "noMatchesFound": "No Matches Found",
+      "suggestions": "Suggestions:",
+      "suggestionsList": [
+        "Try increasing the tolerance value",
+        "Remove or adjust preset lane assignments",
+        "Select different players",
+        "Try a different algorithm"
+      ],
+      "match": "Match {{number}}:",
+      "score": "Score:",
+      "difference": "Difference:",
+      "total": "Total",
+      "diff": "Diff"
+    }
+  },
+  "admin": {
+    "addMatch": "Add Match",
+    "addPlayer": "Add Player",
+    "editPlayer": "Edit Player",
+    "recalculateStats": "Recalculate Stats"
+  },
+  "playerList": {
+    "title": "Player List",
+    "columns": {
+      "name": "Name",
+      "winRate": "Win rate",
+      "summonerName": "Summoner Name",
+      "matches": "Matches",
+      "avgTop3": "Avg Top 3"
+    },
+    "lanes": {
+      "top": "top",
+      "jungle": "jungle",
+      "mid": "mid",
+      "bot": "bot",
+      "support": "support"
+    }
+  },
+  "playerPage": {
+    "noData": "No player data",
+    "tabs": {
+      "summary": "Summary",
+      "champions": "Champions",
+      "stats": "Stats",
+      "records": "Records"
+    },
+    "banner": {
+      "numberOfMatches": "Number of matches: {{count}}",
+      "winRate": "Win rate"
+    },
+    "summary": {
+      "showAll": "Show all",
+      "statsOfLastGames": "Stats of last {{count}} games:",
+      "filteredByRole": "Filtered by role:",
+      "clear": "Clear",
+      "rankChange": "Rank Change"
+    },
+    "champions": {
+      "columns": {
+        "champion": "Champion",
+        "picked": "Picked",
+        "kda": "KDA",
+        "gold": "Gold",
+        "cs": "CS",
+        "damageDealt": "Damage dealt",
+        "damageTaken": "Damage taken",
+        "damageSelfMitigated": "Damage self mitigated",
+        "visionScore": "Vision score",
+        "wardsBought": "Wards bought"
+      }
+    },
+    "stats": {
+      "winRateBlue": "Win rate on blue side",
+      "winRateRed": "Win rate on red side",
+      "totalGames": "Total games played",
+      "winRateWith": "Win rate with player",
+      "winRateAgainst": "Win rate against player",
+      "columns": {
+        "name": "Name",
+        "winRate": "Win rate",
+        "games": "Games"
+      },
+      "games": "games"
+    },
+    "records": {
+      "showMatch": "Show match",
+      "titles": {
+        "kills": "Most kills in a game",
+        "deaths": "Most deaths",
+        "assists": "Most assists",
+        "cs": "Highest farm",
+        "csPerMin": "Highest farm per minute",
+        "damage": "Highest damage dealt",
+        "damageTaken": "Highest damage taken",
+        "multiKill": "Highest Multikill",
+        "killingSpree": "Highest killing spree",
+        "longestGame": "Longest game",
+        "shortestGame": "Shortest game",
+        "visionScore": "Highest Vision score"
+      }
+    },
+    "match": {
+      "victory": "Victory",
+      "defeat": "Defeat",
+      "doubleKill": "Double kill",
+      "tripleKill": "Triple kill",
+      "quadraKill": "Quadra kill",
+      "pentaKill": "Penta kill",
+      "killingSpree": "Killing spree: {{count}}",
+      "viewMatchDetails": "View match details",
+      "wins": "W",
+      "losses": "L",
+      "kdaLabel": "KDA"
+    }
+  },
+  "matchPage": {
+    "title": "Match details",
+    "matchPlayed": "Match played on",
+    "gameDuration": "Game Duration",
+    "matchId": "Match ID",
+    "team": "Team",
+    "victory": "Victory",
+    "defeat": "Defeat",
+    "bans": "bans",
+    "killParticipation": "Kill participation",
+    "tooltips": {
+      "baronKills": "Baron kills",
+      "dragonKills": "Dragon kills",
+      "turretsDestroyed": "Turrets destroyed"
+    },
+    "damageChart": {
+      "damage": "Damage",
+      "damageTaken": "Damage Taken",
+      "gold": "Gold",
+      "vision": "Vision",
+      "blueTeam": "Blue Team",
+      "redTeam": "Red Team"
+    },
+    "playerStats": {
+      "kda": "KDA",
+      "doubleKills": "Double Kills",
+      "tripleKills": "Triple Kills",
+      "quadraKills": "Quadra Kills",
+      "pentaKills": "Penta Kills",
+      "damagePerKill": "Damage per kill",
+      "damageToChampions": "Damage to champions",
+      "damageToTurrets": "Damage to turrets",
+      "largestKillingSpree": "Largest Killing Spree",
+      "goldEarned": "Gold earned",
+      "wardsDestroyed": "Wards destroyed",
+      "wardsPlaced": "Wards Placed",
+      "visionScore": "Vision Score",
+      "visionWardsBought": "Vision Wards Bought",
+      "totalHealing": "Total Healing",
+      "totalDamageTaken": "Total Damage Taken"
+    }
+  },
+  "gameStats": {
+    "title": "Stats",
+    "championColumns": {
+      "champion": "Champion",
+      "picked": "Picked",
+      "banned": "Banned",
+      "winRate": "Win rate",
+      "kills": "Kills",
+      "deaths": "Deaths",
+      "assists": "Assists",
+      "kda": "KDA",
+      "cs": "CS"
+    },
+    "general": {
+      "numberOfGames": "Number of games",
+      "averageGameDuration": "Average game duration",
+      "minutes": "minutes",
+      "championsPicked": "Champions picked",
+      "championsNeverPicked": "Champions that were never picked"
+    },
+    "sideStats": {
+      "redSide": "Red side",
+      "blueSide": "Blue side",
+      "wins": "Wins",
+      "baronsKilled": "Barons killed",
+      "dragonsKilled": "Dragons killed",
+      "riftHeraldsKilled": "Rift Heralds killed",
+      "turretsDestroyed": "Turrets destroyed",
+      "firstBloods": "First bloods",
+      "killedFirstBaron": "Killed the first Baron",
+      "killedFirstDragon": "Killed the first Dragon",
+      "destroyedFirstInhibitor": "Destroyed the first inhibitor",
+      "destroyedFirstTower": "Destroyed the first tower"
+    }
+  },
+  "errors": {
+    "pageNotFound": "Page Not Found",
+    "somethingWentWrong": "Something went wrong"
+  }
+}

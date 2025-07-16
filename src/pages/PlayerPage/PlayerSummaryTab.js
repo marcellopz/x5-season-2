@@ -1,4 +1,5 @@
 import React, { memo, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import PersonalChampionStats from "./components/PersonalChampionStats";
 import { Button, Grid } from "@mui/material";
 import SummaryLastGames from "./components/SummaryLastGames";
@@ -12,6 +13,7 @@ function PlayerSummaryTab({
   // playerKey,
   // selectedPlayerCardStats,
 }) {
+  const { t } = useTranslation();
   const [showAllChamps, setShowAllChamps] = useState(false);
   const last20Matches = useMemo(() => {
     const keys = Object.keys(playerInfo.matches).slice(-20);
@@ -65,7 +67,7 @@ function PlayerSummaryTab({
                   sx={{ margin: "auto" }}
                   onClick={() => setShowAllChamps(true)}
                 >
-                  Show all
+                  {t("playerPage.summary.showAll")}
                 </Button>
               </div>
             )}

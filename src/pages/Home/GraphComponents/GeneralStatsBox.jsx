@@ -1,5 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 const TitleValueBox = ({ title, value }) => {
   const [displayValue, setDisplayValue] = React.useState(0);
@@ -47,15 +48,20 @@ const TitleValueBox = ({ title, value }) => {
 };
 
 const GeneralStatsBox = ({ stats, players }) => {
+  const { t } = useTranslation();
+
   if (!stats || !players) {
     return null;
   }
   return (
     <Box className="mainsection-panel mainsection-small-panel">
-      <TitleValueBox title="Number of Games" value={stats.numberOfGames} />
+      <TitleValueBox
+        title={t("home.stats.numberOfGames")}
+        value={stats.numberOfGames}
+      />
       <div className="small-item-divider" />
       <TitleValueBox
-        title="Number of Legends"
+        title={t("home.stats.numberOfLegends")}
         value={Object.keys(players).length}
       />
     </Box>

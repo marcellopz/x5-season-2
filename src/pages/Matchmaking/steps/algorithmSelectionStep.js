@@ -16,76 +16,81 @@ import {
   InputAdornment,
 } from "@mui/material";
 import { Settings as SettingsIcon, Add, Remove } from "@mui/icons-material";
+import { useTranslation } from "react-i18next";
 import "./algorithmSelectionStep.css";
 
-const formAlgos = {
+const getFormAlgos = (t) => ({
   cheezeV1: {
-    label: "Cheeze-v1",
-    description:
-      "First matchmaking algorithm, tries to make a fair match with same ranks accross all lanes",
+    label: t("matchmaking.algorithmSelection.algorithms.cheezeV1.label"),
+    description: t(
+      "matchmaking.algorithmSelection.algorithms.cheezeV1.description"
+    ),
     fields: [
       {
         id: "numberOfMatches",
-        label: "Number of options",
+        label: t("matchmaking.algorithmSelection.numberOfOptions"),
         type: "number",
         initialValue: 5,
       },
     ],
   },
   cheezeV2: {
-    label: "Cheeze-v2",
-    description:
-      "Matchmaking algorithm with tolerance, tries to make a fair match with allowed rank gaps within the tolerance",
+    label: t("matchmaking.algorithmSelection.algorithms.cheezeV2.label"),
+    description: t(
+      "matchmaking.algorithmSelection.algorithms.cheezeV2.description"
+    ),
     fields: [
       {
         id: "numberOfMatches",
-        label: "Number of options",
+        label: t("matchmaking.algorithmSelection.numberOfOptions"),
         type: "number",
       },
       {
         id: "tolerance",
-        label: "Tolerance",
+        label: t("matchmaking.algorithmSelection.tolerance"),
         type: "number",
       },
       {
         id: "preset",
-        label: "Preset roles",
+        label: t("matchmaking.algorithmSelection.presetRoles"),
         type: "preset",
       },
     ],
   },
   claudeV1: {
-    label: "Claude-v1",
-    description:
-      "Balances teams based on players' average ranks, creating teams with similar total strength",
+    label: t("matchmaking.algorithmSelection.algorithms.claudeV1.label"),
+    description: t(
+      "matchmaking.algorithmSelection.algorithms.claudeV1.description"
+    ),
     fields: [
       {
         id: "numberOfMatches",
-        label: "Number of options",
+        label: t("matchmaking.algorithmSelection.numberOfOptions"),
         type: "number",
       },
     ],
   },
   grilhaV1: {
-    label: "Grilha-v1",
-    description:
-      "Generates match options that assign players to a broader range of roles, promoting diversity in lane assignments while ensuring fair matches within the specified tolerance.",
+    label: t("matchmaking.algorithmSelection.algorithms.grilhaV1.label"),
+    description: t(
+      "matchmaking.algorithmSelection.algorithms.grilhaV1.description"
+    ),
     fields: [
       {
         id: "numberOfMatches",
-        label: "Number of options",
+        label: t("matchmaking.algorithmSelection.numberOfOptions"),
         type: "number",
       },
       {
         id: "tolerance",
-        label: "Tolerance",
+        label: t("matchmaking.algorithmSelection.tolerance"),
         type: "number",
       },
     ],
   },
-};
+});
 
-const algos = ["", ...Object.keys(formAlgos)];
+const getAlgos = (formAlgos) => ["", ...Object.keys(formAlgos)];
 
 const getField = (
   field,
@@ -98,7 +103,8 @@ const getField = (
   handleToleranceIncrement,
   handleToleranceDecrement,
   handleNumberOfMatchesIncrement,
-  handleNumberOfMatchesDecrement
+  handleNumberOfMatchesDecrement,
+  t
 ) => {
   if (field.type === "number") {
     const isToleranceField = field.id === "tolerance";
@@ -162,7 +168,7 @@ const getField = (
     return (
       <div className="preset-field-container">
         <InputLabel className="algorithm-label preset-label">
-          Pre-set lanes
+          {t("matchmaking.algorithmSelection.presetLanes")}
         </InputLabel>
         <Grid
           className="preset-lanes-container"
@@ -198,7 +204,7 @@ const getField = (
                   </Select>
                 </Grid>
                 <Grid item xs={1} className="lane-vs-label">
-                  <p>vs</p>
+                  <p>{t("common.vs")}</p>
                 </Grid>
                 <Grid item xs={4}>
                   <Select
@@ -228,6 +234,7 @@ const getField = (
 };
 
 export default function AlgorithmSelectionStep({ setIsOk }) {
+  const { t } = useTranslation();
   const [error, setError] = useState("");
   const [values, setValues] = useState({ numberOfMatches: 5, tolerance: 1 });
   const {
@@ -237,6 +244,9 @@ export default function AlgorithmSelectionStep({ setIsOk }) {
     setAlgoOptions,
     players,
   } = useContext(MatchMakingContext);
+
+  const formAlgos = getFormAlgos(t);
+  const algos = getAlgos(formAlgos);
   const [presetPositions, setPresetPositions] = useState({
     Top: ["", ""],
     Jungle: ["", ""],
@@ -313,12 +323,14 @@ export default function AlgorithmSelectionStep({ setIsOk }) {
     switch (selectedAlgo) {
       case "cheezeV1":
         if (!(+values.numberOfMatches > 0)) {
-          setError("Choose how many matches to generate");
+          setError(t("matchmaking.algorithmSelection.errors.chooseMatches"));
           break;
         }
         if (values.numberOfMatches > MAX_NUMBER_OF_MATCHES) {
           setError(
-            `Too many matches! The maximum is ${MAX_NUMBER_OF_MATCHES}.`
+            t("matchmaking.algorithmSelection.errors.tooManyMatches", {
+              max: MAX_NUMBER_OF_MATCHES,
+            })
           );
           break;
         }
@@ -326,17 +338,19 @@ export default function AlgorithmSelectionStep({ setIsOk }) {
         break;
       case "cheezeV2":
         if (!(values.numberOfMatches > 0)) {
-          setError("Choose how many matches to generate");
+          setError(t("matchmaking.algorithmSelection.errors.chooseMatches"));
           break;
         }
         if (values.numberOfMatches > MAX_NUMBER_OF_MATCHES) {
           setError(
-            `Too many matches! The maximum is ${MAX_NUMBER_OF_MATCHES}.`
+            t("matchmaking.algorithmSelection.errors.tooManyMatches", {
+              max: MAX_NUMBER_OF_MATCHES,
+            })
           );
           break;
         }
         if (!(values.tolerance >= 0)) {
-          setError("Choose a value for the tolerance");
+          setError(t("matchmaking.algorithmSelection.errors.chooseTolerance"));
           break;
         }
         const allPreset = [
@@ -347,19 +361,21 @@ export default function AlgorithmSelectionStep({ setIsOk }) {
           ...presetPositions.Support,
         ].filter((a) => a !== "");
         if (new Set(allPreset).size !== allPreset.length) {
-          setError("You've chosen one player for multiple roles");
+          setError(t("matchmaking.algorithmSelection.errors.duplicatePlayer"));
           break;
         }
         setError(false);
         break;
       case "claudeV1":
         if (!(values.numberOfMatches > 0)) {
-          setError("Choose how many matches to generate");
+          setError(t("matchmaking.algorithmSelection.errors.chooseMatches"));
           break;
         }
         if (values.numberOfMatches > MAX_NUMBER_OF_MATCHES) {
           setError(
-            `Too many matches! The maximum is ${MAX_NUMBER_OF_MATCHES}.`
+            t("matchmaking.algorithmSelection.errors.tooManyMatches", {
+              max: MAX_NUMBER_OF_MATCHES,
+            })
           );
           break;
         }
@@ -367,26 +383,28 @@ export default function AlgorithmSelectionStep({ setIsOk }) {
         break;
       case "grilhaV1":
         if (!(values.numberOfMatches > 0)) {
-          setError("Choose how many matches to generate");
+          setError(t("matchmaking.algorithmSelection.errors.chooseMatches"));
           break;
         }
         if (values.numberOfMatches > MAX_NUMBER_OF_MATCHES) {
           setError(
-            `Too many matches! The maximum is ${MAX_NUMBER_OF_MATCHES}.`
+            t("matchmaking.algorithmSelection.errors.tooManyMatches", {
+              max: MAX_NUMBER_OF_MATCHES,
+            })
           );
           break;
         }
         if (!(values.tolerance >= 0)) {
-          setError("Choose a value for the tolerance");
+          setError(t("matchmaking.algorithmSelection.errors.chooseTolerance"));
           break;
         }
         setError(false);
         break;
       case "":
-        setError("Choose an algorithm for balancing the match");
+        setError(t("matchmaking.algorithmSelection.errors.chooseAlgorithm"));
         break;
       default:
-        setError("Unknown algorithm selected");
+        setError(t("matchmaking.algorithmSelection.errors.unknownAlgorithm"));
         break;
     }
   }, [
@@ -419,7 +437,7 @@ export default function AlgorithmSelectionStep({ setIsOk }) {
     <div className="algorithm-selection-form">
       <Box className="title-container">
         <Typography className="algorithm-selection-title">
-          Matchmaking Options
+          {t("matchmaking.algorithmSelection.title")}
         </Typography>
         <IconButton
           onClick={() => setShowAdvanced(!showAdvanced)}
@@ -433,10 +451,10 @@ export default function AlgorithmSelectionStep({ setIsOk }) {
       <Collapse in={showAdvanced}>
         <div className="advanced-options">
           <Typography className="algorithm-selection-title">
-            Select the matchmaking algorithm
+            {t("matchmaking.algorithmSelection.selectAlgorithm")}
           </Typography>
           <InputLabel id="algo-select" className="algorithm-label">
-            Algorithm
+            {t("matchmaking.algorithmSelection.algorithm")}
           </InputLabel>
           <Select
             labelId="algo-select"
@@ -478,7 +496,8 @@ export default function AlgorithmSelectionStep({ setIsOk }) {
                       handleToleranceIncrement,
                       handleToleranceDecrement,
                       handleNumberOfMatchesIncrement,
-                      handleNumberOfMatchesDecrement
+                      handleNumberOfMatchesDecrement,
+                      t
                     )}
                   </React.Fragment>
                 ))}
@@ -500,7 +519,8 @@ export default function AlgorithmSelectionStep({ setIsOk }) {
                     handleToleranceIncrement,
                     handleToleranceDecrement,
                     handleNumberOfMatchesIncrement,
-                    handleNumberOfMatchesDecrement
+                    handleNumberOfMatchesDecrement,
+                    t
                   )}
                 </React.Fragment>
               ))}
@@ -521,7 +541,7 @@ export default function AlgorithmSelectionStep({ setIsOk }) {
                       onChange={(e) => setRandomizeSides(e.target.checked)}
                     />
                   }
-                  label="Randomize sides"
+                  label={t("matchmaking.algorithmSelection.randomizeSides")}
                   className="algorithm-checkbox"
                   sx={{
                     "& .MuiFormControlLabel-label": {
@@ -545,7 +565,7 @@ export default function AlgorithmSelectionStep({ setIsOk }) {
                   onChange={(e) => setUseRoleBalancing(e.target.checked)}
                 />
               }
-              label="Use role balancing"
+              label={t("matchmaking.algorithmSelection.useRoleBalancing")}
               className="algorithm-checkbox"
               sx={{
                 "& .MuiFormControlLabel-label": {
@@ -562,7 +582,7 @@ export default function AlgorithmSelectionStep({ setIsOk }) {
               <div className="algorithm-fields-wrapper">
                 <div className="algorithm-field-container">
                   <InputLabel className="algorithm-label">
-                    Number of options
+                    {t("matchmaking.algorithmSelection.numberOfOptions")}
                   </InputLabel>
                   <TextField
                     type="number"
@@ -605,7 +625,9 @@ export default function AlgorithmSelectionStep({ setIsOk }) {
                 </div>
 
                 <div className="algorithm-field-container">
-                  <InputLabel className="algorithm-label">Tolerance</InputLabel>
+                  <InputLabel className="algorithm-label">
+                    {t("matchmaking.algorithmSelection.tolerance")}
+                  </InputLabel>
                   <TextField
                     type="number"
                     value={values.tolerance ?? ""}
@@ -656,7 +678,7 @@ export default function AlgorithmSelectionStep({ setIsOk }) {
                       onChange={(e) => setUsePresetLanes(e.target.checked)}
                     />
                   }
-                  label="Use pre-set lanes"
+                  label={t("matchmaking.algorithmSelection.usePresetLanes")}
                   className="algorithm-checkbox"
                   sx={{
                     "& .MuiFormControlLabel-label": {
@@ -670,7 +692,7 @@ export default function AlgorithmSelectionStep({ setIsOk }) {
               {usePresetLanes && (
                 <div className="preset-field-container">
                   <InputLabel className="algorithm-label preset-label">
-                    Pre-set lanes
+                    {t("matchmaking.algorithmSelection.presetLanes")}
                   </InputLabel>
                   <Grid
                     className="preset-lanes-container"
@@ -713,7 +735,7 @@ export default function AlgorithmSelectionStep({ setIsOk }) {
                               </Select>
                             </Grid>
                             <Grid item xs={1} className="lane-vs-label">
-                              <p>vs</p>
+                              <p>{t("common.vs")}</p>
                             </Grid>
                             <Grid item xs={4}>
                               <Select
@@ -751,7 +773,7 @@ export default function AlgorithmSelectionStep({ setIsOk }) {
                           onChange={(e) => setRandomizeSides(e.target.checked)}
                         />
                       }
-                      label="Randomize sides"
+                      label={t("matchmaking.algorithmSelection.randomizeSides")}
                       className="algorithm-checkbox"
                       sx={{
                         "& .MuiFormControlLabel-label": {
@@ -769,7 +791,7 @@ export default function AlgorithmSelectionStep({ setIsOk }) {
           {!useRoleBalancing && (
             <div className="algorithm-field-container">
               <InputLabel className="algorithm-label">
-                Number of options
+                {t("matchmaking.algorithmSelection.numberOfOptions")}
               </InputLabel>
               <TextField
                 type="number"

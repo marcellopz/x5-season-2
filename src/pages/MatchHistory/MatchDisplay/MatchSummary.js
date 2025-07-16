@@ -1,5 +1,6 @@
 import { Box, Paper } from "@mui/material";
 import React, { useContext } from "react";
+import { useTranslation } from "react-i18next";
 import PlayerLine from "./PlayerLine";
 import useMatchData from "./useMatchData";
 import { KeyboardArrowRight } from "@mui/icons-material";
@@ -10,6 +11,7 @@ import { KDA } from "../../MatchPage/MatchComponent";
 import "./MatchSummary.css";
 
 export default function MatchSummary({ match, toggleExpanded, openDialog }) {
+  const { t } = useTranslation();
   const {
     blueTeam,
     redTeam,
@@ -34,11 +36,13 @@ export default function MatchSummary({ match, toggleExpanded, openDialog }) {
           className="ms-admin-edit-button"
           onClick={() => openDialog(blueTeam, redTeam, match.gameId)}
         >
-          edit
+          {t("common.edit")}
         </div>
       )}
       <div className="ms-date">
-        {`Played on ${gameDate} - Duration: ${gameDurationStr}`}
+        {`${t("matchHistory.playedOn")} ${gameDate} - ${t(
+          "matchHistory.duration"
+        )}: ${gameDurationStr}`}
       </div>
       <Box
         sx={{
@@ -61,13 +65,13 @@ export default function MatchSummary({ match, toggleExpanded, openDialog }) {
         >
           <div className="ms-team-header">
             <div className="ms-team-title">
-              <p className="ms-team-name">Team 1:</p>
+              <p className="ms-team-name">{t("matchHistory.team1")}:</p>
               <p
                 className={
                   blueWin ? "ms-team-status-victory" : "ms-team-status-defeat"
                 }
               >
-                {blueWin ? "Victory" : "Defeat"}
+                {blueWin ? t("common.victory") : t("common.defeat")}
               </p>
             </div>
             <Box sx={{ display: { xs: "none", md: "flex" } }}>
@@ -100,13 +104,13 @@ export default function MatchSummary({ match, toggleExpanded, openDialog }) {
         >
           <div className="ms-team-header">
             <div className="ms-team-title">
-              <p className="ms-team-name">Team 2:</p>
+              <p className="ms-team-name">{t("matchHistory.team2")}:</p>
               <p
                 className={
                   redWin ? "ms-team-status-victory" : "ms-team-status-defeat"
                 }
               >
-                {redWin ? "Victory" : "Defeat"}
+                {redWin ? t("common.victory") : t("common.defeat")}
               </p>
             </div>
             <Box sx={{ display: { xs: "none", md: "flex" } }}>

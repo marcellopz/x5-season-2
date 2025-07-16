@@ -2,8 +2,10 @@
 import { useTheme } from "@emotion/react";
 import { Box, Typography } from "@mui/material";
 import ReactEcharts from "echarts-for-react";
+import { useTranslation } from "react-i18next";
 
 const HourlyDistribution = ({ stats }) => {
+  const { t } = useTranslation();
   const theme = useTheme();
   const { hourlyDistribution } = stats;
 
@@ -48,7 +50,7 @@ const HourlyDistribution = ({ stats }) => {
     },
     series: [
       {
-        name: "Games played",
+        name: t("home.charts.gamesPlayed"),
         type: "bar",
         data: numbers,
         itemStyle: {
@@ -69,7 +71,7 @@ const HourlyDistribution = ({ stats }) => {
   return (
     <Box className="content-box">
       <Typography variant="h6" fontWeight={500}>
-        Games played by hour of day
+        {t("home.charts.gamesPlayedByHour")}
       </Typography>
       <ReactEcharts
         option={option}

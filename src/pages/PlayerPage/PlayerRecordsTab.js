@@ -1,72 +1,73 @@
 import { ArrowRight } from "@mui/icons-material";
 import { IconButton, Paper, Typography } from "@mui/material";
 import React, { memo } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
-const recordsTags = [
+const getRecordsTags = (t) => [
   {
     key: "kills",
-    title: "Most kills in a game",
+    title: t("playerPage.records.titles.kills"),
     format: false,
   },
   {
     key: "deaths",
-    title: "Most deaths",
+    title: t("playerPage.records.titles.deaths"),
     format: false,
   },
   {
     key: "assists",
-    title: "Most assists",
+    title: t("playerPage.records.titles.assists"),
     format: false,
   },
   {
     key: "cs",
-    title: "Highest farm",
+    title: t("playerPage.records.titles.cs"),
     format: false,
   },
   {
     key: "csPerMin",
-    title: "Highest farm per minute",
+    title: t("playerPage.records.titles.csPerMin"),
     format: (v) => v.toFixed(2),
   },
   {
     key: "damage",
-    title: "Highest damage dealt",
+    title: t("playerPage.records.titles.damage"),
     format: false,
   },
   {
     key: "damageTaken",
-    title: "Highest damage taken",
+    title: t("playerPage.records.titles.damageTaken"),
     format: false,
   },
   {
     key: "multiKill",
-    title: "Highest Multikill",
+    title: t("playerPage.records.titles.multiKill"),
     format: false,
   },
   {
     key: "killingSpree",
-    title: "Highest killing spree",
+    title: t("playerPage.records.titles.killingSpree"),
     format: false,
   },
   {
     key: "longestGame",
-    title: "Longest game",
+    title: t("playerPage.records.titles.longestGame"),
     format: (v) => `${(v / 60).toFixed(1)} min`,
   },
   {
     key: "shortestGame",
-    title: "Shortest game",
+    title: t("playerPage.records.titles.shortestGame"),
     format: (v) => `${(v / 60).toFixed(1)} min`,
   },
   {
     key: "visionScore",
-    title: "Highest Vision score",
+    title: t("playerPage.records.titles.visionScore"),
     format: false,
   },
 ];
 
-const RecordBox = ({ title, value, win, gameId }) => (
+const RecordBox = ({ title, value, win, gameId, t }) => (
   <Paper
     sx={{
       width: "250px",
@@ -85,7 +86,7 @@ const RecordBox = ({ title, value, win, gameId }) => (
       <Typography sx={{ display: "flex", alignItems: "center" }}>
         {title}
       </Typography>
-      <Link to={`/match/${gameId}`} title="Show match">
+      <Link to={`/match/${gameId}`} title={t("playerPage.records.showMatch")}>
         <IconButton size="small">
           <ArrowRight />
         </IconButton>
@@ -111,13 +112,16 @@ const RecordBox = ({ title, value, win, gameId }) => (
           display: "flex",
         }}
       >
-        {win ? "W" : "L"}
+        {win ? t("playerPage.match.wins") : t("playerPage.match.losses")}
       </div>
     </Typography>
   </Paper>
 );
 
 function PlayerRecordsTab({ records }) {
+  const { t } = useTranslation();
+  const recordsTags = getRecordsTags(t);
+
   return (
     <div
       style={{
@@ -138,6 +142,7 @@ function PlayerRecordsTab({ records }) {
             value={value}
             win={record.win}
             gameId={record.gameId}
+            t={t}
           />
         );
       })}

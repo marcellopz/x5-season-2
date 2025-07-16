@@ -4,6 +4,7 @@ import { AuthProvider } from "./contexts/authContext";
 import AppRoutes from "./routes/routes";
 import { theme } from "./theme";
 import { MiscProvider } from "./contexts/miscContext";
+import "./i18n/index";
 
 function App() {
   return (

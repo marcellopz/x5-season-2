@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { CHAMPIONICONURL } from "../../common-components/resources";
 import { floatToPercentageString, formatNumber } from "../../utils/utils";
 import { Tooltip } from "@mui/material";
@@ -90,6 +91,7 @@ const TeamSection = ({
 );
 
 export default function DamageChart({ matchData }) {
+  const { t } = useTranslation();
   const [tabState, setTabState] = useState(0);
 
   // Split participants into blue and red teams
@@ -108,26 +110,31 @@ export default function DamageChart({ matchData }) {
           setTabState={setTabState}
           tabState={tabState}
           n={0}
-          text="Damage"
+          text={t("matchPage.damageChart.damage")}
         />
         <Tab
           setTabState={setTabState}
           tabState={tabState}
           n={1}
-          text="Damage Taken"
+          text={t("matchPage.damageChart.damageTaken")}
         />
-        <Tab setTabState={setTabState} tabState={tabState} n={2} text="Gold" />
+        <Tab
+          setTabState={setTabState}
+          tabState={tabState}
+          n={2}
+          text={t("matchPage.damageChart.gold")}
+        />
         <Tab
           setTabState={setTabState}
           tabState={tabState}
           n={3}
-          text="Vision"
+          text={t("matchPage.damageChart.vision")}
         />
       </div>
       <div className="chart-content">
         <TeamSection
           team={blueTeam}
-          teamName="Blue Team"
+          teamName={t("matchPage.damageChart.blueTeam")}
           tabState={tabState}
           max={max}
           teamClass="blue-team-section"
@@ -136,7 +143,7 @@ export default function DamageChart({ matchData }) {
         <div className="team-divider"></div>
         <TeamSection
           team={redTeam}
-          teamName="Red Team"
+          teamName={t("matchPage.damageChart.redTeam")}
           tabState={tabState}
           max={max}
           teamClass="red-team-section"

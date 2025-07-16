@@ -1,11 +1,12 @@
 import { Typography } from "@mui/material";
 import React, { memo } from "react";
+import { useTranslation } from "react-i18next";
 import { floatToPercentageString } from "../../utils/utils";
 import { DataGrid } from "@mui/x-data-grid";
 import WinRateChart from "./components/WinRateChart";
 import { useNavigate } from "react-router-dom";
 
-const SmallBox = ({ title, value, numberOfGames }) => (
+const SmallBox = ({ title, value, numberOfGames, t }) => (
   <div
     style={{
       borderRadius: "4px",
@@ -46,24 +47,24 @@ const SmallBox = ({ title, value, numberOfGames }) => (
             display: "flex",
           }}
         >
-          {`${numberOfGames} games`}
+          {`${numberOfGames} ${t("playerPage.stats.games")}`}
         </div>
       )}
     </Typography>
   </div>
 );
 
-const columns = [
+const getColumns = (t) => [
   {
     field: "summonerName",
-    headerName: "Name",
+    headerName: t("playerPage.stats.columns.name"),
     type: "string",
     sortable: true,
     flex: 2,
   },
   {
     field: "wins",
-    headerName: "Win rate",
+    headerName: t("playerPage.stats.columns.winRate"),
     type: "number",
     align: "center",
     sortable: true,
@@ -75,21 +76,21 @@ const columns = [
   {
     field: "games",
     flex: 1,
-    headerName: "Games",
+    headerName: t("playerPage.stats.columns.games"),
     align: "center",
     sortable: true,
     type: "number",
   },
 ];
 
-const WinRatePerPlayerList = ({ players }) => {
+const WinRatePerPlayerList = ({ players, t }) => {
   const navigate = useNavigate();
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
       <div style={{ minWidth: "335px", height: "470px" }}>
         <DataGrid
           rows={players}
-          columns={columns}
+          columns={getColumns(t)}
           hideFooter
           rowSelection={false}
           disableRowSelectionOnClick
@@ -113,6 +114,7 @@ const WinRatePerPlayerList = ({ players }) => {
 };
 
 function PlayerStatsTab({ playerInfo, playerPairs, playerSummary }) {
+  const { t } = useTranslation();
   const sameTeam = Object.entries(playerPairs)
     .map(([k, v]) => ({
       games: v.same_team.games,
@@ -162,24 +164,27 @@ function PlayerStatsTab({ playerInfo, playerPairs, playerSummary }) {
           }}
         >
           <SmallBox
-            title="Win rate on blue side"
+            title={t("playerPage.stats.winRateBlue")}
             value={floatToPercentageString(
               playerInfo.statsPerSide.blueSide.wins /
                 playerInfo.statsPerSide.blueSide.games
             )}
             numberOfGames={playerInfo.statsPerSide.blueSide.games}
+            t={t}
           />
           <SmallBox
-            title="Win rate on red side"
+            title={t("playerPage.stats.winRateRed")}
             value={floatToPercentageString(
               playerInfo.statsPerSide.redSide.wins /
                 playerInfo.statsPerSide.redSide.games
             )}
             numberOfGames={playerInfo.statsPerSide.redSide.games}
+            t={t}
           />
           <SmallBox
-            title="Total games played"
+            title={t("playerPage.stats.totalGames")}
             value={playerInfo.numberOfMatches}
+            t={t}
           />
         </div>
       </div>
@@ -207,9 +212,9 @@ function PlayerStatsTab({ playerInfo, playerPairs, playerSummary }) {
               display: "flex",
             }}
           >
-            Win rate with player
+            {t("playerPage.stats.winRateWith")}
           </p>
-          <WinRatePerPlayerList players={sameTeam} />
+          <WinRatePerPlayerList players={sameTeam} t={t} />
         </div>
         <div
           style={{
@@ -227,9 +232,9 @@ function PlayerStatsTab({ playerInfo, playerPairs, playerSummary }) {
               display: "flex",
             }}
           >
-            Win rate against player
+            {t("playerPage.stats.winRateAgainst")}
           </p>
-          <WinRatePerPlayerList players={oppositeTeam} />
+          <WinRatePerPlayerList players={oppositeTeam} t={t} />
         </div>
       </div>
     </div>

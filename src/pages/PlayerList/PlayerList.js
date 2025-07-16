@@ -18,6 +18,7 @@ import {
   topB64,
 } from "../../assets/images/lanes";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import "./PlayerList.css"; // Import component styles
 
 // Component for rendering summoner name with tagline
@@ -54,17 +55,17 @@ const OpggIconCell = ({ summonerName, tagLine }) => {
   );
 };
 
-const columns = [
+const getColumns = (t) => [
   {
     field: "name",
-    headerName: "Name",
+    headerName: t("playerList.columns.name"),
     type: "string",
     width: 100,
     sortable: true,
   },
   {
     field: "winRate",
-    headerName: "Win rate",
+    headerName: t("playerList.columns.winRate"),
     type: "string",
     width: 80,
     sortable: true,
@@ -90,7 +91,7 @@ const columns = [
   },
   {
     field: "summonerName",
-    headerName: "Summoner Name",
+    headerName: t("playerList.columns.summonerName"),
     type: "string",
     width: 170,
     sortable: true,
@@ -103,7 +104,7 @@ const columns = [
   },
   {
     field: "numberOfMatches",
-    headerName: "Matches",
+    headerName: t("playerList.columns.matches"),
     type: "number",
     align: "center",
     width: 80,
@@ -117,7 +118,12 @@ const columns = [
     width: 60,
     sortable: true,
     renderHeader: () => (
-      <img src={topB64} width={40} alt="top" className="lane-icon" />
+      <img
+        src={topB64}
+        width={40}
+        alt={t("playerList.lanes.top")}
+        className="lane-icon"
+      />
     ),
   },
   {
@@ -128,7 +134,12 @@ const columns = [
     width: 60,
     sortable: true,
     renderHeader: () => (
-      <img src={jngB64} width={40} alt="jungle" className="lane-icon" />
+      <img
+        src={jngB64}
+        width={40}
+        alt={t("playerList.lanes.jungle")}
+        className="lane-icon"
+      />
     ),
   },
   {
@@ -139,7 +150,12 @@ const columns = [
     width: 60,
     sortable: true,
     renderHeader: () => (
-      <img src={midB64} width={40} alt="mid" className="lane-icon" />
+      <img
+        src={midB64}
+        width={40}
+        alt={t("playerList.lanes.mid")}
+        className="lane-icon"
+      />
     ),
   },
   {
@@ -150,7 +166,12 @@ const columns = [
     width: 60,
     sortable: true,
     renderHeader: () => (
-      <img src={botB64} width={40} alt="bot" className="lane-icon" />
+      <img
+        src={botB64}
+        width={40}
+        alt={t("playerList.lanes.bot")}
+        className="lane-icon"
+      />
     ),
   },
   {
@@ -161,12 +182,17 @@ const columns = [
     width: 60,
     sortable: true,
     renderHeader: () => (
-      <img src={supB64} width={40} alt="support" className="lane-icon" />
+      <img
+        src={supB64}
+        width={40}
+        alt={t("playerList.lanes.support")}
+        className="lane-icon"
+      />
     ),
   },
   {
     field: "avg",
-    headerName: "Avg Top 3",
+    headerName: t("playerList.columns.avgTop3"),
     type: "number",
     align: "center",
     width: 85,
@@ -176,6 +202,7 @@ const columns = [
 ];
 
 export default function PlayerList() {
+  const { t } = useTranslation();
   const [players, setPlayers] = useState({});
   const [playersSummary, setPlayersSummary] = useState({});
   const [playersWithStats, setPlayersWithStats] = useState([]);
@@ -211,13 +238,13 @@ export default function PlayerList() {
 
   return (
     <X5pageContentArea
-      title="Player List"
+      title={t("playerList.title")}
       loading={playersWithStats.length === 0}
     >
       <div className="player-list-grid-container">
         <DataGrid
           rows={playersWithStats}
-          columns={columns}
+          columns={getColumns(t)}
           hideFooter
           rowSelection={false}
           disableRowSelectionOnClick

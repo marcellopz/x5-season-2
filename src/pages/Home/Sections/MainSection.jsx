@@ -1,5 +1,6 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import CardDisplay from "../../../common-components/CardDisplay/CardDisplay";
 import GeneralStatsBox from "../GraphComponents/GeneralStatsBox";
 import PatchNotes from "../GraphComponents/PatchNotes";
@@ -7,18 +8,19 @@ import PatchNotes from "../GraphComponents/PatchNotes";
 import "./MainSection.css";
 
 const MainSection = ({ stats, players }) => {
+  const { t } = useTranslation();
   // const { isAnonymous } = useContext(AuthContext);
   return (
     <Box className="main-section-container" id="main-section">
       <Box className="mainsection-panel mainsection-large-panel mainsection-cards-container">
         <Typography variant="h5" className="mainsection-cards-title">
-          Legend Cards
+          {t("home.legendCards")}
         </Typography>
         {players && Object.keys(players).length > 0 ? (
           <CardDisplay players={players} />
         ) : (
           <Box className="mainsection-cards-loading">
-            Loading player cards...
+            {t("home.loadingPlayerCards")}
           </Box>
         )}
         {/* {isAnonymous && (

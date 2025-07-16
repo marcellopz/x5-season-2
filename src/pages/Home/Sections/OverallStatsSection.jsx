@@ -1,73 +1,76 @@
 import React, { useMemo } from "react";
 import { Box, Typography } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import { SideStatBox } from "../../GameStats/OverallStats";
 import "./OverallStatsSection.css";
 
 const OverallStatsSection = ({ stats }) => {
+  const { t } = useTranslation();
+
   // Organize stats into logical categories for better presentation
   const objectiveStats = useMemo(() => {
     if (!stats || !stats.redSide || !stats.blueSide) return [];
 
     return [
       {
-        title: "Barons killed",
+        title: t("home.overallStats.baronsKilled"),
         redSideStat: stats.redSide.baronKills,
         blueSideStat: stats.blueSide.baronKills,
       },
       {
-        title: "Dragons killed",
+        title: t("home.overallStats.dragonsKilled"),
         redSideStat: stats.redSide.dragonKills,
         blueSideStat: stats.blueSide.dragonKills,
       },
       {
-        title: "Rift Heralds killed",
+        title: t("home.overallStats.riftHeraldsKilled"),
         redSideStat: stats.redSide.riftHeraldKills,
         blueSideStat: stats.blueSide.riftHeraldKills,
       },
       {
-        title: "Turrets destroyed",
+        title: t("home.overallStats.turretsDestroyed"),
         redSideStat: stats.redSide.towerKills,
         blueSideStat: stats.blueSide.towerKills,
       },
     ];
-  }, [stats]);
+  }, [stats, t]);
 
   const firstObjectiveStats = useMemo(() => {
     if (!stats || !stats.redSide || !stats.blueSide) return [];
 
     return [
       {
-        title: "First bloods",
+        title: t("home.overallStats.firstBloods"),
         redSideStat: stats.redSide.firstBlood,
         blueSideStat: stats.blueSide.firstBlood,
       },
       {
-        title: "Killed the first Baron",
+        title: t("home.overallStats.killedFirstBaron"),
         redSideStat: stats.redSide.firstBaron,
         blueSideStat: stats.blueSide.firstBaron,
       },
       {
-        title: "Killed the first Dragon",
+        title: t("home.overallStats.killedFirstDragon"),
         redSideStat: stats.redSide.firstDragon,
         blueSideStat: stats.blueSide.firstDragon,
       },
       {
-        title: "Destroyed the first tower",
+        title: t("home.overallStats.destroyedFirstTower"),
         redSideStat: stats.redSide.firstTower,
         blueSideStat: stats.blueSide.firstTower,
       },
       {
-        title: "Destroyed the first inhibitor",
+        title: t("home.overallStats.destroyedFirstInhibitor"),
         redSideStat: stats.redSide.firstInhibitor,
         blueSideStat: stats.blueSide.firstInhibitor,
       },
       {
-        title: "Wins",
+        title: t("home.overallStats.wins"),
         redSideStat: stats.redSide.wins,
         blueSideStat: stats.blueSide.wins,
       },
     ];
-  }, [stats]);
+  }, [stats, t]);
 
   // Guard against missing stats for rendering
   if (!stats || !stats.redSide || !stats.blueSide) {
@@ -80,7 +83,7 @@ const OverallStatsSection = ({ stats }) => {
         {/* Objectives Stats Grid */}
         <Box className="stats-category">
           <Typography variant="h6" className="category-title">
-            Objectives Taken Side Comparison
+            {t("home.overallStats.objectivesTaken")}
           </Typography>
           <Box className="stats-items-grid">
             {objectiveStats.map((stat, index) => (
@@ -98,7 +101,7 @@ const OverallStatsSection = ({ stats }) => {
         {/* First Objectives Stats Grid */}
         <Box className="stats-category">
           <Typography variant="h6" className="category-title">
-            First Objectives & Wins Side Comparison
+            {t("home.overallStats.firstObjectivesWins")}
           </Typography>
           <Box className="stats-items-grid">
             {firstObjectiveStats.map((stat, index) => (

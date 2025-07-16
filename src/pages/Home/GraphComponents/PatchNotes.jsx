@@ -4,6 +4,7 @@ import {
   getRankChangeLog,
   getInitialRanks,
 } from "../../../services/firebaseDatabase";
+import { useTranslation } from "react-i18next";
 import "./PatchNotes.css";
 import { Link } from "react-router-dom";
 
@@ -142,6 +143,7 @@ const getRankChangeInfo = (oldRank, newRank) => {
 };
 
 const PatchNotes = () => {
+  const { t } = useTranslation();
   const [groupedChanges, setGroupedChanges] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -165,7 +167,7 @@ const PatchNotes = () => {
     return (
       <Box className="mainsection-panel mainsection-graph-panel">
         <Typography variant="h6" fontWeight={500}>
-          Loading Patch Notes...
+          {t("home.patchNotes.loading")}
         </Typography>
       </Box>
     );
@@ -179,7 +181,7 @@ const PatchNotes = () => {
       }}
     >
       <Typography variant="h6" fontWeight={500} className="patch-notes-title">
-        Patch Notes
+        {t("home.patchNotes.title")}
       </Typography>
       <Box className="patch-notes-scroll-container">
         {groupedChanges && Object.keys(groupedChanges).length > 0 ? (
@@ -203,7 +205,7 @@ const PatchNotes = () => {
                             className="patch-notes-change-item"
                           >
                             <Chip
-                              label="NEW"
+                              label={t("home.patchNotes.new")}
                               size="small"
                               variant="filled"
                               className="patch-notes-role-chip"
@@ -219,7 +221,7 @@ const PatchNotes = () => {
                             <Chip
                               component={Link}
                               to={`/player/${change.name_id}`}
-                              label="Player joined"
+                              label={t("home.patchNotes.playerJoined")}
                               size="small"
                               variant="filled"
                               className="patch-notes-rank-chip"

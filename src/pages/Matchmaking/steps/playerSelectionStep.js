@@ -14,19 +14,20 @@ import {
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { List, Search, Clear } from "@mui/icons-material";
+import { useTranslation } from "react-i18next";
 import "./playerSelectionStep.css";
 
-const columns = [
+const getColumns = (t) => [
   {
     field: "name",
-    headerName: "Name",
+    headerName: t("matchmaking.playerSelection.columns.name"),
     type: "string",
     width: 120,
     sortable: true,
   },
   {
     field: "top",
-    headerName: "Top",
+    headerName: t("matchmaking.playerSelection.columns.top"),
     type: "number",
     width: 80,
     flex: 1,
@@ -34,7 +35,7 @@ const columns = [
   },
   {
     field: "jungle",
-    headerName: "Jungle",
+    headerName: t("matchmaking.playerSelection.columns.jungle"),
     type: "number",
     width: 80,
     flex: 1,
@@ -42,7 +43,7 @@ const columns = [
   },
   {
     field: "mid",
-    headerName: "Mid",
+    headerName: t("matchmaking.playerSelection.columns.mid"),
     type: "number",
     width: 80,
     flex: 1,
@@ -50,7 +51,7 @@ const columns = [
   },
   {
     field: "adc",
-    headerName: "Adc",
+    headerName: t("matchmaking.playerSelection.columns.adc"),
     type: "number",
     width: 80,
     flex: 1,
@@ -58,7 +59,7 @@ const columns = [
   },
   {
     field: "support",
-    headerName: "Support",
+    headerName: t("matchmaking.playerSelection.columns.support"),
     type: "number",
     width: 80,
     flex: 1,
@@ -67,6 +68,7 @@ const columns = [
 ];
 
 const WildcardCard = ({ id, wildcardDetails, setWildcardDetails }) => {
+  const { t } = useTranslation();
   const wildCard = wildcardDetails[id];
   const isValid = isWildcardValid(wildCard);
   function handleChange(e) {
@@ -95,7 +97,9 @@ const WildcardCard = ({ id, wildcardDetails, setWildcardDetails }) => {
   return (
     <div className={`wildcard-card ${isValid ? "valid" : "invalid"}`}>
       <Box className="wildcard-input-row">
-        <Typography className="wildcard-label">Name:</Typography>
+        <Typography className="wildcard-label">
+          {t("matchmaking.playerSelection.wildcardLabels.name")}:
+        </Typography>
         <TextField
           required
           name="name"
@@ -108,7 +112,9 @@ const WildcardCard = ({ id, wildcardDetails, setWildcardDetails }) => {
         />
       </Box>
       <Box className="wildcard-input-row">
-        <Typography className="wildcard-label">Top:</Typography>
+        <Typography className="wildcard-label">
+          {t("matchmaking.playerSelection.wildcardLabels.top")}:
+        </Typography>
         <TextField
           required
           name="top"
@@ -121,7 +127,9 @@ const WildcardCard = ({ id, wildcardDetails, setWildcardDetails }) => {
         />
       </Box>
       <Box className="wildcard-input-row">
-        <Typography className="wildcard-label">Jungle:</Typography>
+        <Typography className="wildcard-label">
+          {t("matchmaking.playerSelection.wildcardLabels.jungle")}:
+        </Typography>
         <TextField
           required
           name="jungle"
@@ -134,7 +142,9 @@ const WildcardCard = ({ id, wildcardDetails, setWildcardDetails }) => {
         />
       </Box>
       <Box className="wildcard-input-row">
-        <Typography className="wildcard-label">Mid:</Typography>
+        <Typography className="wildcard-label">
+          {t("matchmaking.playerSelection.wildcardLabels.mid")}:
+        </Typography>
         <TextField
           required
           name="mid"
@@ -147,7 +157,9 @@ const WildcardCard = ({ id, wildcardDetails, setWildcardDetails }) => {
         />
       </Box>
       <Box className="wildcard-input-row">
-        <Typography className="wildcard-label">Adc:</Typography>
+        <Typography className="wildcard-label">
+          {t("matchmaking.playerSelection.wildcardLabels.adc")}:
+        </Typography>
         <TextField
           required
           name="adc"
@@ -160,7 +172,9 @@ const WildcardCard = ({ id, wildcardDetails, setWildcardDetails }) => {
         />
       </Box>
       <Box className="wildcard-input-row">
-        <Typography className="wildcard-label">Support:</Typography>
+        <Typography className="wildcard-label">
+          {t("matchmaking.playerSelection.wildcardLabels.support")}:
+        </Typography>
         <TextField
           required
           name="support"
@@ -192,6 +206,7 @@ const PlayerCard = memo(({ card, isSelected, isVisible, onClick }) => {
 });
 
 export default function PlayerSelectionStep({ setIsOk }) {
+  const { t } = useTranslation();
   const {
     players,
     cards,
@@ -207,6 +222,8 @@ export default function PlayerSelectionStep({ setIsOk }) {
   } = useContext(MatchMakingContext);
   const [displayCard, setDisplayCard] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+
+  const columns = getColumns(t);
 
   const arrayOfPlayers =
     Object.keys(players ?? {}).map((player, i) => ({
@@ -330,16 +347,18 @@ export default function PlayerSelectionStep({ setIsOk }) {
       <div className="player-selection-header">
         <div>
           <Typography className="player-selection-title">
-            Select the players for the match
+            {t("matchmaking.playerSelection.title")}
           </Typography>
           <Box className="player-selection-status">
             <Typography className={error ? "status-error" : "status-valid"}>
               {selectedOptions.length +
                 wildcardDetails?.filter(isWildcardValid).length}{" "}
-              valid players selected
+              {t("matchmaking.playerSelection.validPlayersSelected")}
             </Typography>
             {error && (
-              <Typography className="status-error">- {error}</Typography>
+              <Typography className="status-error">
+                - {t("matchmaking.playerSelection.needExactly10Players")}
+              </Typography>
             )}
           </Box>
         </div>
@@ -355,7 +374,7 @@ export default function PlayerSelectionStep({ setIsOk }) {
         <Box className="controls-container">
           <Box className="wildcard-counter">
             <Typography className="wildcard-counter-label">
-              Number of wildcards:
+              {t("matchmaking.playerSelection.numberOfWildcards")}:
             </Typography>
             <Button
               variant="outlined"
@@ -392,7 +411,7 @@ export default function PlayerSelectionStep({ setIsOk }) {
 
           <Box className="player-search">
             <Tooltip
-              title="Search by player name or exact role rating"
+              title={t("matchmaking.playerSelection.searchTooltip")}
               placement="top"
             >
               <TextField
@@ -400,7 +419,7 @@ export default function PlayerSelectionStep({ setIsOk }) {
                 size="small"
                 type="text"
                 className="player-search-input"
-                placeholder="Search players... (Ctrl+F)"
+                placeholder={t("matchmaking.playerSelection.searchPlaceholder")}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 onKeyDown={(e) => {
@@ -452,13 +471,13 @@ export default function PlayerSelectionStep({ setIsOk }) {
                   searchTerm &&
                   cards.length <= cardReadyCounter && (
                     <Typography className="no-results-message">
-                      No players match your search
+                      {t("matchmaking.playerSelection.noPlayersMatch")}
                     </Typography>
                   )}
               </>
             ) : searchTerm && cards.length <= cardReadyCounter ? (
               <Typography className="no-results-message">
-                No players match your search
+                {t("matchmaking.playerSelection.noPlayersMatch")}
               </Typography>
             ) : null}
             {cards.length > cardReadyCounter && (
@@ -503,7 +522,7 @@ export default function PlayerSelectionStep({ setIsOk }) {
                 ) : searchTerm ? (
                   <div className="no-results-container">
                     <Typography className="no-results-message">
-                      No players match your search
+                      {t("matchmaking.playerSelection.noPlayersMatch")}
                     </Typography>
                   </div>
                 ) : null}

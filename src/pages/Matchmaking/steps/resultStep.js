@@ -8,6 +8,7 @@ import React, {
 import { MatchMakingContext } from "../context/matchMakingContext";
 import { Button, IconButton, TextField } from "@mui/material";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import { useTranslation } from "react-i18next";
 import { theme } from "../../../theme";
 import { executeBalance } from "./balanceService";
 import "./resultStep.css";
@@ -20,10 +21,10 @@ const buildLine = (matchup) => {
   }) ${matchup[1].name}`;
 };
 
-const getCopyPasteText = (matchups) => {
+const getCopyPasteText = (matchups, t) => {
   let string = "";
   matchups.forEach((match, i) => {
-    string += `Match ${i + 1}:\n`;
+    string += t("matchmaking.results.match", { number: i + 1 }) + "\n";
 
     // Check if it's claudeV1 algorithm result
     if (match.teams) {
@@ -46,12 +47,12 @@ const getCopyPasteText = (matchups) => {
           1
         )}) ${redPlayer.name}\n`;
       }
-      string += `Score: ${match.matchScore.blue.toFixed(
+      string += `${t(
+        "matchmaking.results.score"
+      )} ${match.matchScore.blue.toFixed(1)} x ${match.matchScore.red.toFixed(
         1
-      )} x ${match.matchScore.red.toFixed(1)} -> ${(
-        match.matchScore.blue + match.matchScore.red
-      ).toFixed(1)}\n`;
-      string += `Difference: ${Math.abs(
+      )} -> ${(match.matchScore.blue + match.matchScore.red).toFixed(1)}\n`;
+      string += `${t("matchmaking.results.difference")} ${Math.abs(
         match.matchScore.blue - match.matchScore.red
       ).toFixed(1)}\n\n`;
     } else {
@@ -61,9 +62,9 @@ const getCopyPasteText = (matchups) => {
       string += `Mid: ${buildLine(match.pairingsRoles.Mid)}\n`;
       string += `Adc: ${buildLine(match.pairingsRoles.Adc)}\n`;
       string += `Sup: ${buildLine(match.pairingsRoles.Support)}\n`;
-      string += `Score: ${match.matchScore.blue} x ${match.matchScore.red} -> ${
-        match.matchScore.blue + match.matchScore.red
-      }\n\n`;
+      string += `${t("matchmaking.results.score")} ${match.matchScore.blue} x ${
+        match.matchScore.red
+      } -> ${match.matchScore.blue + match.matchScore.red}\n\n`;
     }
   });
 
@@ -71,6 +72,7 @@ const getCopyPasteText = (matchups) => {
 };
 
 const ResultComponent = ({ match }) => {
+  const { t } = useTranslation();
   // Check if the match is using claudeV1 algorithm (has teams property)
   const isClaudeV1 = match.teams !== undefined;
 
@@ -101,7 +103,7 @@ const ResultComponent = ({ match }) => {
                 <div className="mm-rs-player-rank-claude">{`(${bluePlayer.avgRank.toFixed(
                   1
                 )})`}</div>
-                <div>vs</div>
+                <div>{t("common.vs")}</div>
                 <div className="mm-rs-vs-divider">{`(${redPlayer.avgRank.toFixed(
                   1
                 )})`}</div>
@@ -113,7 +115,7 @@ const ResultComponent = ({ match }) => {
             className="mm-rs-list-item mm-rs-scores-item"
             style={{ backgroundColor: theme.palette.secondary.main }}
           >
-            <div className="mm-rs-scores-label">Scores</div>
+            <div className="mm-rs-scores-label">{t("common.scores")}</div>
             <div className="mm-rs-blue-score">
               {match.matchScore.blue.toFixed(1)}
             </div>
@@ -126,7 +128,9 @@ const ResultComponent = ({ match }) => {
             className="mm-rs-list-item mm-rs-total-item"
             style={{ backgroundColor: theme.palette.secondary.dark }}
           >
-            <div className="mm-rs-total-label">Total</div>
+            <div className="mm-rs-total-label">
+              {t("matchmaking.results.total")}
+            </div>
             <div className="mm-rs-total-value">
               {(match.matchScore.blue + match.matchScore.red).toFixed(1)}
             </div>
@@ -135,7 +139,9 @@ const ResultComponent = ({ match }) => {
             className="mm-rs-list-item mm-rs-diff-item"
             style={{ backgroundColor: theme.palette.secondary.main }}
           >
-            <div className="mm-rs-diff-label">Diff</div>
+            <div className="mm-rs-diff-label">
+              {t("matchmaking.results.diff")}
+            </div>
             <div className="mm-rs-diff-value">
               {Math.abs(match.matchScore.blue - match.matchScore.red).toFixed(
                 1
@@ -164,7 +170,7 @@ const ResultComponent = ({ match }) => {
                 {match.pairingsRoles[role][0].name}
               </div>
               <div className="mm-rs-player-rank">{`(${match.pairingsRoles[role][0].rank})`}</div>
-              <div>vs</div>
+              <div>{t("common.vs")}</div>
               <div className="mm-rs-vs-divider">{`(${match.pairingsRoles[role][1].rank})`}</div>
               <div className="mm-rs-opponent-name">
                 {match.pairingsRoles[role][1].name}
@@ -176,7 +182,7 @@ const ResultComponent = ({ match }) => {
           className="mm-rs-list-item mm-rs-scores-item"
           style={{ backgroundColor: theme.palette.secondary.main }}
         >
-          <div className="mm-rs-scores-label">Scores</div>
+          <div className="mm-rs-scores-label">{t("common.scores")}</div>
           <div className="mm-rs-blue-score">{match.matchScore.blue}</div>
           <div>-</div>
           <div className="mm-rs-red-score">{match.matchScore.red}</div>
@@ -185,7 +191,7 @@ const ResultComponent = ({ match }) => {
           className="mm-rs-list-item mm-rs-total-item"
           style={{ backgroundColor: theme.palette.secondary.dark }}
         >
-          <div className="mm-rs-total-label">Total</div>
+          <div className="mm-rs-total-label">{t("common.total")}</div>
           <div className="mm-rs-total-value">
             {match.matchScore.blue + match.matchScore.red}
           </div>
@@ -196,6 +202,7 @@ const ResultComponent = ({ match }) => {
 };
 
 export default function ResultStep() {
+  const { t } = useTranslation();
   const {
     players,
     algoOptions,
@@ -251,9 +258,9 @@ export default function ResultStep() {
 
   useEffect(() => {
     if (matchups && matchups.length > 0) {
-      setCopyPasteText(getCopyPasteText(matchups));
+      setCopyPasteText(getCopyPasteText(matchups, t));
     }
-  }, [matchups]);
+  }, [matchups, t]);
 
   return (
     <div>
@@ -265,7 +272,9 @@ export default function ResultStep() {
             className="mm-rs-reroll-button"
             disabled={isLoading}
           >
-            {isLoading ? "Generating..." : "Reroll (rebola)"}
+            {isLoading
+              ? t("matchmaking.results.generating")
+              : t("matchmaking.results.reroll")}
           </Button>
           {matchups && matchups.length > 0 && (
             <IconButton
@@ -282,17 +291,14 @@ export default function ResultStep() {
       {error && (
         <div className="mm-rs-error-container">
           <div className="mm-rs-error-content">
-            <h3>No Matches Found</h3>
+            <h3>{t("matchmaking.results.noMatchesFound")}</h3>
             <p>{error}</p>
             <p className="mm-rs-error-suggestions">
-              Suggestions:
-              <br />
-              • Try increasing the tolerance value
-              <br />
-              • Remove or adjust preset lane assignments
-              <br />
-              • Select different players
-              <br />• Try a different algorithm
+              {t("matchmaking.results.suggestions")}
+              <br />• {t("matchmaking.results.suggestionsList.0")}
+              <br />• {t("matchmaking.results.suggestionsList.1")}
+              <br />• {t("matchmaking.results.suggestionsList.2")}
+              <br />• {t("matchmaking.results.suggestionsList.3")}
             </p>
           </div>
         </div>

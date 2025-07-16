@@ -1,4 +1,5 @@
 import React, { memo } from "react";
+import { useTranslation } from "react-i18next";
 import CardComponent from "../../common-components/CardDisplay/CardComponent";
 import { Box, Tab, Tabs, Typography } from "@mui/material";
 import CircularProgressWithLabel from "./components/CircularProgressWithLabel";
@@ -19,6 +20,8 @@ function PlayerBanner({
   filteredRole,
   setFilteredRole,
 }) {
+  const { t } = useTranslation();
+
   const handleOpggRedirect = () => {
     const region = "br";
     const summonerName = playerInfo.summonerName;
@@ -68,7 +71,9 @@ function PlayerBanner({
               />
             </div>
             <Typography>
-              {`Number of matches: ${playerInfo.numberOfMatches}`}
+              {t("playerPage.banner.numberOfMatches", {
+                count: playerInfo.numberOfMatches,
+              })}
             </Typography>
           </div>
         </div>
@@ -78,7 +83,9 @@ function PlayerBanner({
             <CircularProgressWithLabel
               value={playerInfo.winRate}
               size={176}
-              label={`${floatToPercentageString(playerInfo.winRate)} Win rate`}
+              label={`${floatToPercentageString(playerInfo.winRate)} ${t(
+                "playerPage.banner.winRate"
+              )}`}
               labelFontSize={25}
             />
           </Box>
@@ -102,10 +109,12 @@ function PlayerBanner({
                     )}
                   </p>
                   <p>
-                    {`${playerInfo.roleMatches[role].wins} W ${
+                    {`${playerInfo.roleMatches[role].wins} ${t(
+                      "playerPage.match.wins"
+                    )} ${
                       playerInfo.roleMatches[role].games -
                       playerInfo.roleMatches[role].wins
-                    } L`}
+                    } ${t("playerPage.match.losses")}`}
                   </p>
                 </span>
               </div>
@@ -123,10 +132,10 @@ function PlayerBanner({
             },
           }}
         >
-          <Tab label="Summary" value={0} />
-          <Tab label="Champions" value={1} />
-          <Tab label="Stats" value={2} />
-          <Tab label="Records" value={3} />
+          <Tab label={t("playerPage.tabs.summary")} value={0} />
+          <Tab label={t("playerPage.tabs.champions")} value={1} />
+          <Tab label={t("playerPage.tabs.stats")} value={2} />
+          <Tab label={t("playerPage.tabs.records")} value={3} />
         </Tabs>
       </div>
     </div>

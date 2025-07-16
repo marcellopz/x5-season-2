@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import X5pageContentArea from "../../common-components/X5pageContentArea";
 import {
   getPlayer,
@@ -23,6 +24,7 @@ function TabPanel({ children, value, index }) {
 }
 
 export default function PlayerPage() {
+  const { t } = useTranslation();
   const { player } = useParams();
   const [playerInfo, setPlayerInfo] = useState({});
   const [playerPairs, setPlayerPairs] = useState({});
@@ -86,7 +88,7 @@ export default function PlayerPage() {
   if (playerInfo === null) {
     return (
       <div className="pp-container">
-        <div className="pp-no-data">No player data</div>
+        <div className="pp-no-data">{t("playerPage.noData")}</div>
       </div>
     );
   }

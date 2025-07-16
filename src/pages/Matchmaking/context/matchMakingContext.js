@@ -1,4 +1,5 @@
 import { createContext, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { getPlayer } from "../../../services/firebaseDatabase";
 import CardComponent from "../../../common-components/CardDisplay/CardComponent";
 
@@ -13,6 +14,7 @@ export const isWildcardValid = (wildcardDetails) => {
 export const MatchMakingContext = createContext({});
 
 export const MatchMakingProvider = ({ children }) => {
+  const { t } = useTranslation();
   const [selectedAlgo, setSelectedAlgo] = useState("");
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [players, setPlayers] = useState(null);
@@ -40,9 +42,9 @@ export const MatchMakingProvider = ({ children }) => {
         wildcardDetails.length === validWildcards.length &&
         validWildcards.length === numberOfWildcards
         ? ""
-        : "You need exactly 10 valid players to balance a game"
+        : t("matchmaking.playerSelection.needExactly10Players")
     );
-  }, [selectedOptions, numberOfWildcards, wildcardDetails]);
+  }, [selectedOptions, numberOfWildcards, wildcardDetails, t]);
 
   const cards = useMemo(() => {
     return players

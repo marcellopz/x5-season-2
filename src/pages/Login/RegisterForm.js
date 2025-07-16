@@ -4,8 +4,10 @@ import CustomTextfield from "../../common-components/CustomTextfield";
 import { Button, IconButton, Typography } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 function RegisterForm() {
+  const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
@@ -43,25 +45,25 @@ function RegisterForm() {
       onSubmit={handleSubmit}
     >
       <Typography sx={{ fontWeight: 700, marginBottom: 4, fontSize: 26 }}>
-        Register
+        {t("common.register")}
       </Typography>
       <CustomTextfield
         width="350px"
-        label="Email"
+        label={t("common.email")}
         onChange={handleEmailChange}
         type="email"
         sx={{ marginBottom: "1.5rem", maxWidth: "90%" }}
       />
       <CustomTextfield
         width="350px"
-        label="Password"
+        label={t("common.password")}
         onChange={handlePasswordChange}
         type="password"
         sx={{ marginBottom: "1.5rem", maxWidth: "90%" }}
       />
       <CustomTextfield
         width="350px"
-        label="Repeat Password"
+        label={t("auth.repeatPassword")}
         onChange={handleRepeatPasswordChange}
         type="password"
         sx={{ marginBottom: "1.5rem", maxWidth: "90%" }}
@@ -72,7 +74,7 @@ function RegisterForm() {
         type="submit"
         color="info"
       >
-        Register
+        {t("common.register")}
       </Button>
       <Link to="/auth/login">
         <Typography
@@ -83,7 +85,7 @@ function RegisterForm() {
             color: "#525252",
           }}
         >
-          I have an account
+          {t("auth.iHaveAccount")}
         </Typography>
       </Link>
       <IconButton>

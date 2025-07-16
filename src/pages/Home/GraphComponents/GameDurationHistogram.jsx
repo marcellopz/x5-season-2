@@ -1,8 +1,10 @@
 import { useTheme } from "@emotion/react";
 import { Box, Typography } from "@mui/material";
 import ReactEcharts from "echarts-for-react";
+import { useTranslation } from "react-i18next";
 
 const GameDurationHistogram = ({ stats }) => {
+  const { t } = useTranslation();
   const theme = useTheme();
   const { gameDurationHistogram } = stats;
 
@@ -28,7 +30,7 @@ const GameDurationHistogram = ({ stats }) => {
     xAxis: {
       type: "category",
       data: intervals,
-      name: "Game Duration (minutes)",
+      name: t("home.charts.gameDurationMinutes"),
       nameLocation: "middle",
       nameGap: 40,
       axisLabel: {
@@ -39,13 +41,13 @@ const GameDurationHistogram = ({ stats }) => {
     },
     yAxis: {
       type: "value",
-      name: "Number of Games",
+      name: t("home.charts.numberOfGamesAxis"),
       nameLocation: "middle",
       nameGap: 40,
     },
     series: [
       {
-        name: "Game Count",
+        name: t("home.charts.gameCount"),
         type: "bar",
         data: counts,
         itemStyle: {
@@ -67,7 +69,7 @@ const GameDurationHistogram = ({ stats }) => {
   return (
     <Box className="content-box">
       <Typography variant="h6" fontWeight={500}>
-        Game Duration Distribution
+        {t("home.charts.gameDurationDistribution")}
       </Typography>
       <ReactEcharts
         option={option}

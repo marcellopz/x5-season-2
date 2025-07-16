@@ -1,5 +1,6 @@
 import { Divider, Grid, Paper, Typography } from "@mui/material";
 import React, { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { isObjEmpty } from "../../utils/utils";
 import "./OverallStats.css"; // Import component styles
 
@@ -30,12 +31,16 @@ const ProgressBar = ({ value, maxValue, color, isRed, isBlue }) => {
 };
 
 export const SideStatBox = ({ title, redSideStat, blueSideStat }) => {
+  const { t } = useTranslation();
+
   return (
     <div className="side-stat-box">
       <Typography>{title}</Typography>
       <Divider className="side-stat-divider" />
       <div className="side-stat-row">
-        <div className="side-stat-label red-team">Red side:</div>
+        <div className="side-stat-label red-team">
+          {t("gameStats.sideStats.redSide")}:
+        </div>
         <div className="side-stat-progress">
           <ProgressBar
             value={redSideStat}
@@ -47,7 +52,9 @@ export const SideStatBox = ({ title, redSideStat, blueSideStat }) => {
         <div className="side-stat-value red-team">{redSideStat}</div>
       </div>
       <div className="side-stat-row">
-        <div className="side-stat-label blue-team">Blue side:</div>
+        <div className="side-stat-label blue-team">
+          {t("gameStats.sideStats.blueSide")}:
+        </div>
         <div className="side-stat-progress">
           <ProgressBar
             value={blueSideStat}
@@ -63,84 +70,86 @@ export const SideStatBox = ({ title, redSideStat, blueSideStat }) => {
 };
 
 export default function OverallStats({ stats, hideMainStats }) {
+  const { t } = useTranslation();
+
   const generalItems = useMemo(() => {
     if (isObjEmpty(stats)) {
       return [];
     }
     return [
       <>
-        <b>Number of games:</b> {stats.numberOfGames}
+        <b>{t("gameStats.general.numberOfGames")}:</b> {stats.numberOfGames}
       </>,
       <>
-        <b>Average game duration:</b>{" "}
+        <b>{t("gameStats.general.averageGameDuration")}:</b>{" "}
         {(stats.gameDurationTotal / stats.numberOfGames / 60).toFixed(1)}{" "}
-        minutes
+        {t("gameStats.general.minutes")}
       </>,
       <>
-        <b>Champions picked:</b>{" "}
+        <b>{t("gameStats.general.championsPicked")}:</b>{" "}
         {Object.values(stats.champions).filter((c) => c.picks > 0).length}
       </>,
       <>
-        <b>Champions that were never picked:</b>{" "}
+        <b>{t("gameStats.general.championsNeverPicked")}:</b>{" "}
         {Object.values(stats.champions).filter((c) => c.picks === 0).length}
       </>,
     ];
-  }, [stats]);
+  }, [stats, t]);
 
   const sideRelatedItems = useMemo(() => {
     return [
       <SideStatBox
-        title="Wins"
+        title={t("gameStats.sideStats.wins")}
         redSideStat={stats.redSide.wins}
         blueSideStat={stats.blueSide.wins}
       />,
       <SideStatBox
-        title="Barons killed"
+        title={t("gameStats.sideStats.baronsKilled")}
         redSideStat={stats.redSide.baronKills}
         blueSideStat={stats.blueSide.baronKills}
       />,
       <SideStatBox
-        title="Dragons killed"
+        title={t("gameStats.sideStats.dragonsKilled")}
         redSideStat={stats.redSide.dragonKills}
         blueSideStat={stats.blueSide.dragonKills}
       />,
       <SideStatBox
-        title="Rift Heralds killed"
+        title={t("gameStats.sideStats.riftHeraldsKilled")}
         redSideStat={stats.redSide.riftHeraldKills}
         blueSideStat={stats.blueSide.riftHeraldKills}
       />,
       <SideStatBox
-        title="Turrets destroyed"
+        title={t("gameStats.sideStats.turretsDestroyed")}
         redSideStat={stats.redSide.towerKills}
         blueSideStat={stats.blueSide.towerKills}
       />,
       <SideStatBox
-        title="First bloods"
+        title={t("gameStats.sideStats.firstBloods")}
         redSideStat={stats.redSide.firstBlood}
         blueSideStat={stats.blueSide.firstBlood}
       />,
       <SideStatBox
-        title="Killed the first Baron"
+        title={t("gameStats.sideStats.killedFirstBaron")}
         redSideStat={stats.redSide.firstBaron}
         blueSideStat={stats.blueSide.firstBaron}
       />,
       <SideStatBox
-        title="Killed the first Dragon"
+        title={t("gameStats.sideStats.killedFirstDragon")}
         redSideStat={stats.redSide.firstDragon}
         blueSideStat={stats.blueSide.firstDragon}
       />,
       <SideStatBox
-        title="Destroyed the first inhibitor"
+        title={t("gameStats.sideStats.destroyedFirstInhibitor")}
         redSideStat={stats.redSide.firstInhibitor}
         blueSideStat={stats.blueSide.firstInhibitor}
       />,
       <SideStatBox
-        title="Destroyed the first tower"
+        title={t("gameStats.sideStats.destroyedFirstTower")}
         redSideStat={stats.redSide.firstTower}
         blueSideStat={stats.blueSide.firstTower}
       />,
     ];
-  }, [stats]);
+  }, [stats, t]);
 
   return (
     <div className="stats-container">

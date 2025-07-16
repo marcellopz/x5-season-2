@@ -1,0 +1,398 @@
+{
+  "common": {
+    "loading": "Carregando...",
+    "cancel": "Cancelar",
+    "save": "Salvar",
+    "close": "Fechar",
+    "edit": "Editar",
+    "delete": "Deletar",
+    "back": "Voltar",
+    "next": "Próximo",
+    "send": "Enviar",
+    "login": "Entrar",
+    "logout": "Sair",
+    "register": "Registrar",
+    "email": "Email",
+    "password": "Senha",
+    "name": "Nome",
+    "victory": "Vitória",
+    "defeat": "Derrota",
+    "season": "season 2",
+    "total": "Total",
+    "scores": "Pontuações",
+    "vs": "vs",
+    "noDataYet": "ainda sem dados"
+  },
+  "utils": {
+    "timeAgo": {
+      "months_one": "há {{count}} mês",
+      "months_other": "há {{count}} meses",
+      "days_one": "há {{count}} dia",
+      "days_other": "há {{count}} dias",
+      "hours_one": "há {{count}} hora",
+      "hours_other": "há {{count}} horas",
+      "minutes_one": "há {{count}} minuto",
+      "minutes_other": "há {{count}} minutos"
+    }
+  },
+  "navbar": {
+    "matchHistory": "histórico",
+    "matchmaking": "balanceamento",
+    "playerList": "jogadores",
+    "gameStatsNav": "estatísticas",
+    "adminPage": "Página admin",
+    "requestPermission": "Solicitar permissão",
+    "brandText": {
+      "x5": "x5",
+      "dos": "dos",
+      "nerds": "nerds"
+    }
+  },
+  "auth": {
+    "signIn": "Entrar",
+    "loginWithGoogle": "Entrar com Google",
+    "signInAsGuest": "Entrar como convidado",
+    "repeatPassword": "Repetir Senha",
+    "iHaveAccount": "Eu tenho uma conta",
+    "requestPermissionDialog": {
+      "title": "Solicitar permissão para ver fotos",
+      "description": "Para ter a experiência completa deste site, solicite permissão para ver fotos. Informe um nome para nos identificarmos você e se for aceito, você terá acesso a todas as funcionalidades do site.",
+      "requestSent": "Solicitação enviada!"
+    }
+  },
+  "home": {
+    "legendCards": "Cartas Lendárias",
+    "loadingPlayerCards": "Carregando cartas dos jogadores...",
+    "anonymousMessage": "Para ver as fotos reais dos cartões, faça login e solicite permissão.",
+    "stats": {
+      "numberOfGames": "Número de Jogos",
+      "numberOfLegends": "Número de Lendas"
+    },
+    "charts": {
+      "gamesPlayedByHour": "Jogos por hora do dia",
+      "gamesPlayedPerMonth": "Jogos por mês",
+      "gamesPlayedByWeekday": "Jogos por dia da semana",
+      "gamesPlayed": "Jogos jogados",
+      "gameDurationDistribution": "Distribuição da Duração dos Jogos",
+      "gameDurationMinutes": "Duração do Jogo (minutos)",
+      "numberOfGamesAxis": "Número de Jogos",
+      "gameCount": "Contagem de Jogos"
+    },
+    "weekdays": {
+      "sunday": "Domingo",
+      "monday": "Segunda-feira",
+      "tuesday": "Terça-feira",
+      "wednesday": "Quarta-feira",
+      "thursday": "Quinta-feira",
+      "friday": "Sexta-feira",
+      "saturday": "Sábado"
+    },
+    "patchNotes": {
+      "title": "Notas de Atualização",
+      "loading": "Carregando Notas de Atualização...",
+      "playerJoined": "Jogador entrou",
+      "new": "NOVO"
+    },
+    "overallStats": {
+      "objectivesTaken": "Comparação de Objetivos por Lado",
+      "firstObjectivesWins": "Primeiros Objetivos e Vitórias por Lado",
+      "baronsKilled": "Barões eliminados",
+      "dragonsKilled": "Dragões eliminados",
+      "riftHeraldsKilled": "Arautos da Fenda eliminados",
+      "turretsDestroyed": "Torres destruídas",
+      "firstBloods": "Primeiros sangues",
+      "killedFirstBaron": "Eliminou o primeiro Barão",
+      "killedFirstDragon": "Eliminou o primeiro Dragão",
+      "destroyedFirstTower": "Destruiu a primeira torre",
+      "destroyedFirstInhibitor": "Destruiu o primeiro inibidor",
+      "wins": "Vitórias"
+    },
+    "gameDurationSection": {
+      "incompleteSection": "Esta seção está incompleta. Recursos futuros podem incluir:",
+      "averageDurationByChampion": "Duração média do jogo por campeão",
+      "durationTrends": "Tendências de duração do jogo ao longo do tempo",
+      "winRateAnalysis": "Análise de taxa de vitória por duração do jogo",
+      "correlationAnalysis": "Correlação entre duração do jogo e outros fatores",
+      "comingSoon": "Em Breve"
+    }
+  },
+  "matchHistory": {
+    "title": "Histórico de partidas",
+    "playedOn": "Jogado em",
+    "duration": "Duração",
+    "team1": "Time 1",
+    "team2": "Time 2",
+    "playerFilter": "Filtro de Jogador",
+    "championFilter": "Filtro de Campeão",
+    "filters": "Filtros"
+  },
+  "matchmaking": {
+    "title": "Formação de Times",
+    "steps": {
+      "selectPlayers": "Selecionar Jogadores",
+      "configureAlgorithm": "Configurar Algoritmo",
+      "results": "Resultados"
+    },
+    "playerSelection": {
+      "title": "Selecione os jogadores para a partida",
+      "validPlayersSelected": "jogadores válidos selecionados",
+      "needExactly10Players": "Você precisa de exatamente 10 jogadores válidos para balancear um jogo",
+      "numberOfWildcards": "Número de coringas",
+      "searchTooltip": "Pesquisar por nome do jogador ou classificação exata da função",
+      "searchPlaceholder": "Pesquisar jogadores... (Ctrl+F)",
+      "noPlayersMatch": "Nenhum jogador corresponde à sua pesquisa",
+      "wildcardLabels": {
+        "name": "Nome",
+        "top": "Top",
+        "jungle": "Jungle",
+        "mid": "Mid",
+        "adc": "Adc",
+        "support": "Support"
+      },
+      "columns": {
+        "name": "Nome",
+        "top": "Top",
+        "jungle": "Jungle",
+        "mid": "Mid",
+        "adc": "Adc",
+        "support": "Support"
+      }
+    },
+    "algorithmSelection": {
+      "title": "Opções de Matchmaking",
+      "selectAlgorithm": "Selecione o algoritmo de matchmaking",
+      "algorithm": "Algoritmo",
+      "algorithms": {
+        "cheezeV1": {
+          "label": "Cheeze-v1",
+          "description": "Primeiro algoritmo de matchmaking, tenta fazer uma partida justa com os mesmos ranks em todas as lanes"
+        },
+        "cheezeV2": {
+          "label": "Cheeze-v2",
+          "description": "Algoritmo de matchmaking com tolerância, tenta fazer uma partida justa com diferenças de rank permitidas dentro da tolerância"
+        },
+        "claudeV1": {
+          "label": "Claude-v1",
+          "description": "Balanceia times baseado na média de ranks dos jogadores, criando times com força total similar"
+        },
+        "grilhaV1": {
+          "label": "Grilha-v1",
+          "description": "Gera opções de partida que atribuem jogadores a uma ampla gama de funções, promovendo diversidade nas atribuições de lane enquanto garante partidas justas dentro da tolerância especificada."
+        }
+      },
+      "numberOfOptions": "Número de opções",
+      "tolerance": "Tolerância",
+      "presetRoles": "Funções predefinidas",
+      "presetLanes": "Lanes predefinidas",
+      "useRoleBalancing": "Usar balanceamento de funções",
+      "usePresetLanes": "Usar lanes predefinidas",
+      "randomizeSides": "Lados aleatórios",
+      "errors": {
+        "chooseMatches": "Escolha quantas partidas gerar",
+        "tooManyMatches": "Muitas partidas! O máximo é {{max}}.",
+        "chooseTolerance": "Escolha um valor para a tolerância",
+        "duplicatePlayer": "Você escolheu um jogador para múltiplas funções",
+        "chooseAlgorithm": "Escolha um algoritmo para balancear a partida",
+        "unknownAlgorithm": "Algoritmo desconhecido selecionado"
+      }
+    },
+    "results": {
+      "reroll": "Recriar (rebola)",
+      "generating": "Gerando...",
+      "noMatchesFound": "Nenhuma Partida Encontrada",
+      "suggestions": "Sugestões:",
+      "suggestionsList": [
+        "Tente aumentar o valor de tolerância",
+        "Remova ou ajuste as atribuições de lane predefinidas",
+        "Selecione jogadores diferentes",
+        "Tente um algoritmo diferente"
+      ],
+      "match": "Partida {{number}}:",
+      "score": "Pontuação:",
+      "difference": "Diferença:",
+      "total": "Total",
+      "diff": "Diff"
+    }
+  },
+  "admin": {
+    "addMatch": "Adicionar Partida",
+    "addPlayer": "Adicionar Jogador",
+    "editPlayer": "Editar Jogador",
+    "recalculateStats": "Recalcular Estatísticas"
+  },
+  "playerList": {
+    "title": "Lista de Jogadores",
+    "columns": {
+      "name": "Nome",
+      "winRate": "Taxa de vitória",
+      "summonerName": "Nome do Invocador",
+      "matches": "Partidas",
+      "avgTop3": "Média Top 3"
+    },
+    "lanes": {
+      "top": "top",
+      "jungle": "jungle",
+      "mid": "mid",
+      "bot": "bot",
+      "support": "support"
+    }
+  },
+  "playerPage": {
+    "noData": "Nenhum dado do jogador",
+    "tabs": {
+      "summary": "Resumo",
+      "champions": "Campeões",
+      "stats": "Estatísticas",
+      "records": "Recordes"
+    },
+    "banner": {
+      "numberOfMatches": "Número de partidas: {{count}}",
+      "winRate": "Taxa de vitória"
+    },
+    "summary": {
+      "showAll": "Mostrar todos",
+      "statsOfLastGames": "Estatísticas das últimas {{count}} partidas:",
+      "filteredByRole": "Filtrado por função:",
+      "clear": "Limpar",
+      "rankChange": "Mudança de Rank"
+    },
+    "champions": {
+      "columns": {
+        "champion": "Campeão",
+        "picked": "Escolhido",
+        "kda": "KDA",
+        "gold": "Ouro",
+        "cs": "CS",
+        "damageDealt": "Dano causado",
+        "damageTaken": "Dano recebido",
+        "damageSelfMitigated": "Dano auto-mitigado",
+        "visionScore": "Pontuação de visão",
+        "wardsBought": "Wards compradas"
+      }
+    },
+    "stats": {
+      "winRateBlue": "Taxa de vitória no lado azul",
+      "winRateRed": "Taxa de vitória no lado vermelho",
+      "totalGames": "Total de jogos",
+      "winRateWith": "Taxa de vitória com jogador",
+      "winRateAgainst": "Taxa de vitória contra jogador",
+      "columns": {
+        "name": "Nome",
+        "winRate": "Taxa de vitória",
+        "games": "Jogos"
+      },
+      "games": "jogos"
+    },
+    "records": {
+      "showMatch": "Mostrar partida",
+      "titles": {
+        "kills": "Mais abates numa partida",
+        "deaths": "Mais mortes",
+        "assists": "Mais assistências",
+        "cs": "Maior farm",
+        "csPerMin": "Maior farm por minuto",
+        "damage": "Maior dano causado",
+        "damageTaken": "Maior dano recebido",
+        "multiKill": "Maior Multikill",
+        "killingSpree": "Maior sequência de abates",
+        "longestGame": "Partida mais longa",
+        "shortestGame": "Partida mais curta",
+        "visionScore": "Maior pontuação de visão"
+      }
+    },
+    "match": {
+      "victory": "Vitória",
+      "defeat": "Derrota",
+      "doubleKill": "Double Kill",
+      "tripleKill": "Tripla Kill",
+      "quadraKill": "Quadra Kill",
+      "pentaKill": "Penta Kill",
+      "killingSpree": "Sequência: {{count}}",
+      "viewMatchDetails": "Ver detalhes da partida",
+      "wins": "V",
+      "losses": "D",
+      "kdaLabel": "KDA"
+    }
+  },
+  "matchPage": {
+    "title": "Detalhes da partida",
+    "matchPlayed": "Partida jogada em",
+    "gameDuration": "Duração da partida",
+    "matchId": "ID da partida",
+    "team": "Time",
+    "victory": "Vitória",
+    "defeat": "Derrota",
+    "bans": "banimentos",
+    "killParticipation": "Participação nas eliminações",
+    "tooltips": {
+      "baronKills": "Barões eliminados",
+      "dragonKills": "Dragões eliminados",
+      "turretsDestroyed": "Torres destruídas"
+    },
+    "damageChart": {
+      "damage": "Dano",
+      "damageTaken": "Dano Recebido",
+      "gold": "Ouro",
+      "vision": "Visão",
+      "blueTeam": "Time Azul",
+      "redTeam": "Time Vermelho"
+    },
+    "playerStats": {
+      "kda": "KDA",
+      "doubleKills": "Double Kills",
+      "tripleKills": "Triple Kills",
+      "quadraKills": "Quadra Kills",
+      "pentaKills": "Penta Kills",
+      "damagePerKill": "Dano por eliminação",
+      "damageToChampions": "Dano aos campeões",
+      "damageToTurrets": "Dano às torres",
+      "largestKillingSpree": "Maior sequência de eliminações",
+      "goldEarned": "Ouro obtido",
+      "wardsDestroyed": "Sentinelas destruídas",
+      "wardsPlaced": "Sentinelas colocadas",
+      "visionScore": "Pontuação de visão",
+      "visionWardsBought": "Sentinelas de visão compradas",
+      "totalHealing": "Cura total",
+      "totalDamageTaken": "Dano total recebido"
+    }
+  },
+  "gameStats": {
+    "title": "Estatísticas",
+    "championColumns": {
+      "champion": "Campeão",
+      "picked": "Escolhido",
+      "banned": "Banido",
+      "winRate": "Taxa de vitória",
+      "kills": "Eliminações",
+      "deaths": "Mortes",
+      "assists": "Assistências",
+      "kda": "KDA",
+      "cs": "CS"
+    },
+    "general": {
+      "numberOfGames": "Número de jogos",
+      "averageGameDuration": "Duração média dos jogos",
+      "minutes": "minutos",
+      "championsPicked": "Campeões escolhidos",
+      "championsNeverPicked": "Campeões nunca escolhidos"
+    },
+    "sideStats": {
+      "redSide": "Red Side",
+      "blueSide": "Blue Side",
+      "wins": "Vitórias",
+      "baronsKilled": "Barões eliminados",
+      "dragonsKilled": "Dragões eliminados",
+      "riftHeraldsKilled": "Arautos da Fenda eliminados",
+      "turretsDestroyed": "Torres destruídas",
+      "firstBloods": "Primeiras eliminações",
+      "killedFirstBaron": "Eliminou o primeiro Barão",
+      "killedFirstDragon": "Eliminou o primeiro Dragão",
+      "destroyedFirstInhibitor": "Destruiu o primeiro inibidor",
+      "destroyedFirstTower": "Destruiu a primeira torre"
+    }
+  },
+  "errors": {
+    "pageNotFound": "Página Não Encontrada",
+    "somethingWentWrong": "Algo deu errado"
+  }
+}

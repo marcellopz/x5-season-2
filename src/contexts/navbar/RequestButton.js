@@ -8,8 +8,10 @@ import {
   TextField,
 } from "@mui/material";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function RequestButton({ open, setOpen, requestToBeNerd }) {
+  const { t } = useTranslation();
   const [name, setName] = useState("");
 
   const handleClickOpen = () => {
@@ -33,22 +35,19 @@ export default function RequestButton({ open, setOpen, requestToBeNerd }) {
         onClick={handleClickOpen}
         className="navbar-request-button"
       >
-        Request permission
+        {t("navbar.requestPermission")}
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Request permission to see photos</DialogTitle>
+        <DialogTitle>{t("auth.requestPermissionDialog.title")}</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To get the full experience of this website, request permission to
-            see photos. Inform a name for us to identify you and if you're
-            accepted in you'll be granted access to all the website
-            functionalities.
+            {t("auth.requestPermissionDialog.description")}
           </DialogContentText>
           <TextField
             autoFocus
             margin="dense"
             id="name"
-            label="Name"
+            label={t("common.name")}
             type="text"
             fullWidth
             variant="standard"
@@ -57,8 +56,8 @@ export default function RequestButton({ open, setOpen, requestToBeNerd }) {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleSend}>Send</Button>
+          <Button onClick={handleClose}>{t("common.cancel")}</Button>
+          <Button onClick={handleSend}>{t("common.send")}</Button>
         </DialogActions>
       </Dialog>
     </div>

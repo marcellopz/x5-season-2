@@ -1,9 +1,12 @@
 import React from "react";
 import { Box, Typography, Button } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import GameDurationHistogram from "../GraphComponents/GameDurationHistogram";
 import "./GameDurationSection.css";
 
 const GameDurationSection = ({ stats }) => {
+  const { t } = useTranslation();
+
   return (
     <Box className="game-duration-section-container" id="game-duration-section">
       <Box className="game-duration-content">
@@ -12,16 +15,16 @@ const GameDurationSection = ({ stats }) => {
         </Box>
         <Box className="game-duration-placeholder">
           <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
-            This section is incomplete. Future features could include:
+            {t("home.gameDurationSection.incompleteSection")}
           </Typography>
           <ul className="feature-list">
-            <li>Average game duration by champion</li>
-            <li>Game duration trends over time</li>
-            <li>Win rate analysis by game duration</li>
-            <li>Correlation between game duration and other factors</li>
+            <li>{t("home.gameDurationSection.averageDurationByChampion")}</li>
+            <li>{t("home.gameDurationSection.durationTrends")}</li>
+            <li>{t("home.gameDurationSection.winRateAnalysis")}</li>
+            <li>{t("home.gameDurationSection.correlationAnalysis")}</li>
           </ul>
           <Button variant="outlined" color="primary" sx={{ mt: 2 }} disabled>
-            Coming Soon
+            {t("home.gameDurationSection.comingSoon")}
           </Button>
         </Box>
       </Box>

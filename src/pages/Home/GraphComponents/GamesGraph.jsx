@@ -1,8 +1,10 @@
 import { useTheme } from "@emotion/react";
 import { Box, Typography } from "@mui/material";
 import ReactEcharts from "echarts-for-react";
+import { useTranslation } from "react-i18next";
 
 const GamesGraph = ({ stats }) => {
+  const { t } = useTranslation();
   const theme = useTheme();
   const { gamesPerMonth } = stats;
   const months = Object.keys(gamesPerMonth).map((date) => {
@@ -35,7 +37,7 @@ const GamesGraph = ({ stats }) => {
     },
     series: [
       {
-        name: "Games played",
+        name: t("home.charts.gamesPlayed"),
         type: "bar",
         data: numbers,
         itemStyle: {
@@ -55,7 +57,7 @@ const GamesGraph = ({ stats }) => {
   return (
     <Box className="content-box">
       <Typography variant="h6" fontWeight={500}>
-        Games played per month
+        {t("home.charts.gamesPlayedPerMonth")}
       </Typography>
       <ReactEcharts
         option={option}

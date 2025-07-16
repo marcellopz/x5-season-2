@@ -2,10 +2,12 @@ import { Button, Typography } from "@mui/material";
 import React, { useContext } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import CustomTextfield from "../../common-components/CustomTextfield";
 import { AuthContext } from "../../contexts/authContext";
 
 export default function LoginForm() {
+  const { t } = useTranslation();
   const { signInGoogle, signInUsernamePwd } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -39,18 +41,18 @@ export default function LoginForm() {
       onSubmit={handleSubmit}
     >
       <Typography sx={{ fontWeight: 700, marginBottom: 4, fontSize: 26 }}>
-        Sign In
+        {t("auth.signIn")}
       </Typography>
       <CustomTextfield
         width="350px"
-        label="Email"
+        label={t("common.email")}
         onChange={handleEmailChange}
         type="email"
         sx={{ marginBottom: "1.5rem", maxWidth: "90%" }}
       />
       <CustomTextfield
         width="350px"
-        label="Password"
+        label={t("common.password")}
         onChange={handlePasswordChange}
         type="password"
         sx={{ marginBottom: "1.5rem", maxWidth: "90%" }}
@@ -61,7 +63,7 @@ export default function LoginForm() {
         type="submit"
         color="info"
       >
-        Log In
+        {t("common.login")}
       </Button>
       <Button
         variant="outlined"
@@ -75,7 +77,7 @@ export default function LoginForm() {
         onClick={handleGoogleLogin}
         color="info"
       >
-        <Typography>Log in with Google</Typography>
+        <Typography>{t("auth.loginWithGoogle")}</Typography>
       </Button>
       {/* <Button
         variant="outlined"
@@ -85,7 +87,7 @@ export default function LoginForm() {
         component={Link}
         to="/home"
       >
-        <Typography>Sign in as guest</Typography>
+        <Typography>{t('auth.signInAsGuest')}</Typography>
       </Button> */}
 
       <Link to="/auth/register" style={{ textDecoration: "none" }}>
@@ -97,7 +99,7 @@ export default function LoginForm() {
             color: "#525252",
           }}
         >
-          Register
+          {t("common.register")}
         </Typography>
       </Link>
     </form>

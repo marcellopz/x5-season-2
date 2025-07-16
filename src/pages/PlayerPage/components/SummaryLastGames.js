@@ -1,4 +1,5 @@
 import React, { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { floatToPercentageString } from "../../../utils/utils";
 import CircularProgressWithLabel from "./CircularProgressWithLabel";
 import { Typography } from "@mui/material";
@@ -6,6 +7,7 @@ import { CHAMPIONICONURL } from "../../../common-components/resources";
 import "./SummaryLastGames.css";
 
 export default function SummaryLastGames({ games }) {
+  const { t } = useTranslation();
   const wins = useMemo(
     () =>
       games.reduce((accumulator, game) => {
@@ -68,7 +70,9 @@ export default function SummaryLastGames({ games }) {
   return (
     <div className="slg-container">
       <div className="slg-header">
-        <Typography>{`Stats of last ${games.length} games:`}</Typography>
+        <Typography>
+          {t("playerPage.summary.statsOfLastGames", { count: games.length })}
+        </Typography>
       </div>
 
       <div className="slg-content">
@@ -81,14 +85,18 @@ export default function SummaryLastGames({ games }) {
               labelFontSize={20}
             />
             <div className="slg-stats-details">
-              <Typography className="slg-stats-text">{`${games.length}G ${wins}W ${losses}L`}</Typography>
+              <Typography className="slg-stats-text">{`${
+                games.length
+              }G ${wins}${t("playerPage.match.wins")} ${losses}${t(
+                "playerPage.match.losses"
+              )}`}</Typography>
               <Typography className="slg-stats-text">{`${getAvg(
                 kills
               )} / ${getAvg(deaths)} / ${getAvg(assists)}`}</Typography>
               <Typography className="slg-kda-text">{`${(
                 (kills + assists) /
                 deaths
-              ).toFixed(2)}:1 KDA`}</Typography>
+              ).toFixed(2)}:1 ${t("playerPage.match.kdaLabel")}`}</Typography>
             </div>
           </div>
         </div>
@@ -127,9 +135,11 @@ export default function SummaryLastGames({ games }) {
                     >
                       {floatToPercentageString(champWins / n)}
                     </Typography>
-                    <Typography className="slg-record">{`${champWins}W ${
-                      n - champWins
-                    }L`}</Typography>
+                    <Typography className="slg-record">{`${champWins}${t(
+                      "playerPage.match.wins"
+                    )} ${n - champWins}${t(
+                      "playerPage.match.losses"
+                    )}`}</Typography>
                   </div>
                 </div>
               );
