@@ -238,17 +238,15 @@ const TeamMatch = ({ team, matchRoles }) => {
         />
         <div className="bans-container">
           <p className="bans-label">{t("matchPage.bans")}: </p>
-          {team.teamStats.bans
-            .sort((a, b) => a.pickTurn - b.pickTurn)
-            .map((champ, i) => (
-              <div className="champion-ban" key={i}>
-                <img
-                  src={`${CHAMPIONICONURL}${champ.championId}.png`}
-                  alt={champ.championId}
-                  className="champion-ban-img"
-                />
-              </div>
-            ))}
+          {team.teamStats.bans.map((champ, i) => (
+            <div className="champion-ban" key={i}>
+              <img
+                src={`${CHAMPIONICONURL}${champ.championId}.png`}
+                alt={champ.championId}
+                className="champion-ban-img"
+              />
+            </div>
+          ))}
         </div>
       </div>
 
