@@ -17,7 +17,6 @@ export default function SummaryMatches({
   const [allMatchRoles, setAllMatchRoles] = useState({});
   const [allRankChangeLog, setAllRankChangeLog] = useState({});
   const { player } = useParams();
-  const { t } = useTranslation();
 
   const filteredEntries = useMemo(() => {
     const changeLog = Object.values(

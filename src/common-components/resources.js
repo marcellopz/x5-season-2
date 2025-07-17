@@ -174,6 +174,7 @@ export const championIds = {
   777: "Yone",
   799: "Ambessa",
   800: "Mel",
+  804: "Yunara",
   875: "Sett",
   876: "Lillia",
   887: "Gwen",
