@@ -41,13 +41,6 @@ const validateMatch = (matchObj) => {
     errors.push(`Invalid gameMode: ${matchObj.gameMode}. Expected: CLASSIC`);
   }
 
-  // Check reply_type is lol-match-details
-  if (matchObj.reply_type !== "lol-match-details") {
-    errors.push(
-      `Invalid reply_type: ${matchObj.reply_type}. Expected: lol-match-details`
-    );
-  }
-
   // Additional checks for required fields
   if (!matchObj.gameCreationDate) {
     errors.push("Missing gameCreationDate");
