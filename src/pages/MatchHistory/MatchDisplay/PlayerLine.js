@@ -16,6 +16,7 @@ const PlayerLine = ({ player, totalKills, gameDuration }) => {
           alignItems: "center",
           width: { xs: "150px", md: "200px", xl: "250px" },
           maxWidth: "100%",
+          flexGrow: 1,
         }}
       >
         <div className="pl-champion-wrapper">
