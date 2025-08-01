@@ -23,27 +23,44 @@ export default function Matchmaking() {
 
   useEffect(() => {
     getCardbackground();
-  }, []);
+  }, [getCardbackground]);
+
+  // Reset isOk state when step changes
+  useEffect(() => {
+    setIsOk(false);
+  }, [step]);
 
   return (
     <MatchMakingProvider>
       <X5pageContentArea title={t("matchmaking.title")}>
-        <div className="matchmaking-container">
-          <div className="step-indicator">
+        <div
+          className="matchmaking-container"
+          data-testid="matchmaking-container"
+        >
+          <div className="step-indicator" data-testid="step-indicator">
             {stepTitles.map((title, index) => (
               <div
                 key={index}
                 className={`step-dot ${step === index ? "active" : ""}`}
+                data-testid="step-dot"
               />
             ))}
           </div>
-          <Typography className="step-title">{stepTitles[step]}</Typography>
-          <div className="matchmaking-step-container">
+          <Typography className="step-title" data-testid="step-title">
+            {stepTitles[step]}
+          </Typography>
+          <div
+            className="matchmaking-step-container"
+            data-testid="matchmaking-step-container"
+          >
             {step === 0 && <PlayerSelectionStep setIsOk={setIsOk} />}
             {step === 1 && <AlgorithmSelectionStep setIsOk={setIsOk} />}
             {step === 2 && <ResultStep />}
           </div>
-          <div className="matchmaking-nav-buttons">
+          <div
+            className="matchmaking-nav-buttons"
+            data-testid="matchmaking-nav-buttons"
+          >
             <Button
               className="matchmaking-button"
               variant="outlined"
