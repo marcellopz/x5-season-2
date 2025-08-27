@@ -12,6 +12,8 @@ import grilhaIcon from "./grilhaIcon";
 import LanguageSwitcher from "./LanguageSwitcher";
 import "./Navbar.css";
 
+const REQUEST_ENABLED = false;
+
 function Navbar() {
   const { t } = useTranslation();
   const {
@@ -147,7 +149,7 @@ function Navbar() {
             <li className="navbar-right-item">
               <LanguageSwitcher />
             </li>
-            {!isNerd && !isAnonymous && (
+            {!isNerd && !isAnonymous && REQUEST_ENABLED && (
               <li className="navbar-right-item">
                 <RequestButton
                   open={requestDialogOpen}
@@ -158,7 +160,7 @@ function Navbar() {
             )}
           </ul>
           <div className="navbar-mobile-controls">
-            {!isNerd && !isAnonymous && (
+            {!isNerd && !isAnonymous && REQUEST_ENABLED && (
               <RequestButton
                 open={requestDialogOpen}
                 setOpen={setRequestDialogOpen}

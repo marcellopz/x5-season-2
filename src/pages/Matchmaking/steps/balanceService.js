@@ -106,6 +106,27 @@ export const executeBalance = (
     }
 
     if (selectedAlgo === "cheezeV2") {
+      // Apply half support rank if the option is enabled
+      let modifiedPlayersToBalance = playersToBalance;
+      if (algoOptions?.useHalfSupportRank) {
+        modifiedPlayersToBalance = playersToBalance.map((player) => {
+          if (
+            player &&
+            player.ranks &&
+            Array.isArray(player.ranks) &&
+            player.ranks.length >= 5
+          ) {
+            const newRanks = [...player.ranks];
+            newRanks[4] = Math.floor(player.ranks[4] / 2);
+            return {
+              ...player,
+              ranks: newRanks,
+            };
+          }
+          return player;
+        });
+      }
+
       const targetMatches = +algoOptions.options.numberOfMatches;
       const hasPresetLanes = Object.values(
         algoOptions.presetPositions || {}
@@ -127,7 +148,7 @@ export const executeBalance = (
 
           // Generate match with the modified preset positions
           a = BalanceMatchCheezeV2(
-            playersToBalance,
+            modifiedPlayersToBalance,
             algoOptions.options.tolerance,
             modifiedPresetPositions
           );
@@ -152,7 +173,7 @@ export const executeBalance = (
         // Original behavior - no side randomization
         while (i++ < MAX_TRIES) {
           a = BalanceMatchCheezeV2(
-            playersToBalance,
+            modifiedPlayersToBalance,
             algoOptions.options.tolerance,
             algoOptions.presetPositions
           );

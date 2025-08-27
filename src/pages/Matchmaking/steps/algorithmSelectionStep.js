@@ -260,6 +260,7 @@ export default function AlgorithmSelectionStep({ setIsOk }) {
   const [useRoleBalancing, setUseRoleBalancing] = useState(true);
   const [usePresetLanes, setUsePresetLanes] = useState(false);
   const [randomizeSides, setRandomizeSides] = useState(true);
+  const [useHalfSupportRank, setUseHalfSupportRank] = useState(false);
 
   const MAX_NUMBER_OF_MATCHES = 15;
 
@@ -306,7 +307,9 @@ export default function AlgorithmSelectionStep({ setIsOk }) {
   // Auto-select algorithm based on simplified settings
   useEffect(() => {
     if (!showAdvanced) {
-      if (useRoleBalancing) {
+      if (useHalfSupportRank) {
+        setSelectedAlgo("cheezeV2");
+      } else if (useRoleBalancing) {
         if (usePresetLanes) {
           setSelectedAlgo("cheezeV2");
         } else {
@@ -316,10 +319,21 @@ export default function AlgorithmSelectionStep({ setIsOk }) {
         setSelectedAlgo("claudeV1");
       }
     }
-  }, [showAdvanced, useRoleBalancing, usePresetLanes, setSelectedAlgo]);
+  }, [
+    showAdvanced,
+    useRoleBalancing,
+    usePresetLanes,
+    useHalfSupportRank,
+    setSelectedAlgo,
+  ]);
 
   useEffect(() => {
-    setAlgoOptions({ options: values, presetPositions, randomizeSides });
+    setAlgoOptions({
+      options: values,
+      presetPositions,
+      randomizeSides,
+      useHalfSupportRank,
+    });
     switch (selectedAlgo) {
       case "cheezeV1":
         if (!(+values.numberOfMatches > 0)) {
@@ -414,6 +428,7 @@ export default function AlgorithmSelectionStep({ setIsOk }) {
     setAlgoOptions,
     MAX_NUMBER_OF_MATCHES,
     randomizeSides,
+    useHalfSupportRank,
   ]);
 
   useEffect(() => {
@@ -786,6 +801,25 @@ export default function AlgorithmSelectionStep({ setIsOk }) {
               )}
             </>
           )}
+
+          {/* Use half support rank checkbox */}
+          <div className="algorithm-field-container">
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={useHalfSupportRank}
+                  onChange={(e) => setUseHalfSupportRank(e.target.checked)}
+                />
+              }
+              label={t("matchmaking.algorithmSelection.useHalfSupportRank")}
+              className="algorithm-checkbox"
+              sx={{
+                "& .MuiFormControlLabel-label": {
+                  color: "primary.dark",
+                },
+              }}
+            />
+          </div>
 
           {/* Number of options - shown when role balancing is off */}
           {!useRoleBalancing && (

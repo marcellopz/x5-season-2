@@ -187,6 +187,7 @@
       "useRoleBalancing": "Use role balancing",
       "usePresetLanes": "Use pre-set lanes",
       "randomizeSides": "Randomize sides",
+      "useHalfSupportRank": "Use half support rank",
       "errors": {
         "chooseMatches": "Choose how many matches to generate",
         "tooManyMatches": "Too many matches! The maximum is {{max}}.",

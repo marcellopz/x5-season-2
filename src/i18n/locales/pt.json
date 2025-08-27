@@ -187,6 +187,7 @@
       "useRoleBalancing": "Usar balanceamento de funções",
       "usePresetLanes": "Usar lanes predefinidas",
       "randomizeSides": "Lados aleatórios",
+      "useHalfSupportRank": "Usar metade do rank de support",
       "errors": {
         "chooseMatches": "Escolha quantas partidas gerar",
         "tooManyMatches": "Muitas partidas! O máximo é {{max}}.",
