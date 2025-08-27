@@ -117,7 +117,7 @@ export const executeBalance = (
             player.ranks.length >= 5
           ) {
             const newRanks = [...player.ranks];
-            newRanks[4] = Math.floor(player.ranks[4] / 2);
+            newRanks[4] = Math.floor(player.ranks[4] / 2) || 1;
             return {
               ...player,
               ranks: newRanks,

@@ -46,7 +46,7 @@ const PlayerLine = ({ player, totalKills, gameDuration }) => {
           to={`/player/${player.summonerId}`}
           className="pl-name"
           sx={{
-            fontSize: { xs: "0.7rem", md: "1rem" },
+            fontSize: { xs: "0.7rem", sm: "1rem" },
           }}
         >
           {player.summonerName}
@@ -57,9 +57,8 @@ const PlayerLine = ({ player, totalKills, gameDuration }) => {
         <Typography
           sx={{
             textAlign: "center",
-            fontSize: { xs: "0.7rem", md: "1rem" },
+            fontSize: { xs: "0.7rem", sm: "1rem" },
             display: { xs: "none", sm: "block" },
-            width: "120px",
           }}
         >{`${player.stats.kills}/${player.stats.deaths}/${
           player.stats.assists
@@ -71,7 +70,6 @@ const PlayerLine = ({ player, totalKills, gameDuration }) => {
       <Box
         sx={{
           display: { xs: "none", lg: "block" },
-          width: "110px",
         }}
       >
         <Tooltip title="Creep Score" placement="top">
@@ -87,6 +85,7 @@ const PlayerLine = ({ player, totalKills, gameDuration }) => {
               src="https://static.wikia.nocookie.net/leagueoflegends/images/3/30/Minion_icon.png"
               className="pl-cs-icon"
               alt="cs"
+              style={{ marginLeft: "5px" }}
             />
           </div>
         </Tooltip>

@@ -7,8 +7,9 @@
   border-radius: var(--radius);
   align-items: center;
   justify-content: space-between;
-  padding-right: 5%;
+  padding-right: 20px;
   color: var(--foreground);
+  gap: 20px;
 }
 
 .pl-champion-wrapper {
@@ -55,13 +56,13 @@
 }
 
 .pl-cs-container {
-  width: 50px;
   display: flex;
+  gap: 5px;
 }
 
 .pl-cs-value {
-  width: 30px;
-  text-align: center;
+  width: 23px;
+  text-align: right;
 }
 
 .pl-cs-permin {
