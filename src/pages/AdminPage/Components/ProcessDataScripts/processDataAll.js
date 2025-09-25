@@ -151,6 +151,7 @@ export default function processDataAll(matches) {
     blueSide.towerKills += blue.towerKills;
     blueSide.wins += blue.win === "Win";
     blue.bans?.forEach((b) => {
+      if (b.championId < 0) return;
       champions[b.championId].bans += 1;
     });
 
@@ -166,6 +167,7 @@ export default function processDataAll(matches) {
     redSide.towerKills += red.towerKills;
     redSide.wins += red.win === "Win";
     red.bans?.forEach((b) => {
+      if (b.championId < 0) return;
       champions[b.championId].bans += 1;
     });
 
