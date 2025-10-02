@@ -1,5 +1,7 @@
 import { championIds as champIds } from "../../../../common-components/resources";
 
+const RECENT_MATCHES_COUNT = 10;
+
 export const processPlayerPairs = (matches) => {
   const pairs = {};
   Object.values(matches).forEach((match) => {
@@ -119,6 +121,46 @@ export default function processDataAll(matches) {
   };
   let earliestDate = null;
   let latestDate = null;
+  let mostRecentGameTimestamp = null;
+
+  // Convert matches object to array and sort by date to find recent matches
+  const matchesArray = Object.values(matches);
+  const sortedMatches = matchesArray
+    .filter((match) => match.date && !isNaN(new Date(match.date).getTime()))
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+  // Get the most recent matches for player win tracking
+  const recentMatches = sortedMatches.slice(0, RECENT_MATCHES_COUNT);
+  const playerWinsInRecentMatches = {};
+
+  // Process recent matches to track player wins
+  recentMatches.forEach((match) => {
+    const winnerTeam = match.teams.filter((t) => t.win === "Win")[0]?.teamId;
+    if (winnerTeam) {
+      match.participants.forEach((participant) => {
+        if (participant.teamId === winnerTeam) {
+          const playerId = participant.summonerId;
+          playerWinsInRecentMatches[playerId] =
+            (playerWinsInRecentMatches[playerId] || 0) + 1;
+        }
+      });
+    }
+  });
+
+  // Find player with most wins in recent matches
+  let topRecentPlayer = null;
+  let maxRecentWins = 0;
+  Object.entries(playerWinsInRecentMatches).forEach(([playerId, wins]) => {
+    if (wins > maxRecentWins) {
+      maxRecentWins = wins;
+      topRecentPlayer = playerId;
+    }
+  });
+
+  // Set most recent game timestamp
+  if (sortedMatches.length > 0) {
+    mostRecentGameTimestamp = new Date(sortedMatches[0].date).getTime();
+  }
 
   Object.values(matches).forEach((match) => {
     gameDurationTotal += match.gameDuration;
@@ -297,5 +339,7 @@ export default function processDataAll(matches) {
     weekDayDistribution, // Include the weekday distribution in the return value
     gameDurationHistogram: sortedGameDurationHistogram, // Include sorted game duration histogram
     hourlyDistribution, // Include games played per hour of day
+    mostRecentGameTimestamp, // Timestamp of the most recent game
+    topRecentPlayer: topRecentPlayer ? Number(topRecentPlayer) : null, // Player ID with most wins in recent matches
   };
 }
