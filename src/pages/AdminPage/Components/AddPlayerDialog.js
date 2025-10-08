@@ -120,7 +120,7 @@ export default function AddPlayerDialog({ open, onClose }) {
                 {capitalizeFirstLetter(role)}
               </FormLabel>
               <Select value={fields[role]} onChange={fieldChange(role)}>
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => (
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((n) => (
                   <MenuItem value={n} key={n}>
                     {n}
                   </MenuItem>
