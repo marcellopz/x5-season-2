@@ -104,7 +104,7 @@ export default function EditPlayerForm({ player, reloadPlayers, goBack }) {
             {capitalizeFirstLetter(role)}
           </FormLabel>
           <Select value={fields[role]} onChange={fieldChange(role)}>
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => (
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((n) => (
               <MenuItem value={n} key={n}>
                 {n}
               </MenuItem>
