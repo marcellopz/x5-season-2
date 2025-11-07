@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { floatToPercentageString, getKDA, isObjEmpty } from "../../utils/utils";
 import { CHAMPIONICONURL } from "../../common-components/resources";
 import { DataGrid } from "@mui/x-data-grid";
+import { Typography } from "@mui/material";
 import "./ChampionStats.css"; // Import component styles
 
 export default function ChampionStats({ champions }) {
@@ -123,8 +124,14 @@ export default function ChampionStats({ champions }) {
     [t]
   );
 
-  if (typeof champions === "undefined" || isObjEmpty(champions)) {
-    return null;
+  if (typeof champions === "undefined" || champions === null || isObjEmpty(champions)) {
+    return (
+      <div className="champion-stats-container">
+        <Typography variant="h6" sx={{ textAlign: "center", padding: "20px" }}>
+          {t("common.noDataYet")}
+        </Typography>
+      </div>
+    );
   }
 
   const championsArray = Object.values(champions).map((c) => ({

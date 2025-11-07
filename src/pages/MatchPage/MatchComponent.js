@@ -1,4 +1,4 @@
-import { CircularProgress, Tooltip } from "@mui/material";
+import { CircularProgress, Tooltip, Typography } from "@mui/material";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import useSingleMatchData from "./useSingleMatchData";
@@ -271,14 +271,15 @@ const TeamMatch = ({ team, matchRoles }) => {
 };
 
 export default function MatchComponent({ matchData, matchRoles }) {
+  const { t } = useTranslation();
   const { blueTeam, redTeam } = useSingleMatchData(matchData);
 
-  if (typeof matchData === "undefined" || typeof matchRoles === "undefined") {
+  if (typeof matchData === "undefined" || matchData === null || typeof matchRoles === "undefined" || matchRoles === null) {
     return (
       <div className="loading-container">
-        <div className="loading-spinner">
-          <CircularProgress />
-        </div>
+        <Typography variant="h6" sx={{ textAlign: "center", padding: "20px" }}>
+          {t("common.noDataYet")}
+        </Typography>
       </div>
     );
   }

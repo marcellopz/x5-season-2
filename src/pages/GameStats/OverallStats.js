@@ -73,7 +73,7 @@ export default function OverallStats({ stats, hideMainStats }) {
   const { t } = useTranslation();
 
   const generalItems = useMemo(() => {
-    if (isObjEmpty(stats)) {
+    if (!stats || isObjEmpty(stats)) {
       return [];
     }
     return [
@@ -97,6 +97,9 @@ export default function OverallStats({ stats, hideMainStats }) {
   }, [stats, t]);
 
   const sideRelatedItems = useMemo(() => {
+    if (!stats || !stats.redSide || !stats.blueSide) {
+      return [];
+    }
     return [
       <SideStatBox
         title={t("gameStats.sideStats.wins")}
@@ -150,6 +153,16 @@ export default function OverallStats({ stats, hideMainStats }) {
       />,
     ];
   }, [stats, t]);
+
+  if (!stats || isObjEmpty(stats)) {
+    return (
+      <div className="stats-container">
+        <Typography variant="h6" sx={{ textAlign: "center", padding: "20px" }}>
+          {t("common.noDataYet")}
+        </Typography>
+      </div>
+    );
+  }
 
   return (
     <div className="stats-container">

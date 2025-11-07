@@ -19,6 +19,7 @@ import {
 } from "../../assets/images/lanes";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { Typography } from "@mui/material";
 import "./PlayerList.css"; // Import component styles
 
 // Component for rendering summoner name with tagline
@@ -203,9 +204,10 @@ const getColumns = (t) => [
 
 export default function PlayerList() {
   const { t } = useTranslation();
-  const [players, setPlayers] = useState({});
-  const [playersSummary, setPlayersSummary] = useState({});
+  const [players, setPlayers] = useState(null);
+  const [playersSummary, setPlayersSummary] = useState(null);
   const [playersWithStats, setPlayersWithStats] = useState([]);
+  const [loading, setLoading] = useState(true);
   const Navigate = useNavigate();
 
   useEffect(() => {
@@ -215,11 +217,15 @@ export default function PlayerList() {
     })();
     (async () => {
       const players_ = await getPlayerSummaryList();
-      setPlayersSummary(players_ ?? {});
+      setPlayersSummary(players_ ?? null);
+      setLoading(false);
     })();
   }, []);
 
   useEffect(() => {
+    if (players === null || playersSummary === null) {
+      return;
+    }
     const ps = Object.keys(players ?? {}).map((p, i) => {
       return {
         ...players[p],
@@ -236,36 +242,52 @@ export default function PlayerList() {
     setPlayersWithStats(ps.filter((p) => !p.hide && p.numberOfMatches > 0));
   }, [players, playersSummary]);
 
+  if (!loading && (players === null || playersSummary === null)) {
+    return (
+      <X5pageContentArea title={t("playerList.title")}>
+        <Typography variant="h6" sx={{ textAlign: "center", padding: "20px" }}>
+          {t("common.noDataYet")}
+        </Typography>
+      </X5pageContentArea>
+    );
+  }
+
   return (
     <X5pageContentArea
       title={t("playerList.title")}
-      loading={playersWithStats.length === 0}
+      loading={loading || playersWithStats.length === 0}
     >
-      <div className="player-list-grid-container">
-        <DataGrid
-          rows={playersWithStats}
-          columns={getColumns(t)}
-          hideFooter
-          rowSelection={false}
-          disableRowSelectionOnClick
-          disableColumnSelector
-          disableDensitySelector
-          disableColumnMenu
-          className="player-list-datagrid"
-          sx={{
-            "& .MuiDataGrid-cell": {
-              borderColor: "var(--border-light)",
-            },
-            "& .MuiDataGrid-footerContainer": {
-              borderTop: "1px solid var(--border-light)",
-            },
-            "& .MuiTablePagination-root": {
-              color: "var(--foreground)",
-            },
-          }}
-          onRowClick={(a) => Navigate("/player/" + a.row.player_id)}
-        />
-      </div>
+      {playersWithStats.length === 0 && !loading ? (
+        <Typography variant="h6" sx={{ textAlign: "center", padding: "20px" }}>
+          {t("common.noDataYet")}
+        </Typography>
+      ) : (
+        <div className="player-list-grid-container">
+          <DataGrid
+            rows={playersWithStats}
+            columns={getColumns(t)}
+            hideFooter
+            rowSelection={false}
+            disableRowSelectionOnClick
+            disableColumnSelector
+            disableDensitySelector
+            disableColumnMenu
+            className="player-list-datagrid"
+            sx={{
+              "& .MuiDataGrid-cell": {
+                borderColor: "var(--border-light)",
+              },
+              "& .MuiDataGrid-footerContainer": {
+                borderTop: "1px solid var(--border-light)",
+              },
+              "& .MuiTablePagination-root": {
+                color: "var(--foreground)",
+              },
+            }}
+            onRowClick={(a) => Navigate("/player/" + a.row.player_id)}
+          />
+        </div>
+      )}
     </X5pageContentArea>
   );
 }

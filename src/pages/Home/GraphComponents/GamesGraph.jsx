@@ -6,6 +6,20 @@ import { useTranslation } from "react-i18next";
 const GamesGraph = ({ stats }) => {
   const { t } = useTranslation();
   const theme = useTheme();
+
+  if (!stats || !stats.gamesPerMonth) {
+    return (
+      <Box className="content-box">
+        <Typography variant="h6" fontWeight={500}>
+          {t("home.charts.gamesPlayedPerMonth")}
+        </Typography>
+        <Typography sx={{ textAlign: "center", padding: "20px" }}>
+          {t("common.noDataYet")}
+        </Typography>
+      </Box>
+    );
+  }
+
   const { gamesPerMonth } = stats;
   const months = Object.keys(gamesPerMonth).map((date) => {
     const [year, month] = date.split("-");

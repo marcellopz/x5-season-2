@@ -65,6 +65,9 @@ export default function MatchHistory() {
   }, []);
 
   useEffect(() => {
+    if (!matches || !players) {
+      return;
+    }
     if (championFilter.length > 0 || playerFilter.length > 0) {
       setLoading(true);
       setFilteredMatchKeys(
@@ -95,8 +98,14 @@ export default function MatchHistory() {
     setDialogData({ blueTeam: [], redTeam: [], matchId: null });
   };
 
-  if (!matches || !players) {
-    return <div className="no-data-message">{t("common.noDataYet")}</div>;
+  if (!loading && (!matches || matches === null || !players || players === null)) {
+    return (
+      <X5pageContentArea>
+        <Typography variant="h6" sx={{ textAlign: "center", padding: "20px" }}>
+          {t("common.noDataYet")}
+        </Typography>
+      </X5pageContentArea>
+    );
   }
 
   return (
@@ -119,15 +128,21 @@ export default function MatchHistory() {
             players={players}
           />
         </div>
-        {filteredMatchKeys.slice(0, numberOfMatches).map((key) => (
-          <div className="match-item-container" key={key}>
-            <MatchDisplay
-              match={matches[key]}
-              openDialog={handleOpenDialog}
-              roles={matchRoles[key]}
-            />
-          </div>
-        ))}
+        {filteredMatchKeys.length === 0 && !loading ? (
+          <Typography variant="h6" sx={{ textAlign: "center", padding: "20px" }}>
+            {t("common.noDataYet")}
+          </Typography>
+        ) : (
+          filteredMatchKeys.slice(0, numberOfMatches).map((key) => (
+            <div className="match-item-container" key={key}>
+              <MatchDisplay
+                match={matches[key]}
+                openDialog={handleOpenDialog}
+                roles={matchRoles[key]}
+              />
+            </div>
+          ))
+        )}
       </X5pageContentArea>
     </div>
   );

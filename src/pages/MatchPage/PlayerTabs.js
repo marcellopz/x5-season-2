@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { CHAMPIONICONURL } from "../../common-components/resources";
 import { formatNumber } from "../../utils/utils";
 import { Link } from "react-router-dom";
+import { Typography } from "@mui/material";
 import "./PlayerTabs.css";
 
 const Tab = ({ setTabState, tabState, n, champId }) => (
@@ -44,6 +45,15 @@ const SummonerNameCell = ({ summonerName, tagLine }) => {
 export default function PlayerTabs({ matchData }) {
   const { t } = useTranslation();
   const [tabState, setTabState] = useState(0);
+
+  if (!matchData || !matchData.participants || matchData.participants.length === 0) {
+    return (
+      <Typography variant="h6" sx={{ textAlign: "center", padding: "20px" }}>
+        {t("common.noDataYet")}
+      </Typography>
+    );
+  }
+
   const curr_p = matchData.participants[tabState];
 
   return (

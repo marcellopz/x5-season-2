@@ -11,7 +11,7 @@ import {
   timeSince,
 } from "../../utils/utils";
 import MatchComponent from "./MatchComponent";
-import { Grid } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import DamageChart from "./DamageChart";
 import PlayerTabs from "./PlayerTabs";
 import "./MatchPage.css";
@@ -75,9 +75,20 @@ export default function MatchPage() {
 
   const date = matchData ? new Date(matchData.gameCreationDate) : null;
 
-  // Don't render if we're redirecting or if no matchid
-  if (!matchid || matchid.startsWith("match") || !matchData) {
+  // Don't render if we're redirecting
+  if (!matchid || matchid.startsWith("match")) {
     return null;
+  }
+
+  // Show message if matchData is null
+  if (!matchData) {
+    return (
+      <X5pageContentArea title={t("matchPage.title")}>
+        <Typography variant="h6" sx={{ textAlign: "center", padding: "20px" }}>
+          {t("common.noDataYet")}
+        </Typography>
+      </X5pageContentArea>
+    );
   }
 
   return (

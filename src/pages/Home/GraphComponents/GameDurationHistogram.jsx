@@ -6,6 +6,20 @@ import { useTranslation } from "react-i18next";
 const GameDurationHistogram = ({ stats }) => {
   const { t } = useTranslation();
   const theme = useTheme();
+
+  if (!stats || !stats.gameDurationHistogram) {
+    return (
+      <Box className="content-box">
+        <Typography variant="h6" fontWeight={500}>
+          {t("home.charts.gameDurationDistribution")}
+        </Typography>
+        <Typography sx={{ textAlign: "center", padding: "20px" }}>
+          {t("common.noDataYet")}
+        </Typography>
+      </Box>
+    );
+  }
+
   const { gameDurationHistogram } = stats;
 
   // Convert data to arrays for the chart

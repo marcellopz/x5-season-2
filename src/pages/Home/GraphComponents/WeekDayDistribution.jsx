@@ -7,6 +7,20 @@ import { useTranslation } from "react-i18next";
 const WeekDayDistribution = ({ stats }) => {
   const { t } = useTranslation();
   const theme = useTheme();
+
+  if (!stats || !stats.weekDayDistribution) {
+    return (
+      <Box className="content-box">
+        <Typography variant="h6" fontWeight={500}>
+          {t("home.charts.gamesPlayedByWeekday")}
+        </Typography>
+        <Typography sx={{ textAlign: "center", padding: "20px" }}>
+          {t("common.noDataYet")}
+        </Typography>
+      </Box>
+    );
+  }
+
   const { weekDayDistribution } = stats;
 
   // Map numeric day to name and ensure they're in order (Sunday to Saturday)

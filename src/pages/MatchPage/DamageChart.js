@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { CHAMPIONICONURL } from "../../common-components/resources";
 import { floatToPercentageString, formatNumber } from "../../utils/utils";
-import { Tooltip } from "@mui/material";
+import { Tooltip, Typography } from "@mui/material";
 import "./DamageChart.css";
 
 const Tab = ({ setTabState, tabState, n, text }) => (
@@ -93,6 +93,14 @@ const TeamSection = ({
 export default function DamageChart({ matchData }) {
   const { t } = useTranslation();
   const [tabState, setTabState] = useState(0);
+
+  if (!matchData || !matchData.participants) {
+    return (
+      <Typography variant="h6" sx={{ textAlign: "center", padding: "20px" }}>
+        {t("common.noDataYet")}
+      </Typography>
+    );
+  }
 
   // Split participants into blue and red teams
   const blueTeam = matchData.participants.filter((p) => p.teamId === 100);

@@ -74,7 +74,13 @@ const OverallStatsSection = ({ stats }) => {
 
   // Guard against missing stats for rendering
   if (!stats || !stats.redSide || !stats.blueSide) {
-    return null;
+    return (
+      <Box className="overall-stats-section-container" id="overall-stats-section">
+        <Typography variant="h6" sx={{ textAlign: "center", padding: "20px" }}>
+          {t("common.noDataYet")}
+        </Typography>
+      </Box>
+    );
   }
 
   return (

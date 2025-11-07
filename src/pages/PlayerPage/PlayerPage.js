@@ -69,27 +69,39 @@ export default function PlayerPage() {
       })
       .then((info) => {
         setPlayerInfo(info);
-        let champs_ = [];
-        champs_ = Object.values(info.championStats);
-        champs_.sort((a, b) => b.numberOfMatches - a.numberOfMatches);
-        setChamps(champs_);
-        return getPlayerPairs(info.summonerId);
+        if (info && info.championStats) {
+          let champs_ = [];
+          champs_ = Object.values(info.championStats);
+          champs_.sort((a, b) => b.numberOfMatches - a.numberOfMatches);
+          setChamps(champs_);
+        }
+        if (info && info.summonerId) {
+          return getPlayerPairs(info.summonerId);
+        }
+        return null;
       })
       .then((ps) => {
-        setPlayerPairs(ps);
+        if (ps !== null) {
+          setPlayerPairs(ps);
+        }
         return getPlayerSummaryList();
       })
-      .then((psl) => setPlayerSummary(psl))
+      .then((psl) => setPlayerSummary(psl ?? {}))
       .finally(() => {
         setLoading(false);
       });
   }, [playerKey]);
 
-  if (playerInfo === null) {
+  if (
+    !loading &&
+    (playerInfo === null || Object.keys(playerInfo).length === 0)
+  ) {
     return (
-      <div className="pp-container">
-        <div className="pp-no-data">{t("playerPage.noData")}</div>
-      </div>
+      <X5pageContentArea removeMarginTop>
+        <div className="pp-container">
+          <div className="pp-no-data">{t("playerPage.noData")}</div>
+        </div>
+      </X5pageContentArea>
     );
   }
 

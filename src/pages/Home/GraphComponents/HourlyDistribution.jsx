@@ -7,6 +7,20 @@ import { useTranslation } from "react-i18next";
 const HourlyDistribution = ({ stats }) => {
   const { t } = useTranslation();
   const theme = useTheme();
+
+  if (!stats || !stats.hourlyDistribution) {
+    return (
+      <Box className="content-box">
+        <Typography variant="h6" fontWeight={500}>
+          {t("home.charts.gamesPlayedByHour")}
+        </Typography>
+        <Typography sx={{ textAlign: "center", padding: "20px" }}>
+          {t("common.noDataYet")}
+        </Typography>
+      </Box>
+    );
+  }
+
   const { hourlyDistribution } = stats;
 
   // Create hours array (0-23)
