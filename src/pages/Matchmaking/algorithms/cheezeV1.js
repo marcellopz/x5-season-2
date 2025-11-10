@@ -83,6 +83,7 @@ export default function BalanceMatchCheezeV1(in_players) {
   const { diff, pairings } = state[bits];
 
   const pairingsRoles = {};
+  // eslint-disable-next-line array-callback-return
   roles.map((role, i) => {
     pairingsRoles[role] = pairings[i].map((p) => ({
       name: players[p].name,
