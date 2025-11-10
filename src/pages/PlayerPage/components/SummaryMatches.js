@@ -20,7 +20,7 @@ export default function SummaryMatches({
 
   const filteredEntries = useMemo(() => {
     const changeLog = Object.values(
-      allRankChangeLog[player]?.[filteredRole] ?? {}
+      allRankChangeLog?.[player]?.[filteredRole] ?? {}
     );
 
     // Filter games based on role
